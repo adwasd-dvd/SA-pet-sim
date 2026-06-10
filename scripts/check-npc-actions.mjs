@@ -5637,6 +5637,117 @@ assert(combinedAllyAllReverseTelemetry?.attReverse?.results?.some((result) => re
 assert(combinedAllyAllReverseTelemetry?.attReverse?.results?.some((result) => result.targetKind === "pet" && result.after.earth === 8 && result.after.water === 9), "Ally-side att reverse applies source mapping to active pet");
 assert(combinedAllyAllReverseGame.player.BattleAttReverse?.active, "Ally-side att reverse persists battle reverse on player");
 assert(combinedAllyAllReverseGame.pets[0].BattleAttReverse?.active, "Ally-side att reverse persists battle reverse on active pet");
+let combinedFieldAttGame = await api("/api/game/new", { name: "pet-combined-field-att-skill-test" });
+combinedFieldAttGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+combinedFieldAttGame = await api("/api/game/dialog", { game: combinedFieldAttGame, npcId: battleNpc.npc.id, message: "宠物" });
+combinedFieldAttGame.pets[0].PetSkillIds = [701];
+combinedFieldAttGame.pets[0].PetSkills = [{
+  Id: 701,
+  Name: "裂地",
+  Des: "场地变成地属性",
+  FuncName: "PETSKILL_Combined",
+  Option: "综合法|1|194",
+  Field: 1,
+  Target: 2,
+  UseType: 2,
+  Source: "gmsv-data/petskill2.txt"
+}];
+Object.assign(combinedFieldAttGame.pets[0], {
+  WorkQuick: 999,
+  WorkFixDex: 999,
+  Hp: 999,
+  WorkMaxHp: 999,
+  EarthAT: 100,
+  WaterAT: 0,
+  FireAT: 0,
+  WindAT: 0
+});
+Object.assign(combinedFieldAttGame.encounter, {
+  Name: "综合法场地测试敌人",
+  Hp: 999,
+  WorkMaxHp: 999,
+  WorkAttackPower: 0,
+  WorkQuick: 0,
+  WorkFixDex: 0,
+  EarthAT: 0,
+  WaterAT: 0,
+  FireAT: 100,
+  WindAT: 0,
+  WorkTacticsOption: "at:1;3;1|gu:100|es:0|wa:0;0;0;0;0;0;0"
+});
+Object.assign(combinedFieldAttGame.battle?.enemyParty?.[0] || {}, combinedFieldAttGame.encounter);
+combinedFieldAttGame = await api("/api/game/battle", { game: combinedFieldAttGame, action: "skill:0" });
+const combinedFieldAttTelemetry = combinedFieldAttGame.battleOutcome.playerAction?.petSkill;
+assertEqual(combinedFieldAttTelemetry?.combined?.profile?.fieldAttMagicIds?.[0], 194, "Combined field attribute exposes MAGIC_FieldAttChange candidate id");
+assertEqual(combinedFieldAttTelemetry?.combined?.selectedKind, "field-att", "Combined field attribute records selected kind");
+assertEqual(combinedFieldAttTelemetry?.fieldAtt?.magicId, 194, "Combined selected field attribute records source magic id");
+assertEqual(combinedFieldAttTelemetry?.fieldAtt?.combinedSelected, true, "Combined selected field attribute marks the selection source");
+assertEqual(combinedFieldAttTelemetry?.fieldAtt?.applied?.element, "earth", "FieldAtt id 194 applies earth field");
+assertEqual(combinedFieldAttTelemetry?.fieldAtt?.applied?.power, 100, "FieldAtt id 194 applies source power");
+assertEqual(combinedFieldAttTelemetry?.fieldAtt?.applied?.baseTurns, 5, "FieldAtt id 194 applies source turn count");
+assertEqual(combinedFieldAttGame.battle?.fieldAttribute?.turns, 4, "Field attribute decrements once after the source battle round");
+combinedFieldAttGame.pets[0].PetSkillIds = [630];
+combinedFieldAttGame.pets[0].PetSkills = [{
+  Id: 630,
+  Name: "地魔法测试",
+  Des: "地属性攻击魔法",
+  FuncName: "PETSKILL_AttackMagic",
+  Option: "magic 306",
+  Field: 1,
+  Target: 3,
+  UseType: 2,
+  Source: "gmsv-data/petskill2.txt"
+}];
+combinedFieldAttGame.encounter.Hp = 9999;
+combinedFieldAttGame.encounter.WorkMaxHp = 9999;
+if (combinedFieldAttGame.battle?.enemyParty?.[0]) {
+  combinedFieldAttGame.battle.enemyParty[0].Hp = 9999;
+  combinedFieldAttGame.battle.enemyParty[0].WorkMaxHp = 9999;
+}
+combinedFieldAttGame = await api("/api/game/battle", { game: combinedFieldAttGame, action: "skill:0" });
+const fieldBoostMagicTelemetry = combinedFieldAttGame.battleOutcome.playerAction?.petSkill;
+assert(fieldBoostMagicTelemetry?.hits?.some((hit) => Number(hit.fieldMultiplier || 0) > 1.9), "Active field attribute adjusts later attack magic damage");
+let combinedFieldClearGame = await api("/api/game/new", { name: "pet-combined-field-clear-skill-test" });
+combinedFieldClearGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+combinedFieldClearGame = await api("/api/game/dialog", { game: combinedFieldClearGame, npcId: battleNpc.npc.id, message: "宠物" });
+combinedFieldClearGame.battle.fieldAttribute = {
+  active: true,
+  magicId: 194,
+  element: "earth",
+  fieldAttr: 1,
+  power: 100,
+  turns: 4,
+  baseTurns: 5,
+  sourceOption: "華 100 turn 5",
+  sourceCommand: "BATTLE_COM_JYUJYUTU",
+  source: "test preloaded field attribute"
+};
+combinedFieldClearGame.pets[0].PetSkillIds = [705];
+combinedFieldClearGame.pets[0].PetSkills = [{
+  Id: 705,
+  Name: "调和",
+  Des: "场地恢复无属性",
+  FuncName: "PETSKILL_Combined",
+  Option: "综合法|1|230",
+  Field: 1,
+  Target: 2,
+  UseType: 2,
+  Source: "gmsv-data/petskill2.txt"
+}];
+Object.assign(combinedFieldClearGame.pets[0], { WorkQuick: 999, WorkFixDex: 999, Hp: 999, WorkMaxHp: 999 });
+Object.assign(combinedFieldClearGame.encounter, {
+  Hp: 999,
+  WorkMaxHp: 999,
+  WorkAttackPower: 0,
+  WorkQuick: 0,
+  WorkFixDex: 0,
+  WorkTacticsOption: "at:1;3;1|gu:100|es:0|wa:0;0;0;0;0;0;0"
+});
+combinedFieldClearGame = await api("/api/game/battle", { game: combinedFieldClearGame, action: "skill:0" });
+const combinedFieldClearTelemetry = combinedFieldClearGame.battleOutcome.playerAction?.petSkill;
+assertEqual(combinedFieldClearTelemetry?.combined?.selectedMagicId, 230, "Combined field clear selects MAGIC_FieldAttChange none id");
+assertEqual(combinedFieldClearTelemetry?.fieldAtt?.applied?.active, false, "FieldAtt id 230 applies no-attribute field state");
+assert(!combinedFieldClearGame.battle?.fieldAttribute, "FieldAtt id 230 clears persisted battle field attribute after the round");
 let showMercySkillGame = await api("/api/game/new", { name: "pet-showmercy-skill-test" });
 showMercySkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
 showMercySkillGame = await api("/api/game/dialog", { game: showMercySkillGame, npcId: battleNpc.npc.id, message: "宠物" });

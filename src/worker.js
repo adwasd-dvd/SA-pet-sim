@@ -98,6 +98,29 @@ const SOURCE_ATTACK_MAGIC_TABLE = Object.freeze({
   324: { element: "wind", fieldAttr: 3, power: 250, level: 4, targetIndex: 20 },
   325: { element: "none", fieldAttr: -1, power: 350, level: 5, targetIndex: 20 }
 });
+const SOURCE_FIELD_ATT_MAGIC_TABLE = Object.freeze({
+  190: { element: "earth", fieldAttr: 1, power: 60, turns: 3, sourceOption: "華 60 turn 3" },
+  191: { element: "earth", fieldAttr: 1, power: 70, turns: 3, sourceOption: "華 70 turn 3" },
+  192: { element: "earth", fieldAttr: 1, power: 80, turns: 4, sourceOption: "華 80 turn 4" },
+  193: { element: "earth", fieldAttr: 1, power: 90, turns: 4, sourceOption: "華 90 turn 4" },
+  194: { element: "earth", fieldAttr: 1, power: 100, turns: 5, sourceOption: "華 100 turn 5" },
+  200: { element: "water", fieldAttr: 2, power: 60, turns: 3, sourceOption: "阨 60 turn 3" },
+  201: { element: "water", fieldAttr: 2, power: 70, turns: 3, sourceOption: "阨 70 turn 3" },
+  202: { element: "water", fieldAttr: 2, power: 80, turns: 4, sourceOption: "阨 80 turn 4" },
+  203: { element: "water", fieldAttr: 2, power: 90, turns: 4, sourceOption: "阨 90 turn 4" },
+  204: { element: "water", fieldAttr: 2, power: 100, turns: 5, sourceOption: "阨 100 turn 5" },
+  210: { element: "fire", fieldAttr: 3, power: 60, turns: 3, sourceOption: "鳶 60 turn 3" },
+  211: { element: "fire", fieldAttr: 3, power: 70, turns: 3, sourceOption: "鳶 70 turn 3" },
+  212: { element: "fire", fieldAttr: 3, power: 80, turns: 4, sourceOption: "鳶 80 turn 4" },
+  213: { element: "fire", fieldAttr: 3, power: 90, turns: 4, sourceOption: "鳶 90 turn 4" },
+  214: { element: "fire", fieldAttr: 3, power: 100, turns: 5, sourceOption: "鳶 100 turn 5" },
+  220: { element: "wind", fieldAttr: 4, power: 60, turns: 3, sourceOption: "瑞 60 turn 3" },
+  221: { element: "wind", fieldAttr: 4, power: 70, turns: 3, sourceOption: "瑞 70 turn 3" },
+  222: { element: "wind", fieldAttr: 4, power: 80, turns: 4, sourceOption: "瑞 80 turn 4" },
+  223: { element: "wind", fieldAttr: 4, power: 90, turns: 4, sourceOption: "瑞 90 turn 4" },
+  224: { element: "wind", fieldAttr: 4, power: 100, turns: 5, sourceOption: "瑞 100 turn 5" },
+  230: { element: "none", fieldAttr: 0, power: 30, turns: 3, sourceOption: "拸" }
+});
 const PLAYER_LEVEL_SKILL_POINTS = 3;
 const PLAYER_POINT_STEP = 100;
 const PLAYER_INITIAL_CHARM = 60;
@@ -4793,7 +4816,8 @@ function performBattleAction(game, action) {
     const turnActorName = battleActorName(game, actor);
     let hit = combatNormalAttackDetail(actor, enemy, {
       attackerKind: battleActorKind(game, actor),
-      defenderKind: "enemy"
+      defenderKind: "enemy",
+      fieldAttributeState: game.battle?.fieldAttribute
     });
     if (hit.dodgeCheck?.dodged) {
       battleLog.push(`${enemy.Name} 闪开了 ${turnActorName} 的攻击。`);
@@ -5504,7 +5528,10 @@ function resolvePetChargeStep(game, activePet, enemy, enemyAi, playerAction, bat
   let hit;
   try {
     // Source BATTLE_DuckCheck immediately returns FALSE for BATTLE_COM_S_CHARGE_OK.
-    hit = combatDamageDetail(activePet, enemy, 1, { attributeOverride: null });
+    hit = combatDamageDetail(activePet, enemy, 1, {
+      attributeOverride: null,
+      fieldAttributeState: game.battle?.fieldAttribute
+    });
     if (enemyAi.type === "guard") {
       hit = applySourceGuardAdjust(hit, [
         "enemy-guard",
@@ -5537,6 +5564,8 @@ function resolvePetChargeStep(game, activePet, enemy, enemyAi, playerAction, bat
     dodged: false,
     critical: Boolean(hit.critical),
     elementMultiplier: Number(hit.elementMultiplier || 1),
+    fieldMultiplier: Number(hit.fieldMultiplier || 1),
+    fieldAttribute: compactSourceBattleFieldAttribute(hit.fieldAttribute),
     guardAdjust: compactGuardAdjust(hit.guardAdjust),
     dodgeCheck: { dodged: false, chance: 0, roll: 0, reason: "source-charge-ok-no-duck" }
   }];
@@ -5637,7 +5666,10 @@ function resolvePetEarthRoundStep(game, activePet, enemy, enemyAi, playerAction,
   const multiplier = Number(state.damageMultiplier || 1);
   let hit;
   try {
-    hit = combatDamageDetail(activePet, enemy, multiplier, { attributeOverride: null });
+    hit = combatDamageDetail(activePet, enemy, multiplier, {
+      attributeOverride: null,
+      fieldAttributeState: game.battle?.fieldAttribute
+    });
     if (enemyAi.type === "guard") {
       hit = applySourceGuardAdjust(hit, [
         "enemy-guard",
@@ -5666,6 +5698,8 @@ function resolvePetEarthRoundStep(game, activePet, enemy, enemyAi, playerAction,
     targetName: enemy?.Name || "enemy",
     damage: Number(hit.damage || 0),
     elementMultiplier: Number(hit.elementMultiplier || 1),
+    fieldMultiplier: Number(hit.fieldMultiplier || 1),
+    fieldAttribute: compactSourceBattleFieldAttribute(hit.fieldAttribute),
     guardAdjust: compactGuardAdjust(hit.guardAdjust),
     dodgeCheck: hit.dodgeCheck || null
   }];
@@ -6456,9 +6490,10 @@ function petSkillBattleProfile(skill = {}) {
     const refreshCandidates = combined?.refreshCandidates || [];
     const recoveryCandidates = combined?.recoveryCandidates || [];
     const attReverseCandidates = combined?.attReverseCandidates || [];
+    const fieldAttCandidates = combined?.fieldAttCandidates || [];
     const targetScope = Number(skill.Target || 0) === 2 ? "ally-side" : Number(skill.Target || 0) === 3 ? "enemy-all" : "enemy";
     return {
-      supported: Boolean(combined && (attackMagicCandidates.length || refreshCandidates.length || recoveryCandidates.length || attReverseCandidates.length)),
+      supported: Boolean(combined && (attackMagicCandidates.length || refreshCandidates.length || recoveryCandidates.length || attReverseCandidates.length || fieldAttCandidates.length)),
       kind: "combined",
       sourceCommand: "BATTLE_COM_JYUJYUTU",
       targetKind: targetScope === "ally-side" ? "ally" : "enemy",
@@ -6466,7 +6501,7 @@ function petSkillBattleProfile(skill = {}) {
       hitCount: 0,
       multiplier: 0,
       combined,
-      reason: attackMagicCandidates.length || refreshCandidates.length || recoveryCandidates.length || attReverseCandidates.length ? "" : `unsupported Combined option ${skill.Option || ""}`,
+      reason: attackMagicCandidates.length || refreshCandidates.length || recoveryCandidates.length || attReverseCandidates.length || fieldAttCandidates.length ? "" : `unsupported Combined option ${skill.Option || ""}`,
       source: "gmsv battle/pet_skill.c PETSKILL_Combined + battle.c BATTLE_COM_JYUJYUTU"
     };
   }
@@ -6558,6 +6593,9 @@ function parsePetSkillCombined(option = "") {
   const attReverseCandidates = magicIds
     .map((magicId) => sourceCombinedAttReverseProfileFromId(magicId))
     .filter(Boolean);
+  const fieldAttCandidates = magicIds
+    .map((magicId) => sourceCombinedFieldAttProfileFromId(magicId))
+    .filter(Boolean);
   return {
     kind: "combined",
     count,
@@ -6566,7 +6604,8 @@ function parsePetSkillCombined(option = "") {
     refreshCandidates,
     recoveryCandidates,
     attReverseCandidates,
-    unsupportedMagicIds: magicIds.filter((magicId) => !SOURCE_ATTACK_MAGIC_TABLE[magicId] && !sourceCombinedStatusRecoveryProfileFromId(magicId) && !sourceCombinedRecoveryProfileFromId(magicId) && !sourceCombinedAttReverseProfileFromId(magicId)),
+    fieldAttCandidates,
+    unsupportedMagicIds: magicIds.filter((magicId) => !SOURCE_ATTACK_MAGIC_TABLE[magicId] && !sourceCombinedStatusRecoveryProfileFromId(magicId) && !sourceCombinedRecoveryProfileFromId(magicId) && !sourceCombinedAttReverseProfileFromId(magicId) && !sourceCombinedFieldAttProfileFromId(magicId)),
     sourceCommand: "BATTLE_COM_JYUJYUTU",
     source: "gmsv battle/pet_skill.c PETSKILL_Combined rand()%count -> BATTLE_COM_JYUJYUTU"
   };
@@ -6625,6 +6664,35 @@ function sourceCombinedAttReverseProfileFromId(magicId) {
   };
 }
 
+function sourceCombinedFieldAttProfileFromId(magicId) {
+  const id = Number(magicId || 0);
+  const entry = SOURCE_FIELD_ATT_MAGIC_TABLE[id];
+  if (!entry) return null;
+  return {
+    magicId: id,
+    func: "MAGIC_FieldAttChange",
+    element: entry.element || "none",
+    fieldAttr: Number(entry.fieldAttr || 0),
+    power: Number(entry.power || 0),
+    turns: Number(entry.turns || 0),
+    sourceOption: entry.sourceOption || "",
+    source: `ref___data/magic.txt id ${id} MAGIC_FieldAttChange + gmsv battle_magic.c BATTLE_FieldAttChange`
+  };
+}
+
+function compactSourceFieldAttProfile(profile) {
+  if (!profile?.magicId) return null;
+  return {
+    magicId: Number(profile.magicId || 0),
+    element: profile.element || "none",
+    fieldAttr: Number(profile.fieldAttr || 0),
+    power: Number(profile.power || 0),
+    turns: Number(profile.turns || 0),
+    sourceOption: profile.sourceOption || "",
+    source: profile.source || ""
+  };
+}
+
 function compactSourceCombinedProfile(profile) {
   if (!profile) return null;
   return {
@@ -6641,6 +6709,9 @@ function compactSourceCombinedProfile(profile) {
       : [],
     attReverseMagicIds: Array.isArray(profile.attReverseCandidates)
       ? profile.attReverseCandidates.slice(0, 10).map((entry) => Number(entry.magicId || 0)).filter(Boolean)
+      : [],
+    fieldAttMagicIds: Array.isArray(profile.fieldAttCandidates)
+      ? profile.fieldAttCandidates.slice(0, 10).map((entry) => Number(entry.magicId || 0)).filter(Boolean)
       : [],
     unsupportedMagicIds: Array.isArray(profile.unsupportedMagicIds) ? profile.unsupportedMagicIds.slice(0, 10).map(Number) : [],
     sourceCommand: profile.sourceCommand || "BATTLE_COM_JYUJYUTU",
@@ -7038,15 +7109,18 @@ function sourcePetAttackMagicTargets(game, enemy, profile = {}) {
   return [{ enemy, slot: activeIndex, source: "gmsv battle.c TargetIndex -1 selected target" }];
 }
 
-function sourceAttackMagicDamage(activePet, target, attackMagic = {}) {
+function sourceAttackMagicDamage(game, activePet, target, attackMagic = {}) {
   const power = Math.max(0, Number(attackMagic.power || 0));
   const attributeOverride = sourceAttackMagicAttributeOverride(attackMagic);
   const elementMultiplier = elementalDamageMultiplier(attributeOverride, target, { attributeOverride });
-  const damage = Math.max(0, Math.floor(power * elementMultiplier));
+  const fieldMultiplier = sourceFieldAttributeDamageMultiplier(game?.battle?.fieldAttribute, attributeOverride, target, { attributeOverride });
+  const damage = Math.max(0, Math.floor(power * elementMultiplier * fieldMultiplier));
   return {
     damage,
     power,
     elementMultiplier,
+    fieldMultiplier,
+    fieldAttribute: compactSourceBattleFieldAttribute(game?.battle?.fieldAttribute),
     attributeOverride,
     source: "gmsv battle_magic.c BATTLE_MultiAttMagic Power with source attribute adjustment"
   };
@@ -7068,7 +7142,7 @@ function resolvePetAttackMagicTurn(game, activePet, enemy, skill, profile, playe
   for (const target of targets) {
     if (!target.enemy || Number(target.enemy.Hp || 0) <= 0 || target.enemy.BattleEscaped) continue;
     const beforeHp = Math.max(0, Number(target.enemy.Hp || 0));
-    const detail = sourceAttackMagicDamage(activePet, target.enemy, attackMagic);
+    const detail = sourceAttackMagicDamage(game, activePet, target.enemy, attackMagic);
     const damage = Math.min(beforeHp, Number(detail.damage || 0));
     target.enemy.Hp = Math.max(0, beforeHp - damage);
     clearBattleSleepOnDamage(target.enemy, damage, battleLog);
@@ -7086,6 +7160,8 @@ function resolvePetAttackMagicTurn(game, activePet, enemy, skill, profile, playe
       magicLevel: Number(attackMagic.level || 0),
       element: attackMagic.element || "",
       elementMultiplier: Number(detail.elementMultiplier || 1),
+      fieldMultiplier: Number(detail.fieldMultiplier || 1),
+      fieldAttribute: detail.fieldAttribute,
       attributeOverride: compactSourceAttributeOverride(detail.attributeOverride),
       targetIndex: Number(attackMagic.targetIndex ?? -1),
       phase: "attack-magic",
@@ -7120,7 +7196,10 @@ function resolvePetCombinedTurn(game, activePet, enemy, skill, profile, playerAc
   const attReverseCandidates = Array.isArray(profile.combined?.attReverseCandidates)
     ? profile.combined.attReverseCandidates.map((candidate) => ({ kind: "att-reverse", ...candidate }))
     : [];
-  const candidates = [...attackMagicCandidates, ...refreshCandidates, ...recoveryCandidates, ...attReverseCandidates];
+  const fieldAttCandidates = Array.isArray(profile.combined?.fieldAttCandidates)
+    ? profile.combined.fieldAttCandidates.map((candidate) => ({ kind: "field-att", ...candidate }))
+    : [];
+  const candidates = [...attackMagicCandidates, ...refreshCandidates, ...recoveryCandidates, ...attReverseCandidates, ...fieldAttCandidates];
   if (!candidates.length) {
     skillState.combined = {
       success: false,
@@ -7214,6 +7293,31 @@ function resolvePetCombinedTurn(game, activePet, enemy, skill, profile, playerAc
     }
     return;
   }
+  if (selected.kind === "field-att") {
+    skillState.combined = {
+      success: true,
+      roll,
+      selectedMagicId: Number(selected.magicId || 0),
+      selectedIndex: roll,
+      selectedKind: "field-att",
+      profile: compactSourceCombinedProfile(profile.combined),
+      sourceCommand: profile.sourceCommand || "BATTLE_COM_JYUJYUTU",
+      source: profile.source || "gmsv battle/pet_skill.c PETSKILL_Combined rand()%count"
+    };
+    resolvePetFieldAttTurn(game, activePet, skill, {
+      ...profile,
+      kind: "field-att",
+      sourceCommand: profile.sourceCommand || "BATTLE_COM_JYUJYUTU",
+      fieldAtt: selected,
+      source: "gmsv battle.c BATTLE_COM_JYUJYUTU via MAGIC_FieldAttChange selected by PETSKILL_Combined"
+    }, playerAction, battleLog);
+    if (skillState.fieldAtt) {
+      skillState.fieldAtt.combinedSelected = true;
+      skillState.fieldAtt.magicId = Number(selected.magicId || 0);
+      skillState.fieldAtt.sourceCommand = profile.sourceCommand || "BATTLE_COM_JYUJYUTU";
+    }
+    return;
+  }
   const attackMagic = selected;
   const targetScope = attackMagic.targetIndex === 20
     ? "enemy-all"
@@ -7243,6 +7347,116 @@ function resolvePetCombinedTurn(game, activePet, enemy, skill, profile, playerAc
     skillState.attackMagic.combinedSelected = true;
     skillState.attackMagic.sourceCommand = profile.sourceCommand || "BATTLE_COM_JYUJYUTU";
   }
+}
+
+function sourceFieldAttrElementName(fieldAttr = 0) {
+  switch (Number(fieldAttr || 0)) {
+    case 1: return "earth";
+    case 2: return "water";
+    case 3: return "fire";
+    case 4: return "wind";
+    default: return "none";
+  }
+}
+
+function applySourceBattleFieldAttribute(game, fieldAtt = {}) {
+  if (!game?.battle) return null;
+  const fieldAttr = clampInt(fieldAtt.fieldAttr, 0, 4, 0);
+  const element = fieldAttr ? (fieldAtt.element || sourceFieldAttrElementName(fieldAttr)) : "none";
+  const state = {
+    active: fieldAttr > 0,
+    magicId: Number(fieldAtt.magicId || 0),
+    element,
+    fieldAttr,
+    power: Math.max(0, Number(fieldAtt.power || 0)),
+    turns: Math.max(0, Number(fieldAtt.turns || 0)),
+    baseTurns: Math.max(0, Number(fieldAtt.turns || 0)),
+    sourceOption: fieldAtt.sourceOption || "",
+    sourceCommand: fieldAtt.sourceCommand || "BATTLE_COM_JYUJYUTU",
+    source: fieldAtt.source || "gmsv battle_magic.c BATTLE_FieldAttChange"
+  };
+  if (state.active) game.battle.fieldAttribute = state;
+  else game.battle.fieldAttribute = { ...state, turns: 0, baseTurns: 0 };
+  return game.battle.fieldAttribute;
+}
+
+function compactSourceBattleFieldAttribute(state) {
+  if (!state) return null;
+  return {
+    active: Boolean(state.active),
+    magicId: Number(state.magicId || 0),
+    element: state.element || sourceFieldAttrElementName(state.fieldAttr),
+    fieldAttr: Number(state.fieldAttr || 0),
+    power: Number(state.power || 0),
+    turns: Number(state.turns || 0),
+    baseTurns: Number(state.baseTurns || 0),
+    sourceOption: state.sourceOption || "",
+    sourceCommand: state.sourceCommand || "",
+    source: state.source || ""
+  };
+}
+
+function sourceFieldAttributeAdjust(fieldState, attrs = {}) {
+  if (!fieldState?.active) return 0.5;
+  const element = fieldState.element || sourceFieldAttrElementName(fieldState.fieldAttr);
+  if (!element || element === "none") return 0.5;
+  const attrValue = Math.max(0, Number(attrs?.[element] || 0));
+  const power = Math.max(0, Number(fieldState.power || 0));
+  return 0.5 + (attrValue * power * 0.01 * 0.01 * 0.5);
+}
+
+function sourceFieldAttributeDamageMultiplier(fieldState, attacker, defender, options = {}) {
+  if (!fieldState?.active) return 1;
+  const attackerVector = options.attributeOverride ? elementVector(options.attributeOverride) : elementVector(attacker);
+  const defenderVector = elementVector(defender);
+  const attackFieldPow = sourceFieldAttributeAdjust(fieldState, attackerVector);
+  const defendFieldPow = sourceFieldAttributeAdjust(fieldState, defenderVector);
+  if (defendFieldPow <= 0) return 1;
+  return attackFieldPow / defendFieldPow;
+}
+
+function consumeBattleFieldAttributeAfterRound(game, battleLog = []) {
+  const state = game?.battle?.fieldAttribute;
+  if (!state) return null;
+  if (!state.active || Number(state.turns || 0) <= 0) {
+    delete game.battle.fieldAttribute;
+    return { cleared: true, reason: "inactive" };
+  }
+  state.turns = Math.max(0, Number(state.turns || 0) - 1);
+  if (state.turns > 0) return { cleared: false, turns: state.turns };
+  const cleared = compactSourceBattleFieldAttribute(state);
+  delete game.battle.fieldAttribute;
+  battleLog.push(`场地属性效果消失。`);
+  return { cleared: true, fieldAttribute: cleared };
+}
+
+function resolvePetFieldAttTurn(game, activePet, skill, profile, playerAction, battleLog) {
+  const skillState = playerAction.petSkill;
+  const fieldAtt = profile.fieldAtt;
+  if (!fieldAtt) {
+    skillState.fieldAtt = { success: false, reason: "missing-field-att" };
+    skillState.hits = [];
+    skillState.totalDamage = 0;
+    battleLog.push(`${activePet.Name} 使用 ${skill.Name}，但这个场地属性魔法尚未接入。`);
+    return;
+  }
+  const before = compactSourceBattleFieldAttribute(game.battle?.fieldAttribute);
+  const applied = applySourceBattleFieldAttribute(game, {
+    ...fieldAtt,
+    sourceCommand: profile.sourceCommand || "BATTLE_COM_JYUJYUTU"
+  });
+  skillState.fieldAtt = {
+    success: Boolean(applied),
+    before,
+    applied: compactSourceBattleFieldAttribute(applied),
+    ...compactSourceFieldAttProfile(fieldAtt),
+    sourceCommand: profile.sourceCommand || "BATTLE_COM_JYUJYUTU",
+    source: fieldAtt.source || "gmsv battle_magic.c MAGIC_FieldAttChange/BATTLE_FieldAttChange"
+  };
+  skillState.hits = [];
+  skillState.totalDamage = 0;
+  const label = applied?.active ? `${applied.element} ${applied.power}%` : "无属性";
+  battleLog.push(`${activePet.Name} 使用 ${skill.Name}，场地属性变为${label}。`);
 }
 
 function sourcePetAttReverseTargets(game, enemy, profile = {}) {
@@ -7811,7 +8025,8 @@ function resolvePetFirekillTurn(game, activePet, enemy, skill, profile, enemyAi,
   const activeIndex = Math.max(0, Number(game.battle?.activeEnemyIndex || 0));
   let hit = combatDamageDetail(activePet, enemy, Number(profile.multiplier || 1), {
     criticalChancePercent: Number(profile.criticalPercent || 0),
-    attributeOverride: profile.attributeOverride
+    attributeOverride: profile.attributeOverride,
+    fieldAttributeState: game.battle?.fieldAttribute
   });
   if (enemyAi.type === "guard" && !profile.ignoreGuard) {
     hit = applySourceGuardAdjust(hit, [
@@ -7840,6 +8055,8 @@ function resolvePetFirekillTurn(game, activePet, enemy, skill, profile, enemyAi,
     dodgeCheck: hit.dodgeCheck || null,
     critical: Boolean(hit.critical),
     elementMultiplier: Number(hit.elementMultiplier || 1),
+    fieldMultiplier: Number(hit.fieldMultiplier || 1),
+    fieldAttribute: compactSourceBattleFieldAttribute(hit.fieldAttribute),
     attributeBoost: compactSourceAttributeBoost(hit.attributeBoost),
     attributeOverride: compactSourceAttributeOverride(profile.attributeOverride),
     tearDamage: compactSourceTearDamage(hit.tearDamage),
@@ -8207,7 +8424,8 @@ function resolveSourceSonicPierce(game, activePet, target, profile) {
   const beforeHp = Number(owner.Hp || 0);
   const hit = combatDamageDetail(activePet, owner, percent / 100, {
     criticalChancePercent: Number(profile.criticalPercent || 0),
-    attributeOverride: profile.attributeOverride
+    attributeOverride: profile.attributeOverride,
+    fieldAttributeState: game.battle?.fieldAttribute
   });
   owner.Hp = Math.max(0, beforeHp - Number(hit.damage || 0));
   return {
@@ -8223,6 +8441,8 @@ function resolveSourceSonicPierce(game, activePet, target, profile) {
     percent,
     critical: Boolean(hit.critical),
     elementMultiplier: Number(hit.elementMultiplier || 1),
+    fieldMultiplier: Number(hit.fieldMultiplier || 1),
+    fieldAttribute: compactSourceBattleFieldAttribute(hit.fieldAttribute),
     source: "gmsv battle_event.c BATTLE_DamageSub SONIC2 damage * 0.5"
   };
 }
@@ -8272,11 +8492,13 @@ function resolvePetSkillTurn(game, activePet, enemy, skill, profile, enemyAi, pl
           defenderKind: "enemy",
           duckChanceModifier: Number(profile.duckModifier || 0),
           criticalChancePercent: Number(profile.criticalPercent || 0),
-          attributeOverride: profile.attributeOverride
+          attributeOverride: profile.attributeOverride,
+          fieldAttributeState: game.battle?.fieldAttribute
         })
       : combatDamageDetail(activePet, target.enemy, multiplier, {
           criticalChancePercent: Number(profile.criticalPercent || 0),
-          attributeOverride: profile.attributeOverride
+          attributeOverride: profile.attributeOverride,
+          fieldAttributeState: game.battle?.fieldAttribute
         });
     if (hit.dodgeCheck?.dodged) {
       return {
@@ -8362,6 +8584,8 @@ function resolvePetSkillTurn(game, activePet, enemy, skill, profile, enemyAi, pl
       dodgeCheck: hit.dodgeCheck || null,
       critical: Boolean(hit.critical),
       elementMultiplier: Number(hit.elementMultiplier || 1),
+      fieldMultiplier: Number(hit.fieldMultiplier || 1),
+      fieldAttribute: compactSourceBattleFieldAttribute(hit.fieldAttribute),
       attributeBoost: compactSourceAttributeBoost(hit.attributeBoost),
       attributeOverride: compactSourceAttributeOverride(profile.attributeOverride),
       tearDamage: compactSourceTearDamage(hit.tearDamage),
@@ -8521,6 +8745,7 @@ function resolveEnemyBattleTurn(game, enemy, activeActor, enemyAi, playerAction,
     attackerKind: "enemy",
     defenderKind: battleActorKind(game, targetActor),
     defenderGuarding: targetGuarded,
+    fieldAttributeState: game.battle?.fieldAttribute,
     duckChanceModifier: targetNoGuarded ? Number(playerAction.petSkill.duckModifier || 0) : 0
   });
   if (targetNoGuarded) {
@@ -9736,6 +9961,16 @@ function compactPetSkillTelemetry(skill) {
       })) : [],
       source: skill.attReverse.source || ""
     } : null,
+    fieldAtt: skill.fieldAtt ? {
+      success: Boolean(skill.fieldAtt.success),
+      reason: skill.fieldAtt.reason || "",
+      ...compactSourceFieldAttProfile(skill.fieldAtt),
+      combinedSelected: Boolean(skill.fieldAtt.combinedSelected),
+      sourceCommand: skill.fieldAtt.sourceCommand || "",
+      before: compactSourceBattleFieldAttribute(skill.fieldAtt.before),
+      applied: compactSourceBattleFieldAttribute(skill.fieldAtt.applied),
+      source: skill.fieldAtt.source || ""
+    } : null,
     sacrifice: skill.sacrifice ? {
       success: Boolean(skill.sacrifice.success),
       reason: skill.sacrifice.reason || "",
@@ -9848,6 +10083,8 @@ function compactPetSkillTelemetry(skill) {
       dodged: Boolean(hit.dodged),
       critical: Boolean(hit.critical),
       elementMultiplier: Number(hit.elementMultiplier || 1),
+      fieldMultiplier: Number(hit.fieldMultiplier || 1),
+      fieldAttribute: compactSourceBattleFieldAttribute(hit.fieldAttribute),
       retrace: Boolean(hit.retrace),
       retraceRoll: Number(hit.retraceRoll || 0),
       attributeBoost: compactSourceAttributeBoost(hit.attributeBoost),
@@ -10204,6 +10441,7 @@ function settleBattleRound(game, activeActor, enemy, options = {}) {
   } else {
     consumeBattleMagicStatusesAfterRound(game.player);
     if (actorIsPet) consumeBattleMagicStatusesAfterRound(activeActor);
+    consumeBattleFieldAttributeAfterRound(game, battleLog);
     game.battle.mode = "command";
     advanceBattleCommandWindow(game);
     game.battle.log = [...(game.battle.log || []), ...battleLog].slice(-8);
@@ -10965,6 +11203,7 @@ function combatDamageDetail(attacker, defender, multiplier = 1, options = {}) {
   const attack = workAttackPower(attacker);
   const defense = sourceBattleDefensePower(defender);
   const elementMultiplier = elementalDamageMultiplier(attacker, defender, options);
+  const fieldMultiplier = sourceFieldAttributeDamageMultiplier(options.fieldAttributeState, attacker, defender, options);
   let raw = 0;
   let sourceRoll = 0;
   let sourceBranch = "overpower";
@@ -10991,7 +11230,7 @@ function combatDamageDetail(attacker, defender, multiplier = 1, options = {}) {
   // damage = BATTLE_DamageCalc(...) + criticalBonus
   // BATTLE_DamageCalc already applied attribute adjustment, so crit bonus
   // should be added after element scaling instead of being scaled again.
-  const totalDamage = Math.max(0, Math.floor(raw * multiplier * elementMultiplier + criticalBonus));
+  const totalDamage = Math.max(0, Math.floor(raw * multiplier * elementMultiplier * fieldMultiplier + criticalBonus));
   return {
     damage: totalDamage,
     critical: criticalCheck.critical,
@@ -11000,6 +11239,8 @@ function combatDamageDetail(attacker, defender, multiplier = 1, options = {}) {
     criticalSource: criticalCheck.source,
     criticalBonus,
     elementMultiplier,
+    fieldMultiplier,
+    fieldAttribute: compactSourceBattleFieldAttribute(options.fieldAttributeState),
     sourceRoll,
     sourceBranch
   };
@@ -11198,6 +11439,9 @@ function battleDetailSuffix(detail) {
   if (detail.critical) parts.push("会心");
   if (Math.abs(Number(detail.elementMultiplier || 1) - 1) >= 0.06) {
     parts.push(`属性${detail.elementMultiplier > 1 ? "有利" : "不利"} x${detail.elementMultiplier.toFixed(2)}`);
+  }
+  if (Math.abs(Number(detail.fieldMultiplier || 1) - 1) >= 0.06) {
+    parts.push(`场地x${Number(detail.fieldMultiplier || 1).toFixed(2)}`);
   }
   if (detail.guardAdjust) {
     const multiplier = Number(detail.guardAdjust.multiplier || 0);
