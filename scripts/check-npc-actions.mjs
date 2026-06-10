@@ -26,6 +26,7 @@ const supportedPetSkillFuncs = new Set([...supportedPetSkillSetSource.matchAll(/
   "PETSKILL_Guardian",
   "PETSKILL_ChargeAttack",
   "PETSKILL_SelfExplodeAttack",
+  "PETSKILL_Steal",
   "PETSKILL_PowerBalance",
   "PETSKILL_WildViolentAttack",
   "PETSKILL_SpeedyAttack",
@@ -3362,6 +3363,47 @@ assertEqual(selfExplodeSkillGame.battleOutcome.playerAction?.petSkill?.multiplie
 assertEqual(selfExplodeSkillGame.battleOutcome.playerAction?.petSkill?.missChance, 0, "SelfExplodeAttack does not apply PvP explode option changes in non-PvP");
 assertEqual(selfExplodeSkillGame.pets[0].Hp, selfExplodePetHpBefore, "SelfExplodeAttack non-PvP fallback does not set attacker HP to 1");
 assert(Number(selfExplodeSkillGame.encounter?.Hp || 0) < selfExplodeEnemyHpBefore, "SelfExplodeAttack non-PvP fallback damages the active battle target");
+let stealSkillGame = await api("/api/game/new", { name: "pet-steal-skill-test" });
+stealSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+stealSkillGame = await api("/api/game/dialog", { game: stealSkillGame, npcId: battleNpc.npc.id, message: "宠物" });
+stealSkillGame.pets[0].PetSkillIds = [140];
+stealSkillGame.pets[0].PetSkills = [{
+  Id: 140,
+  Name: "偷窃",
+  Des: "偷窃",
+  FuncName: "PETSKILL_Steal",
+  Option: "",
+  Field: 1,
+  Target: 7,
+  UseType: 2,
+  Source: "gmsv-data/petskill2.txt"
+}];
+stealSkillGame.pets[0].WorkQuick = 999;
+stealSkillGame.pets[0].WorkFixDex = 999;
+stealSkillGame.encounter.WhichType = 2;
+stealSkillGame.encounter.WorkMaxHp = 999;
+stealSkillGame.encounter.Hp = 999;
+stealSkillGame.encounter.WorkQuick = 0;
+stealSkillGame.encounter.WorkFixDex = 0;
+stealSkillGame.encounter.WorkAttackPower = 0;
+Object.assign(stealSkillGame.battle?.enemyParty?.[0] || {}, {
+  WhichType: stealSkillGame.encounter.WhichType,
+  WorkMaxHp: stealSkillGame.encounter.WorkMaxHp,
+  Hp: stealSkillGame.encounter.Hp,
+  WorkQuick: stealSkillGame.encounter.WorkQuick,
+  WorkFixDex: stealSkillGame.encounter.WorkFixDex,
+  WorkAttackPower: stealSkillGame.encounter.WorkAttackPower
+});
+const stealEnemyHpBefore = Number(stealSkillGame.encounter.Hp || 0);
+const stealPlayerStoneBefore = Number(stealSkillGame.player.stone || 0);
+stealSkillGame = await api("/api/game/battle", { game: stealSkillGame, action: "skill:0" });
+assertEqual(stealSkillGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_S_STEAL", "Steal pet skill maps to source battle command");
+assertEqual(stealSkillGame.battleOutcome.playerAction?.petSkill?.steal?.targetKind, "enemy", "Steal records source enemy target kind");
+assertEqual(stealSkillGame.battleOutcome.playerAction?.petSkill?.steal?.successPercent, 0, "Steal enemy-target success rate follows source per=0 branch");
+assertEqual(stealSkillGame.battleOutcome.playerAction?.petSkill?.steal?.success, false, "Steal does not succeed against ordinary enemy targets");
+assertEqual(Number(stealSkillGame.battleOutcome.playerAction?.petSkill?.totalDamage || 0), 0, "Steal does not deal damage in the source enemy-target branch");
+assertEqual(Number(stealSkillGame.encounter?.Hp || 0), stealEnemyHpBefore, "Steal does not damage the active battle target");
+assertEqual(Number(stealSkillGame.player.stone || 0), stealPlayerStoneBefore, "Steal does not mutate player stone in the enemy-target branch");
 let powerBalanceSkillGame = await api("/api/game/new", { name: "pet-powerbalance-skill-test" });
 powerBalanceSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
 powerBalanceSkillGame = await api("/api/game/dialog", { game: powerBalanceSkillGame, npcId: battleNpc.npc.id, message: "宠物" });

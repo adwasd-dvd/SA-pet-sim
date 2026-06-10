@@ -238,6 +238,7 @@ const BATTLE_PET_SKILL_FUNCS = new Set([
   "PETSKILL_Guardian",
   "PETSKILL_ChargeAttack",
   "PETSKILL_SelfExplodeAttack",
+  "PETSKILL_Steal",
   "PETSKILL_PowerBalance",
   "PETSKILL_StatusChange",
   "PETSKILL_MagicStatusChange",
@@ -5351,6 +5352,10 @@ function performPetSkillAction(game, move) {
       enemyEscaped ||= resolvePetRoarTurn(game, activePet, enemy, skill, profile, playerAction, battleLog);
       return true;
     }
+    if (profile.kind === "steal") {
+      resolvePetStealTurn(game, activePet, enemy, skill, profile, playerAction, battleLog);
+      return true;
+    }
     if (profile.kind === "firekill") {
       resolvePetFirekillTurn(game, activePet, enemy, skill, profile, enemyAi, playerAction, battleLog);
       return true;
@@ -5799,6 +5804,7 @@ function sourcePlayerPetSkillAction(move, game, activePet, enemy, skill, profile
       fallGround: profile.fallGround ? { ...profile.fallGround } : null,
       toothCrushe: profile.toothCrushe ? { ...profile.toothCrushe } : null,
       selfExplode: profile.selfExplode ? { ...profile.selfExplode } : null,
+      steal: profile.steal ? { ...profile.steal } : null,
       batFly: profile.batFly ? { ...profile.batFly } : null,
       divideAttack: profile.divideAttack ? { ...profile.divideAttack } : null,
       antInter: profile.antInter ? { ...profile.antInter } : null,
@@ -5882,6 +5888,22 @@ function petSkillBattleProfile(skill = {}) {
         pvpEffect: "damage-target-half-hp-and-set-attacker-hp-1"
       },
       source: "gmsv battle/pet_skill.c PETSKILL_Explode non-PvP BATTLE_COM_ATTACK fallback"
+    };
+  }
+  if (func === "PETSKILL_Steal") {
+    return {
+      supported: true,
+      kind: "steal",
+      sourceCommand: "BATTLE_COM_S_STEAL",
+      targetKind: "enemy",
+      hitCount: 0,
+      multiplier: 0,
+      steal: {
+        enemyTargetSuccessPercent: 0,
+        playerTargetSuccessPercent: 50,
+        playerBranchSupported: false
+      },
+      source: "gmsv battle/pet_skill.c PETSKILL_Steal + battle_event.c BATTLE_Steal"
     };
   }
   if (func === "PETSKILL_GuardBreak") {
@@ -8107,6 +8129,31 @@ function resolvePetRoarTurn(game, activePet, enemy, skill, profile, playerAction
   }
   battleLog.push(`${activePet.Name} 使用 ${skill.Name}，但 ${enemy.Name} 不在原脚本可吓跑目标内。`);
   return false;
+}
+
+function resolvePetStealTurn(game, activePet, enemy, skill, profile, playerAction, battleLog) {
+  const skillState = playerAction.petSkill;
+  const targetType = Number(enemy?.WhichType ?? enemy?.whichType ?? 2);
+  const targetKind = targetType === 0 ? "player" : targetType === 1 ? "pet" : "enemy";
+  const successPercent = targetKind === "player"
+    ? Number(profile.steal?.playerTargetSuccessPercent || 50)
+    : Number(profile.steal?.enemyTargetSuccessPercent || 0);
+  const result = {
+    success: false,
+    targetKind,
+    targetName: enemy?.Name || "enemy",
+    successPercent,
+    mode: "none",
+    gold: 0,
+    item: null,
+    playerBranchSupported: Boolean(profile.steal?.playerBranchSupported),
+    reason: targetKind === "player" ? "player-target-branch-not-modeled" : "source-enemy-target-success-percent-zero",
+    source: "gmsv battle_event.c BATTLE_Steal per=0 unless target is player"
+  };
+  skillState.steal = result;
+  skillState.totalDamage = 0;
+  skillState.hits = [];
+  battleLog.push(`${activePet.Name} 使用 ${skill.Name}，但没有偷到东西。`);
 }
 
 function resolvePetFirekillTurn(game, activePet, enemy, skill, profile, enemyAi, playerAction, battleLog) {
