@@ -296,6 +296,10 @@ const SOURCE_RECOVERY_MAGIC_TABLE = Object.freeze({
   24: { power: 500 },
   25: { power: 600 }
 });
+const SOURCE_ATT_REVERSE_MAGIC_TABLE = Object.freeze({
+  240: { targetIndex: 1 },
+  241: { targetIndex: 8 }
+});
 const rankTab = [
   [450, 500],
   [470, 520],
@@ -6451,16 +6455,18 @@ function petSkillBattleProfile(skill = {}) {
     const attackMagicCandidates = combined?.attackMagicCandidates || [];
     const refreshCandidates = combined?.refreshCandidates || [];
     const recoveryCandidates = combined?.recoveryCandidates || [];
+    const attReverseCandidates = combined?.attReverseCandidates || [];
+    const targetScope = Number(skill.Target || 0) === 2 ? "ally-side" : Number(skill.Target || 0) === 3 ? "enemy-all" : "enemy";
     return {
-      supported: Boolean(combined && (attackMagicCandidates.length || refreshCandidates.length || recoveryCandidates.length)),
+      supported: Boolean(combined && (attackMagicCandidates.length || refreshCandidates.length || recoveryCandidates.length || attReverseCandidates.length)),
       kind: "combined",
       sourceCommand: "BATTLE_COM_JYUJYUTU",
-      targetKind: "enemy",
-      targetScope: "enemy",
+      targetKind: targetScope === "ally-side" ? "ally" : "enemy",
+      targetScope,
       hitCount: 0,
       multiplier: 0,
       combined,
-      reason: attackMagicCandidates.length || refreshCandidates.length || recoveryCandidates.length ? "" : `unsupported Combined option ${skill.Option || ""}`,
+      reason: attackMagicCandidates.length || refreshCandidates.length || recoveryCandidates.length || attReverseCandidates.length ? "" : `unsupported Combined option ${skill.Option || ""}`,
       source: "gmsv battle/pet_skill.c PETSKILL_Combined + battle.c BATTLE_COM_JYUJYUTU"
     };
   }
@@ -6549,6 +6555,9 @@ function parsePetSkillCombined(option = "") {
   const recoveryCandidates = magicIds
     .map((magicId) => sourceCombinedRecoveryProfileFromId(magicId))
     .filter(Boolean);
+  const attReverseCandidates = magicIds
+    .map((magicId) => sourceCombinedAttReverseProfileFromId(magicId))
+    .filter(Boolean);
   return {
     kind: "combined",
     count,
@@ -6556,7 +6565,8 @@ function parsePetSkillCombined(option = "") {
     attackMagicCandidates,
     refreshCandidates,
     recoveryCandidates,
-    unsupportedMagicIds: magicIds.filter((magicId) => !SOURCE_ATTACK_MAGIC_TABLE[magicId] && !sourceCombinedStatusRecoveryProfileFromId(magicId) && !sourceCombinedRecoveryProfileFromId(magicId)),
+    attReverseCandidates,
+    unsupportedMagicIds: magicIds.filter((magicId) => !SOURCE_ATTACK_MAGIC_TABLE[magicId] && !sourceCombinedStatusRecoveryProfileFromId(magicId) && !sourceCombinedRecoveryProfileFromId(magicId) && !sourceCombinedAttReverseProfileFromId(magicId)),
     sourceCommand: "BATTLE_COM_JYUJYUTU",
     source: "gmsv battle/pet_skill.c PETSKILL_Combined rand()%count -> BATTLE_COM_JYUJYUTU"
   };
@@ -6603,6 +6613,18 @@ function sourceCombinedStatusRecoveryProfileFromId(magicId) {
   };
 }
 
+function sourceCombinedAttReverseProfileFromId(magicId) {
+  const id = Number(magicId || 0);
+  const entry = SOURCE_ATT_REVERSE_MAGIC_TABLE[id];
+  if (!entry) return null;
+  return {
+    magicId: id,
+    func: "MAGIC_AttReverse",
+    targetIndex: Number(entry.targetIndex || 1),
+    source: `ref___data/magic.txt id ${id} MAGIC_AttReverse + gmsv battle_magic.c BATTLE_MultiAttReverse`
+  };
+}
+
 function compactSourceCombinedProfile(profile) {
   if (!profile) return null;
   return {
@@ -6616,6 +6638,9 @@ function compactSourceCombinedProfile(profile) {
       : [],
     recoveryMagicIds: Array.isArray(profile.recoveryCandidates)
       ? profile.recoveryCandidates.slice(0, 10).map((entry) => Number(entry.magicId || 0)).filter(Boolean)
+      : [],
+    attReverseMagicIds: Array.isArray(profile.attReverseCandidates)
+      ? profile.attReverseCandidates.slice(0, 10).map((entry) => Number(entry.magicId || 0)).filter(Boolean)
       : [],
     unsupportedMagicIds: Array.isArray(profile.unsupportedMagicIds) ? profile.unsupportedMagicIds.slice(0, 10).map(Number) : [],
     sourceCommand: profile.sourceCommand || "BATTLE_COM_JYUJYUTU",
@@ -7092,7 +7117,10 @@ function resolvePetCombinedTurn(game, activePet, enemy, skill, profile, playerAc
   const recoveryCandidates = Array.isArray(profile.combined?.recoveryCandidates)
     ? profile.combined.recoveryCandidates.map((candidate) => ({ kind: "recovery", ...candidate }))
     : [];
-  const candidates = [...attackMagicCandidates, ...refreshCandidates, ...recoveryCandidates];
+  const attReverseCandidates = Array.isArray(profile.combined?.attReverseCandidates)
+    ? profile.combined.attReverseCandidates.map((candidate) => ({ kind: "att-reverse", ...candidate }))
+    : [];
+  const candidates = [...attackMagicCandidates, ...refreshCandidates, ...recoveryCandidates, ...attReverseCandidates];
   if (!candidates.length) {
     skillState.combined = {
       success: false,
@@ -7160,6 +7188,32 @@ function resolvePetCombinedTurn(game, activePet, enemy, skill, profile, playerAc
     }
     return;
   }
+  if (selected.kind === "att-reverse") {
+    skillState.combined = {
+      success: true,
+      roll,
+      selectedMagicId: Number(selected.magicId || 0),
+      selectedIndex: roll,
+      selectedKind: "att-reverse",
+      profile: compactSourceCombinedProfile(profile.combined),
+      sourceCommand: profile.sourceCommand || "BATTLE_COM_JYUJYUTU",
+      source: profile.source || "gmsv battle/pet_skill.c PETSKILL_Combined rand()%count"
+    };
+    resolvePetAttReverseTurn(game, activePet, enemy, skill, {
+      ...profile,
+      kind: "att-reverse",
+      targetScope: profile.targetScope || "enemy",
+      sourceCommand: profile.sourceCommand || "BATTLE_COM_JYUJYUTU",
+      attReverse: selected,
+      source: "gmsv battle.c BATTLE_COM_JYUJYUTU via MAGIC_AttReverse selected by PETSKILL_Combined"
+    }, playerAction, battleLog);
+    if (skillState.attReverse) {
+      skillState.attReverse.combinedSelected = true;
+      skillState.attReverse.magicId = Number(selected.magicId || 0);
+      skillState.attReverse.sourceCommand = profile.sourceCommand || "BATTLE_COM_JYUJYUTU";
+    }
+    return;
+  }
   const attackMagic = selected;
   const targetScope = attackMagic.targetIndex === 20
     ? "enemy-all"
@@ -7189,6 +7243,91 @@ function resolvePetCombinedTurn(game, activePet, enemy, skill, profile, playerAc
     skillState.attackMagic.combinedSelected = true;
     skillState.attackMagic.sourceCommand = profile.sourceCommand || "BATTLE_COM_JYUJYUTU";
   }
+}
+
+function sourcePetAttReverseTargets(game, enemy, profile = {}) {
+  if (profile.targetScope === "ally-side") {
+    return sourcePetRefreshTargets(game, getActivePet(game), profile)
+      .map((target) => ({ ...target, source: "gmsv battle_magic.c BATTLE_MultiList ally side for MAGIC_AttReverse" }));
+  }
+  if (profile.targetScope === "enemy-all") {
+    return sourceAllLiveEnemyTargets(game, enemy, "gmsv battle_magic.c BATTLE_MultiList enemy side for MAGIC_AttReverse")
+      .map((target) => ({ actor: target.enemy, slot: target.slot, kind: "enemy", source: target.source }));
+  }
+  const activeIndex = Math.max(0, Number(game.battle?.activeEnemyIndex || 0));
+  return [{ actor: enemy, slot: activeIndex, kind: "enemy", source: "gmsv battle_magic.c BATTLE_MultiList selected target for MAGIC_AttReverse" }];
+}
+
+function compactBattleAttributes(attrs = {}) {
+  return {
+    earth: clampInt(attrs.earth, 0, 100, 0),
+    water: clampInt(attrs.water, 0, 100, 0),
+    fire: clampInt(attrs.fire, 0, 100, 0),
+    wind: clampInt(attrs.wind, 0, 100, 0),
+    none: Number.isFinite(Number(attrs.none)) ? clampInt(attrs.none, 0, 100, 0) : undefined
+  };
+}
+
+function applySourceAttReverse(actor) {
+  const before = compactBattleAttributes(elementVector(actor));
+  const currentlyActive = Boolean(actor?.BattleAttReverse?.active);
+  if (!actor) return { before, after: before, active: false };
+  if (currentlyActive) {
+    actor.BattleAttReverse = {
+      active: false,
+      before,
+      attributes: before,
+      source: "gmsv battle_magic.c CHAR_BATTLEFLG_REVERSE toggled off"
+    };
+  } else {
+    actor.BattleAttReverse = {
+      active: true,
+      before,
+      attributes: {
+        earth: before.fire,
+        water: before.wind,
+        fire: before.earth,
+        wind: before.water,
+        none: before.none
+      },
+      source: "gmsv battle.c BATTLE_AttReverse CHAR_WORKFIXEARTHAT<-FIRE, WATER<-WIND"
+    };
+  }
+  return {
+    before,
+    after: compactBattleAttributes(elementVector(actor)),
+    active: Boolean(actor.BattleAttReverse?.active)
+  };
+}
+
+function resolvePetAttReverseTurn(game, activePet, enemy, skill, profile, playerAction, battleLog) {
+  const skillState = playerAction.petSkill;
+  const targets = sourcePetAttReverseTargets(game, enemy, profile);
+  const results = targets
+    .filter((target) => target.actor && battleActorHp(game, target.actor) > 0)
+    .map((target) => {
+      const applied = applySourceAttReverse(target.actor);
+      return {
+        targetSlot: Number(target.slot || 0),
+        targetKind: target.kind || "",
+        targetName: target.actor?.Name || target.actor?.name || "目标",
+        targetSource: target.source || "",
+        before: applied.before,
+        after: applied.after,
+        active: Boolean(applied.active)
+      };
+    });
+  skillState.targetScope = profile.targetScope || "";
+  skillState.attReverse = {
+    success: results.length > 0,
+    magicId: Number(profile.attReverse?.magicId || 0),
+    targetIndex: Number(profile.attReverse?.targetIndex ?? 1),
+    results,
+    source: profile.attReverse?.source || "gmsv battle_magic.c MAGIC_AttReverse/BATTLE_MultiAttReverse"
+  };
+  skillState.totalDamage = 0;
+  skillState.hits = [];
+  battleLog.push(`${activePet.Name} 使用 ${skill.Name}，反转 ${results.length} 个目标的战斗属性。`);
 }
 
 function resolvePetRecoveryTurn(game, activePet, skill, profile, playerAction, battleLog) {
@@ -9579,6 +9718,24 @@ function compactPetSkillTelemetry(skill) {
       })) : [],
       source: skill.recovery.source || ""
     } : null,
+    attReverse: skill.attReverse ? {
+      success: Boolean(skill.attReverse.success),
+      reason: skill.attReverse.reason || "",
+      magicId: Number(skill.attReverse.magicId || 0),
+      targetIndex: Number(skill.attReverse.targetIndex ?? 1),
+      combinedSelected: Boolean(skill.attReverse.combinedSelected),
+      sourceCommand: skill.attReverse.sourceCommand || "",
+      results: Array.isArray(skill.attReverse.results) ? skill.attReverse.results.slice(0, 8).map((result) => ({
+        targetSlot: Number(result.targetSlot || 0),
+        targetKind: result.targetKind || "",
+        targetName: result.targetName || "",
+        targetSource: result.targetSource || "",
+        before: compactBattleAttributes(result.before),
+        after: compactBattleAttributes(result.after),
+        active: Boolean(result.active)
+      })) : [],
+      source: skill.attReverse.source || ""
+    } : null,
     sacrifice: skill.sacrifice ? {
       success: Boolean(skill.sacrifice.success),
       reason: skill.sacrifice.reason || "",
@@ -11063,6 +11220,16 @@ function elementalDamageMultiplier(attacker, defender, options = {}) {
 }
 
 function elementVector(char = {}) {
+  const battleReverse = char?.BattleAttReverse;
+  if (battleReverse?.active && battleReverse.attributes) {
+    return {
+      earth: clampInt(battleReverse.attributes.earth, 0, 100, 0),
+      water: clampInt(battleReverse.attributes.water, 0, 100, 0),
+      fire: clampInt(battleReverse.attributes.fire, 0, 100, 0),
+      wind: clampInt(battleReverse.attributes.wind, 0, 100, 0),
+      none: Number.isFinite(Number(battleReverse.attributes.none)) ? clampInt(battleReverse.attributes.none, 0, 100, 0) : undefined
+    };
+  }
   return {
     earth: clampInt(char.EarthAT ?? char.Earth ?? char.earth, 0, 100, 0),
     water: clampInt(char.WaterAT ?? char.Water ?? char.water, 0, 100, 0),

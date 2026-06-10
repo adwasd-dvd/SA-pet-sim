@@ -5514,6 +5514,129 @@ assert(combinedRecoveryTelemetry?.recovery?.results?.some((result) => result.tar
 assertEqual(combinedRecoverySkillGame.player.hp, combinedRecoverySkillGame.player.WorkMaxHp, "Combined selected recovery persists player HP recovery");
 assertEqual(combinedRecoverySkillGame.pets[0].Hp, 70, "Combined selected recovery persists pet HP recovery");
 assertEqual(Number(combinedRecoverySkillGame.battle.enemyParty?.[0]?.Hp || 0), 30, "Combined selected recovery does not heal enemy target");
+let combinedAttReverseSkillGame = await api("/api/game/new", { name: "pet-combined-att-reverse-skill-test" });
+combinedAttReverseSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+combinedAttReverseSkillGame = await api("/api/game/dialog", { game: combinedAttReverseSkillGame, npcId: battleNpc.npc.id, message: "宠物" });
+combinedAttReverseSkillGame.pets[0].PetSkillIds = [632];
+combinedAttReverseSkillGame.pets[0].PetSkills = [{
+  Id: 632,
+  Name: "逆转",
+  Des: "反转属性",
+  FuncName: "PETSKILL_Combined",
+  Option: "综合法|1|240",
+  Field: 1,
+  Target: 1,
+  UseType: 2,
+  Source: "gmsv-data/petskill2.txt"
+}];
+Object.assign(combinedAttReverseSkillGame.pets[0], {
+  WorkQuick: 999,
+  WorkFixDex: 999,
+  Hp: 999,
+  WorkMaxHp: 999
+});
+Object.assign(combinedAttReverseSkillGame.encounter, {
+  Name: "综合法逆转测试敌人",
+  Hp: 999,
+  WorkMaxHp: 999,
+  WorkAttackPower: 0,
+  WorkQuick: 0,
+  WorkFixDex: 0,
+  EarthAT: 10,
+  WaterAT: 20,
+  FireAT: 30,
+  WindAT: 40,
+  WorkTacticsOption: "at:1;3;1|gu:100|es:0|wa:0;0;0;0;0;0;0"
+});
+Object.assign(combinedAttReverseSkillGame.battle?.enemyParty?.[0] || {}, combinedAttReverseSkillGame.encounter);
+combinedAttReverseSkillGame = await api("/api/game/battle", { game: combinedAttReverseSkillGame, action: "skill:0" });
+const combinedAttReverseTelemetry = combinedAttReverseSkillGame.battleOutcome.playerAction?.petSkill;
+assertEqual(combinedAttReverseTelemetry?.combined?.profile?.attReverseMagicIds?.[0], 240, "Combined att reverse exposes MAGIC_AttReverse candidate id");
+assertEqual(combinedAttReverseTelemetry?.combined?.selectedKind, "att-reverse", "Combined att reverse records selected kind");
+assertEqual(combinedAttReverseTelemetry?.attReverse?.magicId, 240, "Combined selected att reverse records source magic id");
+assertEqual(combinedAttReverseTelemetry?.attReverse?.combinedSelected, true, "Combined selected att reverse marks the selection source");
+assertEqual(combinedAttReverseTelemetry?.attReverse?.results?.length, 1, "Single-target att reverse affects only the selected enemy");
+assertEqual(combinedAttReverseTelemetry?.attReverse?.results?.[0]?.before?.earth, 10, "AttReverse telemetry records source pre-reverse earth");
+assertEqual(combinedAttReverseTelemetry?.attReverse?.results?.[0]?.after?.earth, 30, "AttReverse applies source earth<-fire mapping");
+assertEqual(combinedAttReverseTelemetry?.attReverse?.results?.[0]?.after?.water, 40, "AttReverse applies source water<-wind mapping");
+assertEqual(combinedAttReverseTelemetry?.attReverse?.results?.[0]?.after?.fire, 10, "AttReverse applies source fire<-earth mapping");
+assertEqual(combinedAttReverseTelemetry?.attReverse?.results?.[0]?.after?.wind, 20, "AttReverse applies source wind<-water mapping");
+assert(combinedAttReverseSkillGame.battle.enemyParty?.[0]?.BattleAttReverse?.active, "AttReverse persists a battle-only reverse flag on the enemy");
+let combinedEnemyAllReverseGame = await api("/api/game/new", { name: "pet-combined-enemy-all-reverse-test" });
+combinedEnemyAllReverseGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+combinedEnemyAllReverseGame = await api("/api/game/dialog", { game: combinedEnemyAllReverseGame, npcId: battleNpc.npc.id, message: "宠物" });
+combinedEnemyAllReverseGame.pets[0].PetSkillIds = [657];
+combinedEnemyAllReverseGame.pets[0].PetSkills = [{
+  Id: 657,
+  Name: "敌方全逆转",
+  Des: "反转敌方全体属性",
+  FuncName: "PETSKILL_Combined",
+  Option: "综合法|1|240",
+  Field: 1,
+  Target: 3,
+  UseType: 2,
+  Source: "gmsv-data/petskill2.txt"
+}];
+Object.assign(combinedEnemyAllReverseGame.pets[0], { WorkQuick: 999, WorkFixDex: 999, Hp: 999, WorkMaxHp: 999 });
+Object.assign(combinedEnemyAllReverseGame.encounter, {
+  Name: "敌全逆转一",
+  Hp: 999,
+  WorkMaxHp: 999,
+  WorkAttackPower: 0,
+  WorkQuick: 0,
+  WorkFixDex: 0,
+  EarthAT: 5,
+  WaterAT: 15,
+  FireAT: 25,
+  WindAT: 55,
+  WorkTacticsOption: "at:1;3;1|gu:100|es:0|wa:0;0;0;0;0;0;0"
+});
+const reverseEnemyTwo = { ...combinedEnemyAllReverseGame.encounter, Name: "敌全逆转二", EarthAT: 11, WaterAT: 22, FireAT: 33, WindAT: 44 };
+combinedEnemyAllReverseGame.battle.enemyParty = [combinedEnemyAllReverseGame.encounter, reverseEnemyTwo];
+combinedEnemyAllReverseGame = await api("/api/game/battle", { game: combinedEnemyAllReverseGame, action: "skill:0" });
+const combinedEnemyAllReverseTelemetry = combinedEnemyAllReverseGame.battleOutcome.playerAction?.petSkill;
+assertEqual(combinedEnemyAllReverseTelemetry?.targetScope, "enemy-all", "Enemy-all att reverse keeps petskill Target=3 scope");
+assertEqual(combinedEnemyAllReverseTelemetry?.attReverse?.results?.length, 2, "Enemy-all att reverse applies to all live enemies");
+assert(combinedEnemyAllReverseGame.battle.enemyParty.every((enemy) => enemy.BattleAttReverse?.active), "Enemy-all att reverse persists battle reverse on each enemy");
+let combinedAllyAllReverseGame = await api("/api/game/new", { name: "pet-combined-ally-all-reverse-test" });
+combinedAllyAllReverseGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+combinedAllyAllReverseGame = await api("/api/game/dialog", { game: combinedAllyAllReverseGame, npcId: battleNpc.npc.id, message: "宠物" });
+Object.assign(combinedAllyAllReverseGame.player, { EarthAT: 1, WaterAT: 2, FireAT: 3, WindAT: 4, WorkMaxHp: 120, hp: 120 });
+combinedAllyAllReverseGame.pets[0].PetSkillIds = [719];
+combinedAllyAllReverseGame.pets[0].PetSkills = [{
+  Id: 719,
+  Name: "我方全逆转",
+  Des: "反转我方全体属性",
+  FuncName: "PETSKILL_Combined",
+  Option: "综合法|1|240",
+  Field: 1,
+  Target: 2,
+  UseType: 2,
+  Source: "gmsv-data/petskill2.txt"
+}];
+Object.assign(combinedAllyAllReverseGame.pets[0], {
+  WorkQuick: 999,
+  WorkFixDex: 999,
+  Hp: 999,
+  WorkMaxHp: 999,
+  EarthAT: 6,
+  WaterAT: 7,
+  FireAT: 8,
+  WindAT: 9
+});
+Object.assign(combinedAllyAllReverseGame.encounter, {
+  WorkAttackPower: 0,
+  WorkQuick: 0,
+  WorkFixDex: 0,
+  WorkTacticsOption: "at:1;3;1|gu:100|es:0|wa:0;0;0;0;0;0;0"
+});
+combinedAllyAllReverseGame = await api("/api/game/battle", { game: combinedAllyAllReverseGame, action: "skill:0" });
+const combinedAllyAllReverseTelemetry = combinedAllyAllReverseGame.battleOutcome.playerAction?.petSkill;
+assertEqual(combinedAllyAllReverseTelemetry?.targetScope, "ally-side", "Ally-side att reverse keeps petskill Target=2 scope");
+assert(combinedAllyAllReverseTelemetry?.attReverse?.results?.some((result) => result.targetKind === "player" && result.after.earth === 3 && result.after.water === 4), "Ally-side att reverse applies source mapping to player");
+assert(combinedAllyAllReverseTelemetry?.attReverse?.results?.some((result) => result.targetKind === "pet" && result.after.earth === 8 && result.after.water === 9), "Ally-side att reverse applies source mapping to active pet");
+assert(combinedAllyAllReverseGame.player.BattleAttReverse?.active, "Ally-side att reverse persists battle reverse on player");
+assert(combinedAllyAllReverseGame.pets[0].BattleAttReverse?.active, "Ally-side att reverse persists battle reverse on active pet");
 let showMercySkillGame = await api("/api/game/new", { name: "pet-showmercy-skill-test" });
 showMercySkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
 showMercySkillGame = await api("/api/game/dialog", { game: showMercySkillGame, npcId: battleNpc.npc.id, message: "宠物" });
