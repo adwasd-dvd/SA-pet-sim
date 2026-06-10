@@ -5336,6 +5336,28 @@ assertEqual(combinedTelemetry?.attackMagic?.targetIndex, 20, "Combined selected 
 assertEqual(combinedTelemetry?.hits?.length, 2, "Combined selected attack magic applies to every live enemy target");
 assert(combinedTelemetry.hits.every((hit) => hit.sourceCommand === "BATTLE_COM_JYUJYUTU" && hit.magicId === 306), "Combined hit telemetry records source JYUJYUTU command plus selected magic id");
 assert(combinedSkillGame.battle.enemyParty.every((enemy) => Number(enemy.Hp || 0) < 999), "Combined selected attack magic persists damage to all targets");
+let unsupportedCombinedMagicGame = await api("/api/game/new", { name: "pet-combined-unsupported-high-magic-test" });
+unsupportedCombinedMagicGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+unsupportedCombinedMagicGame = await api("/api/game/dialog", { game: unsupportedCombinedMagicGame, npcId: battleNpc.npc.id, message: "宠物" });
+unsupportedCombinedMagicGame.pets[0].PetSkillIds = [800];
+unsupportedCombinedMagicGame.pets[0].PetSkills = [{
+  Id: 800,
+  Name: "土系魔法初级",
+  Des: "候选表里存在但本地 magic.txt 未定义的综合法魔法",
+  FuncName: "PETSKILL_Combined",
+  Option: "综合法|1|470",
+  Field: 1,
+  Target: 6,
+  UseType: 2,
+  Source: "public/data/petskill2.txt"
+}];
+let unsupportedCombinedError = "";
+try {
+  await api("/api/game/battle", { game: unsupportedCombinedMagicGame, action: "skill:0" });
+} catch (error) {
+  unsupportedCombinedError = error.message || String(error);
+}
+assert(unsupportedCombinedError.includes("还没有接入战斗结算"), "Combined high magic id 470 remains unsupported without a local source magic definition");
 let combinedStatusChangeGame = await api("/api/game/new", { name: "pet-combined-status-change-test" });
 combinedStatusChangeGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
 combinedStatusChangeGame = await api("/api/game/dialog", { game: combinedStatusChangeGame, npcId: battleNpc.npc.id, message: "宠物" });

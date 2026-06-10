@@ -71,6 +71,8 @@ const BATTLE_SIDE_OFFSET = 10;
 const BATTLE_TURN_SECONDS = 30;
 const BATTLE_GETITEM_MAX = 3;
 const ENEMY_DROP_ROLL_BASE = 1000;
+// Source gmsv TargetIndex only declares MAGIC_AttMagic ids 301-325. Keep later
+// Combined ids such as 470+ unsupported until a local magic table verifies them.
 const SOURCE_ATTACK_MAGIC_TABLE = Object.freeze({
   301: { element: "earth", fieldAttr: 0, power: 100, level: 1, targetIndex: -1 },
   302: { element: "earth", fieldAttr: 0, power: 150, level: 2, targetIndex: -1 },
