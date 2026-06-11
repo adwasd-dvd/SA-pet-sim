@@ -243,6 +243,7 @@ const BATTLE_PET_SKILL_FUNCS = new Set([
   "PETSKILL_StealMoney",
   "PETSKILL_BecomePig",
   "PETSKILL_Lighttakeed",
+  "PETSKILL_BattleProperty",
   "PETSKILL_PowerBalance",
   "PETSKILL_StatusChange",
   "PETSKILL_MagicStatusChange",
@@ -5328,6 +5329,10 @@ function performPetSkillAction(game, move) {
       resolvePetGuardianTurn(game, activePet, skill, profile, playerAction, battleLog);
       return true;
     }
+    if (profile.kind === "battle-property") {
+      resolvePetBattlePropertyTurn(game, activePet, enemy, skill, profile, playerAction, battleLog);
+      return true;
+    }
     if (profile.kind === "bat-fly") {
       resolvePetBatFlyTurn(game, activePet, enemy, skill, profile, playerAction, battleLog);
       return true;
@@ -5822,6 +5827,7 @@ function sourcePlayerPetSkillAction(move, game, activePet, enemy, skill, profile
       abduct: profile.abduct ? { ...profile.abduct } : null,
       becomePig: profile.becomePig ? { ...profile.becomePig } : null,
       lighttake: profile.lighttake ? { ...profile.lighttake } : null,
+      battleProperty: profile.battleProperty ? { ...profile.battleProperty } : null,
       batFly: profile.batFly ? { ...profile.batFly } : null,
       divideAttack: profile.divideAttack ? { ...profile.divideAttack } : null,
       antInter: profile.antInter ? { ...profile.antInter } : null,
@@ -5957,6 +5963,22 @@ function petSkillBattleProfile(skill = {}) {
       defencePercent: -50,
       lighttake: sourceLighttakeProfile(skill),
       source: "gmsv battle/pet_skill.c PETSKILL_Lighttakeed + battle.c BATTLE_COM_S_LIGHTTAKE"
+    };
+  }
+  if (func === "PETSKILL_BattleProperty") {
+    return {
+      supported: true,
+      kind: "battle-property",
+      sourceCommand: "BATTLE_COM_S_PROPERTYSKILL",
+      targetKind: "enemy",
+      hitCount: 0,
+      multiplier: 0,
+      battleProperty: {
+        option: skill.Option || "",
+        functionName: "PET_PetskillPropertyEvent",
+        sourceEffect: "set CHAR_BATTLEPROPERTY callback and rebuild actor attributes against the selected defender"
+      },
+      source: "gmsv battle/pet_skill.c PETSKILL_BattleProperty + battle_event.c PET_PetskillPropertyEvent"
     };
   }
   if (func === "PETSKILL_Steal") {
@@ -7880,6 +7902,48 @@ function resolvePetAttReverseTurn(game, activePet, enemy, skill, profile, player
   battleLog.push(`${activePet.Name} 使用 ${skill.Name}，反转 ${results.length} 个目标的战斗属性。`);
 }
 
+function sourceBattlePropertyAttributes(defender = {}) {
+  const attr = compactBattleAttributes(elementVector(defender));
+  const mapped = {
+    earth: attr.water,
+    water: attr.fire,
+    fire: attr.wind,
+    wind: attr.earth
+  };
+  mapped.none = Math.max(0, 100 - mapped.earth - mapped.water - mapped.fire - mapped.wind);
+  return compactBattleAttributes(mapped);
+}
+
+function resolvePetBattlePropertyTurn(game, activePet, enemy, skill, profile, playerAction, battleLog) {
+  const activeIndex = Math.max(0, Number(game.battle?.activeEnemyIndex || 0));
+  const target = battleEnemyPartyForFields(game)[activeIndex] || enemy;
+  const before = compactBattleAttributes(elementVector(activePet));
+  const targetAttributes = compactBattleAttributes(elementVector(target));
+  const attributes = sourceBattlePropertyAttributes(target);
+  const applied = {
+    active: true,
+    sourceCommand: profile.sourceCommand || "BATTLE_COM_S_PROPERTYSKILL",
+    skillId: Number(skill.Id || 0),
+    skillName: skill.Name || "",
+    option: skill.Option || "",
+    functionName: profile.battleProperty?.functionName || "PET_PetskillPropertyEvent",
+    targetSlot: activeIndex,
+    targetName: target?.Name || target?.name || "敌人",
+    before,
+    targetAttributes,
+    attributes,
+    source: profile.source || "gmsv battle_event.c PET_PetskillPropertyEvent"
+  };
+  activePet.BattleProperty = applied;
+  playerAction.petSkill.battleProperty = {
+    success: true,
+    ...applied
+  };
+  playerAction.petSkill.totalDamage = 0;
+  playerAction.petSkill.hits = [];
+  battleLog.push(`${activePet.Name} 使用 ${skill.Name}，调整属性克制 ${applied.targetName}。`);
+}
+
 function resolvePetRecoveryTurn(game, activePet, skill, profile, playerAction, battleLog) {
   const skillState = playerAction.petSkill;
   const recovery = profile.recovery;
@@ -9616,6 +9680,7 @@ function clearBattleRuntimeEffects(target = {}) {
   delete target.BattleAcupuncture;
   delete target.BattleGuardian;
   delete target.BattleMagicDefense;
+  delete target.BattleProperty;
   delete target.WorkDamageAbsrob;
   delete target.WorkDamageReflec;
   delete target.WorkDamageVanish;
@@ -9743,6 +9808,24 @@ function compactBattleGuardianState(guardian) {
     defencePercent: Number(guardian.defencePercent || 0),
     sourceCommand: guardian.sourceCommand || "",
     source: guardian.source || ""
+  };
+}
+
+function compactBattlePropertyState(property) {
+  if (!property?.active) return null;
+  return {
+    active: true,
+    sourceCommand: property.sourceCommand || "",
+    skillId: Number(property.skillId || 0),
+    skillName: property.skillName || "",
+    option: property.option || "",
+    functionName: property.functionName || "",
+    targetSlot: Number(property.targetSlot ?? -1),
+    targetName: property.targetName || "",
+    before: compactBattleAttributes(property.before),
+    targetAttributes: compactBattleAttributes(property.targetAttributes),
+    attributes: compactBattleAttributes(property.attributes),
+    source: property.source || ""
   };
 }
 
@@ -10281,6 +10364,21 @@ function compactPetSkillTelemetry(skill) {
       damageMultiplier: Number(skill.earthRound.damageMultiplier || 0),
       targetIndex: Number(skill.earthRound.targetIndex ?? -1),
       source: skill.earthRound.source || ""
+    } : null,
+    battleProperty: skill.battleProperty ? {
+      success: Boolean(skill.battleProperty.success),
+      active: Boolean(skill.battleProperty.active),
+      sourceCommand: skill.battleProperty.sourceCommand || "",
+      skillId: Number(skill.battleProperty.skillId || 0),
+      skillName: skill.battleProperty.skillName || "",
+      option: skill.battleProperty.option || "",
+      functionName: skill.battleProperty.functionName || "",
+      targetSlot: Number(skill.battleProperty.targetSlot ?? -1),
+      targetName: skill.battleProperty.targetName || "",
+      before: compactBattleAttributes(skill.battleProperty.before),
+      targetAttributes: compactBattleAttributes(skill.battleProperty.targetAttributes),
+      attributes: compactBattleAttributes(skill.battleProperty.attributes),
+      source: skill.battleProperty.source || ""
     } : null,
     hpDrainPercent: Number(skill.hpDrainPercent || 0),
     hpDamagePercent: Number(skill.hpDamagePercent || 0),
@@ -11952,6 +12050,16 @@ function elementalDamageMultiplier(attacker, defender, options = {}) {
 }
 
 function elementVector(char = {}) {
+  const battleProperty = char?.BattleProperty;
+  if (battleProperty?.active && battleProperty.attributes) {
+    return {
+      earth: clampInt(battleProperty.attributes.earth, 0, 100, 0),
+      water: clampInt(battleProperty.attributes.water, 0, 100, 0),
+      fire: clampInt(battleProperty.attributes.fire, 0, 100, 0),
+      wind: clampInt(battleProperty.attributes.wind, 0, 100, 0),
+      none: Number.isFinite(Number(battleProperty.attributes.none)) ? clampInt(battleProperty.attributes.none, 0, 100, 0) : undefined
+    };
+  }
   const battleReverse = char?.BattleAttReverse;
   if (battleReverse?.active && battleReverse.attributes) {
     return {
@@ -22664,7 +22772,8 @@ function buildCharacterFields(game) {
         skillBoosts: compactBattleSkillBoosts(pet),
         vary: compactBattleVary(pet.BattleVary),
         earthRound: compactBattleEarthRoundState(pet.BattleEarthRound),
-        guardian: compactBattleGuardianState(pet.BattleGuardian)
+        guardian: compactBattleGuardianState(pet.BattleGuardian),
+        battleProperty: compactBattlePropertyState(pet.BattleProperty)
       };
     }),
     battle: game.encounter ? {
@@ -22799,7 +22908,8 @@ function battleFormationUnit(entity, options = {}) {
     skillBoosts: compactBattleSkillBoosts(entity),
     vary: compactBattleVary(entity.BattleVary),
     earthRound: compactBattleEarthRoundState(entity.BattleEarthRound),
-    guardian: compactBattleGuardianState(entity.BattleGuardian)
+    guardian: compactBattleGuardianState(entity.BattleGuardian),
+    battleProperty: compactBattlePropertyState(entity.BattleProperty)
   };
 }
 
@@ -22889,6 +22999,7 @@ function battleCharacterFieldSummary(enemy, index = 0, active = false) {
       WorkQuick: Number(enemy.WorkQuick || enemy.WorkFixDex || 0)
     },
     statuses: compactBattleStatuses(enemy),
+    battleProperty: compactBattlePropertyState(enemy.BattleProperty),
     source: enemy.source || ""
   };
 }

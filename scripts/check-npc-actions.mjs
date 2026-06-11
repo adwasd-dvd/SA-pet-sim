@@ -6073,6 +6073,55 @@ assertEqual(combinedAttReverseTelemetry?.attReverse?.results?.[0]?.after?.water,
 assertEqual(combinedAttReverseTelemetry?.attReverse?.results?.[0]?.after?.fire, 10, "AttReverse applies source fire<-earth mapping");
 assertEqual(combinedAttReverseTelemetry?.attReverse?.results?.[0]?.after?.wind, 20, "AttReverse applies source wind<-water mapping");
 assert(combinedAttReverseSkillGame.battle.enemyParty?.[0]?.BattleAttReverse?.active, "AttReverse persists a battle-only reverse flag on the enemy");
+let battlePropertySkillGame = await api("/api/game/new", { name: "pet-battle-property-skill-test" });
+battlePropertySkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+battlePropertySkillGame = await api("/api/game/dialog", { game: battlePropertySkillGame, npcId: battleNpc.npc.id, message: "宠物" });
+battlePropertySkillGame.pets[0].PetSkillIds = [612];
+battlePropertySkillGame.pets[0].PetSkills = [{
+  Id: 612,
+  Name: "魔之诅咒",
+  Des: "根据目标属性调整自己的战斗属性",
+  FuncName: "PETSKILL_BattleProperty",
+  Option: "PET_PetskillPropertyEvent",
+  Field: 1,
+  Target: 5,
+  UseType: 2,
+  Source: "gmsv-data/petskill2.txt"
+}];
+Object.assign(battlePropertySkillGame.pets[0], {
+  WorkQuick: 999,
+  WorkFixDex: 999,
+  Hp: 999,
+  WorkMaxHp: 999,
+  EarthAT: 0,
+  WaterAT: 0,
+  FireAT: 0,
+  WindAT: 0
+});
+Object.assign(battlePropertySkillGame.encounter, {
+  Name: "属性构造测试敌人",
+  Hp: 999,
+  WorkMaxHp: 999,
+  WorkAttackPower: 0,
+  WorkQuick: 0,
+  WorkFixDex: 0,
+  EarthAT: 100,
+  WaterAT: 0,
+  FireAT: 0,
+  WindAT: 0,
+  WorkTacticsOption: "at:1;3;1|gu:100|es:0|wa:0;0;0;0;0;0;0"
+});
+Object.assign(battlePropertySkillGame.battle?.enemyParty?.[0] || {}, battlePropertySkillGame.encounter);
+battlePropertySkillGame = await api("/api/game/battle", { game: battlePropertySkillGame, action: "skill:0" });
+const battlePropertyTelemetry = battlePropertySkillGame.battleOutcome.playerAction?.petSkill;
+assertEqual(battlePropertySkillGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_S_PROPERTYSKILL", "BattleProperty uses source PROPERTYSKILL command");
+assertEqual(battlePropertyTelemetry?.battleProperty?.functionName, "PET_PetskillPropertyEvent", "BattleProperty records source callback name");
+assertEqual(battlePropertyTelemetry?.battleProperty?.targetAttributes?.earth, 100, "BattleProperty records selected target earth attribute");
+assertEqual(battlePropertyTelemetry?.battleProperty?.attributes?.wind, 100, "BattleProperty applies source (i+3)%4 mapping: target earth becomes caster wind");
+assertEqual(battlePropertyTelemetry?.totalDamage, 0, "BattleProperty has no immediate damage");
+assert(battlePropertySkillGame.pets[0].BattleProperty?.active, "BattleProperty persists a battle-only property callback on the active pet");
+assertEqual(battlePropertySkillGame.pets[0].BattleProperty?.attributes?.wind, 100, "BattleProperty persisted state uses the mapped wind attribute for future damage");
+assertEqual(battlePropertySkillGame.characterFields?.battle?.formation?.allySide?.find((unit) => unit.kind === "pet")?.battleProperty?.attributes?.wind, 100, "BattleProperty appears in lightweight battle formation fields");
 let combinedEnemyAllReverseGame = await api("/api/game/new", { name: "pet-combined-enemy-all-reverse-test" });
 combinedEnemyAllReverseGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
 combinedEnemyAllReverseGame = await api("/api/game/dialog", { game: combinedEnemyAllReverseGame, npcId: battleNpc.npc.id, message: "宠物" });
