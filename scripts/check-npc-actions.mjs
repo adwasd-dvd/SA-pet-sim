@@ -31,6 +31,7 @@ const supportedPetSkillFuncs = new Set([...supportedPetSkillSetSource.matchAll(/
   "PETSKILL_Steal",
   "PETSKILL_StealMoney",
   "PETSKILL_Lighttakeed",
+  "PETSKILL_BecomeFox",
   "PETSKILL_PowerBalance",
   "PETSKILL_WildViolentAttack",
   "PETSKILL_SpeedyAttack",
@@ -3367,6 +3368,73 @@ assertEqual(selfExplodeSkillGame.battleOutcome.playerAction?.petSkill?.multiplie
 assertEqual(selfExplodeSkillGame.battleOutcome.playerAction?.petSkill?.missChance, 0, "SelfExplodeAttack does not apply PvP explode option changes in non-PvP");
 assertEqual(selfExplodeSkillGame.pets[0].Hp, selfExplodePetHpBefore, "SelfExplodeAttack non-PvP fallback does not set attacker HP to 1");
 assert(Number(selfExplodeSkillGame.encounter?.Hp || 0) < selfExplodeEnemyHpBefore, "SelfExplodeAttack non-PvP fallback damages the active battle target");
+let becomeFoxSkillGame = await api("/api/game/new", { name: "pet-becomefox-skill-test" });
+becomeFoxSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+becomeFoxSkillGame = await api("/api/game/dialog", { game: becomeFoxSkillGame, npcId: battleNpc.npc.id, message: "宠物" });
+becomeFoxSkillGame.pets[0].PetSkillIds = [625];
+becomeFoxSkillGame.pets[0].PetSkills = [{
+  Id: 625,
+  Name: "媚惑术",
+  Des: "使宠物变成小狐狸",
+  FuncName: "PETSKILL_BecomeFox",
+  Option: "",
+  Field: 1,
+  Target: 1,
+  UseType: 2,
+  Source: "gmsv-data/petskill2.txt"
+}];
+Object.assign(becomeFoxSkillGame.pets[0], {
+  Lv: 12,
+  WorkAttackPower: 180,
+  WorkFixStr: 180,
+  WorkQuick: 999,
+  WorkFixDex: 999,
+  Critical: 0
+});
+Object.assign(becomeFoxSkillGame.encounter, {
+  Name: "变狐测试宠物敌人",
+  PetId: 900625,
+  WorkPetFlg: 1,
+  WhichType: 2,
+  Lv: 1,
+  WorkMaxHp: 999,
+  Hp: 999,
+  WorkFixTough: 0,
+  WorkDefencePower: 0,
+  WorkQuick: 100,
+  WorkFixDex: 100,
+  WorkAttackPower: 100,
+  WorkFixStr: 100,
+  Critical: 0,
+  WorkTacticsOption: "at:0;1;1|gu:0|es:100|wa:0;0;0;0;0;0;0"
+});
+Object.assign(becomeFoxSkillGame.battle?.enemyParty?.[0] || {}, becomeFoxSkillGame.encounter);
+if (Array.isArray(becomeFoxSkillGame.battle?.enemyParty)) {
+  becomeFoxSkillGame.battle.enemyParty = becomeFoxSkillGame.battle.enemyParty.slice(0, 1);
+  becomeFoxSkillGame.battle.activeEnemyIndex = 0;
+}
+const becomeFoxEnemyHpBefore = Number(becomeFoxSkillGame.encounter.Hp || 0);
+const originalRandomForBecomeFox = Math.random;
+try {
+  Math.random = () => 0;
+  becomeFoxSkillGame = await api("/api/game/battle", { game: becomeFoxSkillGame, action: "skill:0" });
+} finally {
+  Math.random = originalRandomForBecomeFox;
+}
+const becomeFoxTelemetry = becomeFoxSkillGame.battleOutcome.playerAction?.petSkill;
+assertEqual(becomeFoxSkillGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_S_BECOMEFOX", "BecomeFox pet skill maps to source battle command");
+assert(Number(becomeFoxTelemetry?.totalDamage || 0) > 0, "BecomeFox performs the source normal physical attack");
+assert(Number(becomeFoxSkillGame.encounter?.Hp || 0) < becomeFoxEnemyHpBefore, "BecomeFox damages the active battle target");
+assertEqual(becomeFoxTelemetry?.becomeFox?.success, true, "BecomeFox applies fox state on a source-success roll");
+assertEqual(becomeFoxTelemetry?.becomeFox?.roll, 0, "BecomeFox records rand()%100 roll");
+assertEqual(becomeFoxTelemetry?.becomeFox?.successPercent, 31, "BecomeFox uses source rand()%100 < 31 threshold");
+assertEqual(becomeFoxTelemetry?.becomeFox?.applied?.imageNumber, 101749, "BecomeFox records source fox image number");
+assertEqual(becomeFoxTelemetry?.becomeFox?.after?.attack, 80, "BecomeFox applies source attack -20% battle modifier");
+assertEqual(becomeFoxTelemetry?.becomeFox?.after?.defence, 0, "BecomeFox applies source defence -20% battle modifier after zero defence");
+assertEqual(becomeFoxTelemetry?.becomeFox?.after?.quick, 80, "BecomeFox applies source quick -20% battle modifier");
+assertEqual(becomeFoxSkillGame.encounter?.BattleBecomeFox?.turns, 2, "BecomeFox battle state persists after the settled round with one turn consumed");
+assertEqual(becomeFoxSkillGame.battleOutcome.enemyAi?.foxRestricted, true, "BecomeFox restricts the same-round enemy escape command to wait");
+assertEqual(becomeFoxSkillGame.battleOutcome.enemyAi?.sourceCommand, "BATTLE_COM_WAIT", "BecomeFox restricted enemy command uses source wait dispatch");
 let becomePigSkillGame = await api("/api/game/new", { name: "pet-becomepig-skill-test" });
 becomePigSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
 becomePigSkillGame = await api("/api/game/dialog", { game: becomePigSkillGame, npcId: battleNpc.npc.id, message: "宠物" });

@@ -241,6 +241,7 @@ const BATTLE_PET_SKILL_FUNCS = new Set([
   "PETSKILL_SelfExplodeAttack",
   "PETSKILL_Steal",
   "PETSKILL_StealMoney",
+  "PETSKILL_BecomeFox",
   "PETSKILL_BecomePig",
   "PETSKILL_Lighttakeed",
   "PETSKILL_BattleProperty",
@@ -5385,6 +5386,8 @@ function performPetSkillAction(game, move) {
     return true;
   };
   const enemyTurn = (guarded = false) => {
+    enemyAi = sourceBecomeFoxRestrictEnemyMove(enemy, enemyAi);
+    game.battle.enemyAi = enemyAi;
     const ended = resolveEnemyBattleTurn(game, enemy, activePet, enemyAi, playerAction, battleLog, guarded);
     enemyEscaped ||= ended;
     return ended;
@@ -5825,6 +5828,7 @@ function sourcePlayerPetSkillAction(move, game, activePet, enemy, skill, profile
       steal: profile.steal ? { ...profile.steal } : null,
       stealMoney: profile.stealMoney ? { ...profile.stealMoney } : null,
       abduct: profile.abduct ? { ...profile.abduct } : null,
+      becomeFox: profile.becomeFox ? { ...profile.becomeFox } : null,
       becomePig: profile.becomePig ? { ...profile.becomePig } : null,
       lighttake: profile.lighttake ? { ...profile.lighttake } : null,
       battleProperty: profile.battleProperty ? { ...profile.battleProperty } : null,
@@ -5929,6 +5933,27 @@ function petSkillBattleProfile(skill = {}) {
         pvpEffect: "damage-target-half-hp-and-set-attacker-hp-1"
       },
       source: "gmsv battle/pet_skill.c PETSKILL_Explode non-PvP BATTLE_COM_ATTACK fallback"
+    };
+  }
+  if (func === "PETSKILL_BecomeFox") {
+    return {
+      supported: true,
+      kind: "attack",
+      sourceCommand: "BATTLE_COM_S_BECOMEFOX",
+      targetKind: "enemy",
+      hitCount: 1,
+      multiplier: 1,
+      becomeFox: {
+        successPercent: 31,
+        rollRange: "rand()%100 < 31",
+        imageNumber: 101749,
+        durationTurns: 3,
+        statPercent: -20,
+        commandRestriction: "attack/guard/none",
+        targetRequirement: "non-player pet target with CHAR_WORK_PETFLG",
+        sourceEffect: "set CHAR_WORKFOXROUND and CHAR_BASEIMAGENUMBER=101749 after landed hit"
+      },
+      source: "gmsv battle/pet_skill.c PETSKILL_BecomeFox + battle.c BATTLE_COM_S_BECOMEFOX"
     };
   }
   if (func === "PETSKILL_BecomePig") {
@@ -7902,6 +7927,81 @@ function resolvePetAttReverseTurn(game, activePet, enemy, skill, profile, player
   battleLog.push(`${activePet.Name} 使用 ${skill.Name}，反转 ${results.length} 个目标的战斗属性。`);
 }
 
+function sourceIsBecomeFoxTarget(game, target = {}) {
+  if (!target || target === game?.player || target.kind === "player" || target.type === "player") return false;
+  return Boolean(target.WorkPetFlg || target.Work_PETFLG || target.IsPetTarget || target.PetId || target.petId);
+}
+
+function resolvePetBecomeFoxEffect(game, target, profile, landedHits = []) {
+  const base = {
+    success: false,
+    reason: "",
+    sourceCommand: profile.sourceCommand || "BATTLE_COM_S_BECOMEFOX",
+    targetName: target?.Name || target?.name || "目标",
+    targetIsPet: sourceIsBecomeFoxTarget(game, target),
+    playerTargetSupported: false,
+    successPercent: Number(profile.becomeFox?.successPercent || 31),
+    roll: -1,
+    source: profile.source || "gmsv battle.c BATTLE_COM_S_BECOMEFOX"
+  };
+  const landed = landedHits.some((hit) => !hit.dodged && Number(hit.damage || 0) > 0);
+  if (!landed) return { ...base, reason: "no-positive-landed-hit" };
+  if (Number(target?.Hp || 0) <= 0) return { ...base, reason: "target-not-live" };
+  if (!sourceIsBecomeFoxTarget(game, target)) return { ...base, reason: target === game?.player ? "target-player-unsupported" : "target-not-pet" };
+  if (target?.BattleBecomePig?.active) return { ...base, reason: "target-become-pig-active" };
+  const roll = sourceBattleRand(0, 99);
+  const success = roll < Number(profile.becomeFox?.successPercent || 31);
+  const before = {
+    attack: workAttackPower(target),
+    defence: workDefencePower(target),
+    quick: workQuick(target),
+    image: Number(target?.ImgNo || target?.BaseImageNumber || target?.BaseImageNo || 0)
+  };
+  if (!success) return { ...base, roll, reason: "roll-failed" };
+  const applied = {
+    active: true,
+    key: "becomeFox",
+    label: "小狐狸",
+    turns: Number(profile.becomeFox?.durationTurns || 3),
+    baseTurn: Number(profile.becomeFox?.durationTurns || 3),
+    attackPercent: Number(profile.becomeFox?.statPercent || -20),
+    defencePercent: Number(profile.becomeFox?.statPercent || -20),
+    quickPercent: Number(profile.becomeFox?.statPercent || -20),
+    commandRestriction: profile.becomeFox?.commandRestriction || "attack/guard/none",
+    imageNumber: Number(profile.becomeFox?.imageNumber || 101749),
+    skillSourceCommand: profile.sourceCommand || "BATTLE_COM_S_BECOMEFOX",
+    source: "gmsv battle.c CHAR_WORKFOXROUND + CHAR_BASEIMAGENUMBER=101749"
+  };
+  target.BattleBecomeFox = applied;
+  const after = {
+    attack: workAttackPower(target),
+    defence: workDefencePower(target),
+    quick: workQuick(target),
+    image: applied.imageNumber
+  };
+  return {
+    ...base,
+    success: true,
+    reason: "",
+    roll,
+    before,
+    after,
+    applied: compactBattleBecomeFoxState(target.BattleBecomeFox)
+  };
+}
+
+function sourceBecomeFoxRestrictEnemyMove(enemy, enemyAi = {}) {
+  if (Number(enemy?.BattleBecomeFox?.turns || 0) <= 0 || ["attack", "guard", "wait"].includes(enemyAi?.type)) return enemyAi;
+  return {
+    ...enemyAi,
+    type: "wait",
+    sourceCommand: "BATTLE_COM_WAIT",
+    command: "N",
+    foxRestricted: true,
+    source: "gmsv battle.c BATTLE_COM_S_BECOMEFOX target can only attack/guard/none"
+  };
+}
+
 function sourceBattlePropertyAttributes(defender = {}) {
   const attr = compactBattleAttributes(elementVector(defender));
   const mapped = {
@@ -9175,6 +9275,9 @@ function resolvePetSkillTurn(game, activePet, enemy, skill, profile, enemyAi, pl
   skillState.hits = hits;
   skillState.totalDamage = totalDamage;
   const landedHits = hits.filter((hit) => !hit.dodged);
+  if (profile.becomeFox) {
+    skillState.becomeFox = resolvePetBecomeFoxEffect(game, enemy, profile, landedHits);
+  }
   if (profile.becomePig) {
     skillState.becomePig = resolvePetBecomePigEffect(game, enemy, profile, landedHits);
   }
@@ -9601,6 +9704,7 @@ function consumeBattleMagicStatusesAfterRound(target) {
   consumeBattleSkillBoostsAfterRound(target);
   consumeBattleVaryAfterRound(target);
   consumeBattleGuardianAfterRound(target);
+  consumeBattleBecomeFoxAfterRound(target);
 }
 
 function consumeBattleSkillDuckAfterRound(target = {}) {
@@ -9655,6 +9759,18 @@ function consumeBattleGuardianAfterRound(target = {}) {
   else delete target.BattleGuardian;
 }
 
+function consumeBattleBecomeFoxAfterRound(target = {}) {
+  if (!target?.BattleBecomeFox) return;
+  let turns = Number(target.BattleBecomeFox.turns || 0);
+  if (turns <= 0) {
+    delete target.BattleBecomeFox;
+    return;
+  }
+  turns -= 1;
+  if (turns > 0) target.BattleBecomeFox.turns = turns;
+  else delete target.BattleBecomeFox;
+}
+
 function syncBattlePrimaryStatus(target = {}) {
   const active = Object.values(target.BattleStatuses || {}).find((status) => Number(status?.turns || 0) > 0);
   if (active) target.BattleStatus = compactBattleStatusEffect(active);
@@ -9679,6 +9795,7 @@ function clearBattleRuntimeEffects(target = {}) {
   delete target.BattleEarthRound;
   delete target.BattleAcupuncture;
   delete target.BattleGuardian;
+  delete target.BattleBecomeFox;
   delete target.BattleMagicDefense;
   delete target.BattleProperty;
   delete target.WorkDamageAbsrob;
@@ -9829,13 +9946,32 @@ function compactBattlePropertyState(property) {
   };
 }
 
+function compactBattleBecomeFoxState(fox) {
+  if (!fox || Number(fox.turns || 0) <= 0) return null;
+  return {
+    active: true,
+    key: fox.key || "becomeFox",
+    label: fox.label || "小狐狸",
+    turns: Number(fox.turns || 0),
+    baseTurn: Number(fox.baseTurn || 0),
+    attackPercent: Number(fox.attackPercent || 0),
+    defencePercent: Number(fox.defencePercent || 0),
+    quickPercent: Number(fox.quickPercent || 0),
+    commandRestriction: fox.commandRestriction || "",
+    imageNumber: Number(fox.imageNumber || 0),
+    skillSourceCommand: fox.skillSourceCommand || "",
+    source: fox.source || ""
+  };
+}
+
 function chooseEnemyBattleMove(game, enemy, activeActor) {
   const tacticsOption = String(enemy.WorkTacticsOption || enemy.TacticsOption || "");
   const tactics = parseSourceBattleAiTactics(tacticsOption);
+  const foxRestricted = Number(enemy?.BattleBecomeFox?.turns || 0) > 0;
   const choices = [];
   if (tactics.attack.weight > 0) choices.push({ type: "attack", weight: tactics.attack.weight });
   if (tactics.guard.weight > 0) choices.push({ type: "guard", weight: tactics.guard.weight });
-  if (tactics.escape.weight > 0) choices.push({ type: "escape", weight: tactics.escape.weight });
+  if (tactics.escape.weight > 0 && !foxRestricted) choices.push({ type: "escape", weight: tactics.escape.weight });
   if (tactics.wait.weight > 0) choices.push({ type: "wait", weight: tactics.wait.weight });
   if (!choices.length) choices.push({ type: "attack", weight: 1 });
   const selected = weightedDeterministicChoice(choices, [
@@ -10352,6 +10488,30 @@ function compactPetSkillTelemetry(skill) {
       targetIsPet: Boolean(skill.antInter.targetIsPet),
       battleEscaped: Boolean(skill.antInter.battleEscaped),
       source: skill.antInter.source || ""
+    } : null,
+    becomeFox: skill.becomeFox ? {
+      success: Boolean(skill.becomeFox.success),
+      reason: skill.becomeFox.reason || "",
+      sourceCommand: skill.becomeFox.sourceCommand || "",
+      targetName: skill.becomeFox.targetName || "",
+      targetIsPet: Boolean(skill.becomeFox.targetIsPet),
+      playerTargetSupported: Boolean(skill.becomeFox.playerTargetSupported),
+      successPercent: Number(skill.becomeFox.successPercent || 0),
+      roll: Number(skill.becomeFox.roll ?? -1),
+      before: {
+        attack: Number(skill.becomeFox.before?.attack || 0),
+        defence: Number(skill.becomeFox.before?.defence || 0),
+        quick: Number(skill.becomeFox.before?.quick || 0),
+        image: Number(skill.becomeFox.before?.image || 0)
+      },
+      after: {
+        attack: Number(skill.becomeFox.after?.attack || 0),
+        defence: Number(skill.becomeFox.after?.defence || 0),
+        quick: Number(skill.becomeFox.after?.quick || 0),
+        image: Number(skill.becomeFox.after?.image || 0)
+      },
+      applied: compactBattleBecomeFoxState(skill.becomeFox.applied),
+      source: skill.becomeFox.source || ""
     } : null,
     earthRound: skill.earthRound ? {
       startCommand: skill.earthRound.startCommand || "",
@@ -11027,6 +11187,9 @@ function settleBattleRound(game, activeActor, enemy, options = {}) {
   } else {
     consumeBattleMagicStatusesAfterRound(game.player);
     if (actorIsPet) consumeBattleMagicStatusesAfterRound(activeActor);
+    for (const opponent of battleEnemyPartyForFields(game)) {
+      consumeBattleMagicStatusesAfterRound(opponent);
+    }
     consumeBattleFieldAttributeAfterRound(game, battleLog);
     game.battle.mode = "command";
     advanceBattleCommandWindow(game);
@@ -11975,17 +12138,17 @@ function applySourceGuardAdjust(detail, seedParts = []) {
 
 function workAttackPower(char = {}) {
   const base = Math.max(1, firstFiniteNumber(1, char.WorkAttackPower, char.WorkFixStr, char.level, char.Lv));
-  return Math.max(1, Math.floor(base * battleSkillBoostMultiplier(char, "attack") * battleVaryMultiplier(char, "attack")));
+  return Math.max(1, Math.floor(base * battleSkillBoostMultiplier(char, "attack") * battleVaryMultiplier(char, "attack") * battleBecomeFoxMultiplier(char, "attack")));
 }
 
 function workDefencePower(char = {}) {
   const base = Math.max(0, firstFiniteNumber(0, char.WorkDefencePower, char.WorkFixTough));
-  return Math.max(0, Math.floor(base * battleMagicDefenceMultiplier(char) * battleSkillBoostMultiplier(char, "defence") * battleVaryMultiplier(char, "defence")));
+  return Math.max(0, Math.floor(base * battleMagicDefenceMultiplier(char) * battleSkillBoostMultiplier(char, "defence") * battleVaryMultiplier(char, "defence") * battleBecomeFoxMultiplier(char, "defence")));
 }
 
 function workQuick(char = {}) {
   const base = Math.max(0, firstFiniteNumber(0, char.WorkQuick, char.WorkFixDex, Number(char.Dex) / 100));
-  return Math.max(0, Math.floor(base * battleSkillBoostMultiplier(char, "quick") * battleVaryMultiplier(char, "quick")));
+  return Math.max(0, Math.floor(base * battleSkillBoostMultiplier(char, "quick") * battleVaryMultiplier(char, "quick") * battleBecomeFoxMultiplier(char, "quick")));
 }
 
 function battleMagicDefenceMultiplier(char = {}) {
@@ -12010,6 +12173,18 @@ function battleVaryMultiplier(char = {}, stat = "") {
   }[stat];
   if (!field) return 1;
   return Math.max(0.05, 1 + Number(vary[field] || 0) / 100);
+}
+
+function battleBecomeFoxMultiplier(char = {}, stat = "") {
+  const fox = char.BattleBecomeFox;
+  if (!fox || Number(fox.turns || 0) <= 0) return 1;
+  const field = {
+    attack: "attackPercent",
+    defence: "defencePercent",
+    quick: "quickPercent"
+  }[stat];
+  if (!field) return 1;
+  return Math.max(0.05, 1 + Number(fox[field] || 0) / 100);
 }
 
 function firstFiniteNumber(fallback, ...values) {
@@ -22773,6 +22948,7 @@ function buildCharacterFields(game) {
         vary: compactBattleVary(pet.BattleVary),
         earthRound: compactBattleEarthRoundState(pet.BattleEarthRound),
         guardian: compactBattleGuardianState(pet.BattleGuardian),
+        becomeFox: compactBattleBecomeFoxState(pet.BattleBecomeFox),
         battleProperty: compactBattlePropertyState(pet.BattleProperty)
       };
     }),
@@ -22790,6 +22966,7 @@ function buildCharacterFields(game) {
         sourceCommand: game.battle.enemyAi.sourceCommand || "",
         command: game.battle.enemyAi.command || "",
         guardAdjust: compactGuardAdjust(game.battle.enemyAi.guardAdjust),
+        foxRestricted: Boolean(game.battle.enemyAi.foxRestricted),
         source: game.battle.enemyAi.source || ""
       } : null,
       activePetIndex: activeIndex,
@@ -22909,6 +23086,7 @@ function battleFormationUnit(entity, options = {}) {
     vary: compactBattleVary(entity.BattleVary),
     earthRound: compactBattleEarthRoundState(entity.BattleEarthRound),
     guardian: compactBattleGuardianState(entity.BattleGuardian),
+    becomeFox: compactBattleBecomeFoxState(entity.BattleBecomeFox),
     battleProperty: compactBattlePropertyState(entity.BattleProperty)
   };
 }
@@ -22999,6 +23177,7 @@ function battleCharacterFieldSummary(enemy, index = 0, active = false) {
       WorkQuick: Number(enemy.WorkQuick || enemy.WorkFixDex || 0)
     },
     statuses: compactBattleStatuses(enemy),
+    becomeFox: compactBattleBecomeFoxState(enemy.BattleBecomeFox),
     battleProperty: compactBattlePropertyState(enemy.BattleProperty),
     source: enemy.source || ""
   };
@@ -24453,6 +24632,7 @@ function petSummary(pet) {
     vary: compactBattleVary(pet.BattleVary),
     earthRound: compactBattleEarthRoundState(pet.BattleEarthRound),
     guardian: compactBattleGuardianState(pet.BattleGuardian),
+    becomeFox: compactBattleBecomeFoxState(pet.BattleBecomeFox),
     skills: (pet.PetSkills || []).filter(Boolean).map((sk) => sk.Name)
   };
 }
