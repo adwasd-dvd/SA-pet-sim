@@ -241,6 +241,7 @@ const BATTLE_PET_SKILL_FUNCS = new Set([
   "PETSKILL_SelfExplodeAttack",
   "PETSKILL_Steal",
   "PETSKILL_StealMoney",
+  "PETSKILL_BecomePig",
   "PETSKILL_PowerBalance",
   "PETSKILL_StatusChange",
   "PETSKILL_MagicStatusChange",
@@ -5818,6 +5819,7 @@ function sourcePlayerPetSkillAction(move, game, activePet, enemy, skill, profile
       steal: profile.steal ? { ...profile.steal } : null,
       stealMoney: profile.stealMoney ? { ...profile.stealMoney } : null,
       abduct: profile.abduct ? { ...profile.abduct } : null,
+      becomePig: profile.becomePig ? { ...profile.becomePig } : null,
       batFly: profile.batFly ? { ...profile.batFly } : null,
       divideAttack: profile.divideAttack ? { ...profile.divideAttack } : null,
       antInter: profile.antInter ? { ...profile.antInter } : null,
@@ -5919,6 +5921,26 @@ function petSkillBattleProfile(skill = {}) {
         pvpEffect: "damage-target-half-hp-and-set-attacker-hp-1"
       },
       source: "gmsv battle/pet_skill.c PETSKILL_Explode non-PvP BATTLE_COM_ATTACK fallback"
+    };
+  }
+  if (func === "PETSKILL_BecomePig") {
+    return {
+      supported: true,
+      kind: "attack",
+      sourceCommand: "BATTLE_COM_S_BECOMEPIG",
+      targetKind: "enemy",
+      hitCount: 1,
+      multiplier: 1,
+      becomePig: {
+        playerTargetOnly: true,
+        successPercent: 30,
+        durationSeconds: 60,
+        imageNumber: 100250,
+        optionRaw: skill.Option || "",
+        optionReadMode: "source-default-branch",
+        sourceEffect: "on-landed-hit-player-target-set-CHAR_BECOMEPIG"
+      },
+      source: "gmsv battle/pet_skill.c PETSKILL_BecomePig + battle.c BATTLE_COM_S_BECOMEPIG"
     };
   }
   if (func === "PETSKILL_Steal") {
@@ -6971,6 +6993,48 @@ function applySourceNoKillDamage(hit = {}, defender = {}) {
     };
   }
   return hit;
+}
+
+function resolvePetBecomePigEffect(game, target, profile, landedHits = []) {
+  const targetType = Number(target?.WhichType ?? target?.whichType ?? 2);
+  const targetKind = targetType === 0 ? "player" : targetType === 1 ? "pet" : "enemy";
+  const landed = landedHits.some((hit) => !hit.dodged);
+  const effect = {
+    targetKind,
+    landed,
+    success: false,
+    applied: false,
+    successPercent: Number(profile.becomePig?.successPercent || 30),
+    durationSeconds: Number(profile.becomePig?.durationSeconds || 60),
+    imageNumber: Number(profile.becomePig?.imageNumber || 100250),
+    roll: 0,
+    optionRaw: profile.becomePig?.optionRaw || "",
+    optionReadMode: profile.becomePig?.optionReadMode || "source-default-branch",
+    reason: "",
+    source: "gmsv battle.c BATTLE_COM_S_BECOMEPIG"
+  };
+  if (!landed) {
+    effect.reason = "no-landed-hit";
+    return effect;
+  }
+  if (targetKind !== "player") {
+    effect.reason = "target-not-player";
+    return effect;
+  }
+  effect.roll = sourceBattleRand(0, 99);
+  effect.success = effect.roll < effect.successPercent;
+  if (!effect.success) {
+    effect.reason = "source-roll-failed";
+    return effect;
+  }
+  target.BattleBecomePig = {
+    turns: effect.durationSeconds,
+    imageNumber: effect.imageNumber,
+    source: effect.source
+  };
+  effect.applied = true;
+  effect.reason = "source-player-target-applied";
+  return effect;
 }
 
 function compactSourceTearDamage(tearDamage) {
@@ -8938,6 +9002,9 @@ function resolvePetSkillTurn(game, activePet, enemy, skill, profile, enemyAi, pl
   skillState.hits = hits;
   skillState.totalDamage = totalDamage;
   const landedHits = hits.filter((hit) => !hit.dodged);
+  if (profile.becomePig) {
+    skillState.becomePig = resolvePetBecomePigEffect(game, enemy, profile, landedHits);
+  }
   const hitText = hits.length > 1 ? `连续 ${landedHits.length}/${hits.length} 次命中，共` : "";
   const detailText = hits.length === 1
     ? (hits[0].dodged ? "（闪避）" : battleDetailSuffix(hits[0]))

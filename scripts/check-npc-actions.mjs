@@ -26,6 +26,7 @@ const supportedPetSkillFuncs = new Set([...supportedPetSkillSetSource.matchAll(/
   "PETSKILL_Guardian",
   "PETSKILL_ChargeAttack",
   "PETSKILL_Abduct",
+  "PETSKILL_BecomePig",
   "PETSKILL_SelfExplodeAttack",
   "PETSKILL_Steal",
   "PETSKILL_StealMoney",
@@ -3365,6 +3366,81 @@ assertEqual(selfExplodeSkillGame.battleOutcome.playerAction?.petSkill?.multiplie
 assertEqual(selfExplodeSkillGame.battleOutcome.playerAction?.petSkill?.missChance, 0, "SelfExplodeAttack does not apply PvP explode option changes in non-PvP");
 assertEqual(selfExplodeSkillGame.pets[0].Hp, selfExplodePetHpBefore, "SelfExplodeAttack non-PvP fallback does not set attacker HP to 1");
 assert(Number(selfExplodeSkillGame.encounter?.Hp || 0) < selfExplodeEnemyHpBefore, "SelfExplodeAttack non-PvP fallback damages the active battle target");
+let becomePigSkillGame = await api("/api/game/new", { name: "pet-becomepig-skill-test" });
+becomePigSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+becomePigSkillGame = await api("/api/game/dialog", { game: becomePigSkillGame, npcId: battleNpc.npc.id, message: "宠物" });
+becomePigSkillGame.pets[0].PetSkillIds = [631];
+becomePigSkillGame.pets[0].PetSkills = [{
+  Id: 631,
+  Name: "乌力化",
+  Des: "在一定时间内使对方变成乌力",
+  FuncName: "PETSKILL_BecomePig",
+  Option: "30 180",
+  Field: 1,
+  Target: 7,
+  UseType: 2,
+  Source: "gmsv-data/petskill2.txt"
+}];
+Object.assign(becomePigSkillGame.pets[0], {
+  Lv: 12,
+  WorkAttackPower: 180,
+  WorkFixStr: 180,
+  WorkQuick: 999,
+  WorkFixDex: 999,
+  Critical: 0
+});
+Object.assign(becomePigSkillGame.encounter, {
+  WhichType: 2,
+  Lv: 1,
+  WorkMaxHp: 220,
+  Hp: 220,
+  WorkFixTough: 0,
+  WorkDefencePower: 0,
+  WorkQuick: 0,
+  WorkFixDex: 0,
+  WorkAttackPower: 0,
+  WorkFixStr: 0,
+  Critical: 0,
+  WorkTacticsOption: ""
+});
+Object.assign(becomePigSkillGame.battle?.enemyParty?.[0] || {}, {
+  WhichType: becomePigSkillGame.encounter.WhichType,
+  Lv: becomePigSkillGame.encounter.Lv,
+  WorkMaxHp: becomePigSkillGame.encounter.WorkMaxHp,
+  Hp: becomePigSkillGame.encounter.Hp,
+  WorkFixTough: becomePigSkillGame.encounter.WorkFixTough,
+  WorkDefencePower: becomePigSkillGame.encounter.WorkDefencePower,
+  WorkQuick: becomePigSkillGame.encounter.WorkQuick,
+  WorkFixDex: becomePigSkillGame.encounter.WorkFixDex,
+  WorkAttackPower: becomePigSkillGame.encounter.WorkAttackPower,
+  WorkFixStr: becomePigSkillGame.encounter.WorkFixStr,
+  Critical: becomePigSkillGame.encounter.Critical,
+  WorkTacticsOption: becomePigSkillGame.encounter.WorkTacticsOption
+});
+if (Array.isArray(becomePigSkillGame.battle?.enemyParty)) {
+  becomePigSkillGame.battle.enemyParty = becomePigSkillGame.battle.enemyParty.slice(0, 1);
+  becomePigSkillGame.battle.activeEnemyIndex = 0;
+}
+const becomePigEnemyHpBefore = Number(becomePigSkillGame.encounter.Hp || 0);
+const originalRandomForBecomePig = Math.random;
+try {
+  Math.random = () => 0;
+  becomePigSkillGame = await api("/api/game/battle", { game: becomePigSkillGame, action: "skill:0" });
+} finally {
+  Math.random = originalRandomForBecomePig;
+}
+const becomePigTelemetry = becomePigSkillGame.battleOutcome.playerAction?.petSkill;
+assertEqual(becomePigSkillGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_S_BECOMEPIG", "BecomePig pet skill maps to source battle command");
+assert(Number(becomePigTelemetry?.totalDamage || 0) > 0, "BecomePig enemy-target branch still performs the source normal attack");
+assert(Number(becomePigSkillGame.encounter?.Hp || 0) < becomePigEnemyHpBefore, "BecomePig enemy-target branch damages the active battle target");
+assertEqual(becomePigTelemetry?.becomePig?.targetKind, "enemy", "BecomePig records source enemy target kind");
+assertEqual(becomePigTelemetry?.becomePig?.landed, true, "BecomePig side-effect telemetry records landed hit");
+assertEqual(becomePigTelemetry?.becomePig?.applied, false, "BecomePig does not apply pig state to non-player targets");
+assertEqual(becomePigTelemetry?.becomePig?.reason, "target-not-player", "BecomePig records source player-target-only guard");
+assertEqual(becomePigTelemetry?.becomePig?.durationSeconds, 60, "BecomePig preserves executable source default duration instead of display option drift");
+assertEqual(becomePigTelemetry?.becomePig?.imageNumber, 100250, "BecomePig preserves executable source default pig image");
+assertEqual(becomePigTelemetry?.becomePig?.optionRaw, "30 180", "BecomePig telemetry keeps raw petskill2 option for audit");
+assert(!becomePigSkillGame.encounter?.BattleBecomePig, "BecomePig enemy target is not mutated into pig state");
 let abductSkillGame = await api("/api/game/new", { name: "pet-abduct-skill-test" });
 abductSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
 abductSkillGame = await api("/api/game/dialog", { game: abductSkillGame, npcId: battleNpc.npc.id, message: "宠物" });
