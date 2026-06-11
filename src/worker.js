@@ -242,6 +242,7 @@ const BATTLE_PET_SKILL_FUNCS = new Set([
   "PETSKILL_Steal",
   "PETSKILL_StealMoney",
   "PETSKILL_BecomePig",
+  "PETSKILL_Lighttakeed",
   "PETSKILL_PowerBalance",
   "PETSKILL_StatusChange",
   "PETSKILL_MagicStatusChange",
@@ -5820,6 +5821,7 @@ function sourcePlayerPetSkillAction(move, game, activePet, enemy, skill, profile
       stealMoney: profile.stealMoney ? { ...profile.stealMoney } : null,
       abduct: profile.abduct ? { ...profile.abduct } : null,
       becomePig: profile.becomePig ? { ...profile.becomePig } : null,
+      lighttake: profile.lighttake ? { ...profile.lighttake } : null,
       batFly: profile.batFly ? { ...profile.batFly } : null,
       divideAttack: profile.divideAttack ? { ...profile.divideAttack } : null,
       antInter: profile.antInter ? { ...profile.antInter } : null,
@@ -5941,6 +5943,20 @@ function petSkillBattleProfile(skill = {}) {
         sourceEffect: "on-landed-hit-player-target-set-CHAR_BECOMEPIG"
       },
       source: "gmsv battle/pet_skill.c PETSKILL_BecomePig + battle.c BATTLE_COM_S_BECOMEPIG"
+    };
+  }
+  if (func === "PETSKILL_Lighttakeed") {
+    return {
+      supported: true,
+      kind: "attack",
+      sourceCommand: "BATTLE_COM_S_LIGHTTAKE",
+      targetKind: "enemy",
+      hitCount: 1,
+      multiplier: 1,
+      attackPercent: -30,
+      defencePercent: -50,
+      lighttake: sourceLighttakeProfile(skill),
+      source: "gmsv battle/pet_skill.c PETSKILL_Lighttakeed + battle.c BATTLE_COM_S_LIGHTTAKE"
     };
   }
   if (func === "PETSKILL_Steal") {
@@ -7034,6 +7050,99 @@ function resolvePetBecomePigEffect(game, target, profile, landedHits = []) {
   };
   effect.applied = true;
   effect.reason = "source-player-target-applied";
+  return effect;
+}
+
+const SOURCE_LIGHTTAKE_REACTIONS = Object.freeze({
+  ABSROB: {
+    reactionKey: "absrob",
+    sourceWorkKey: "CHAR_WORKDAMAGEABSROB",
+    actorField: "WorkDamageAbsrob",
+    sourceReactType: "BATTLE_MD_ABSROB"
+  },
+  REFLEC: {
+    reactionKey: "reflec",
+    sourceWorkKey: "CHAR_WORKDAMAGEREFLEC",
+    actorField: "WorkDamageReflec",
+    sourceReactType: "BATTLE_MD_REFLEC"
+  },
+  VANISH: {
+    reactionKey: "vanish",
+    sourceWorkKey: "CHAR_WORKDAMAGEVANISH",
+    actorField: "WorkDamageVanish",
+    sourceReactType: "BATTLE_MD_VANISH"
+  }
+});
+
+function sourceLighttakeProfile(skill = {}) {
+  const option = String(skill.Option || "").toUpperCase();
+  const token = Object.keys(SOURCE_LIGHTTAKE_REACTIONS).find((candidate) => option.includes(candidate)) || "";
+  const reaction = SOURCE_LIGHTTAKE_REACTIONS[token] || null;
+  return {
+    token,
+    reactionKey: reaction?.reactionKey || "",
+    sourceReactType: reaction?.sourceReactType || "",
+    sourceWorkKey: reaction?.sourceWorkKey || "",
+    sourceEffect: "on-landed-hit-copy-matching-target-magic-defense-count-plus-one"
+  };
+}
+
+function sourceLighttakeReactionCount(target = {}, reactionKey = "") {
+  if (!reactionKey) return 0;
+  const reaction = Object.values(SOURCE_LIGHTTAKE_REACTIONS).find((entry) => entry.reactionKey === reactionKey);
+  if (!reaction) return 0;
+  return Math.max(0, firstFiniteNumber(0,
+    target?.BattleMagicDefense?.[reactionKey],
+    target?.[reaction.actorField],
+    target?.[reaction.sourceWorkKey]
+  ));
+}
+
+function setSourceLighttakeReactionCount(actor = {}, reactionKey = "", count = 0) {
+  if (!actor || !reactionKey) return;
+  const reaction = Object.values(SOURCE_LIGHTTAKE_REACTIONS).find((entry) => entry.reactionKey === reactionKey);
+  if (!reaction) return;
+  const value = Math.max(0, Math.trunc(Number(count || 0)));
+  actor.BattleMagicDefense = {
+    ...(actor.BattleMagicDefense || {}),
+    [reactionKey]: value
+  };
+  actor[reaction.actorField] = value;
+  actor[reaction.sourceWorkKey] = value;
+}
+
+function resolvePetLighttakeEffect(activePet, target, profile, landedHits = []) {
+  const reactionKey = profile.lighttake?.reactionKey || "";
+  const targetCount = sourceLighttakeReactionCount(target, reactionKey);
+  const landed = landedHits.some((hit) => !hit.dodged);
+  const effect = {
+    token: profile.lighttake?.token || "",
+    reactionKey,
+    sourceReactType: profile.lighttake?.sourceReactType || "",
+    sourceWorkKey: profile.lighttake?.sourceWorkKey || "",
+    landed,
+    targetCount,
+    transferredCount: 0,
+    applied: false,
+    reason: "",
+    source: "gmsv battle_event.c BATTLE_COM_S_LIGHTTAKE"
+  };
+  if (!landed) {
+    effect.reason = "no-landed-hit";
+    return effect;
+  }
+  if (!reactionKey) {
+    effect.reason = "unsupported-lighttake-option";
+    return effect;
+  }
+  if (targetCount <= 0) {
+    effect.reason = "target-missing-matching-magic-defense";
+    return effect;
+  }
+  effect.transferredCount = targetCount + 1;
+  setSourceLighttakeReactionCount(activePet, reactionKey, effect.transferredCount);
+  effect.applied = true;
+  effect.reason = "source-matching-reaction-transferred";
   return effect;
 }
 
@@ -9005,6 +9114,9 @@ function resolvePetSkillTurn(game, activePet, enemy, skill, profile, enemyAi, pl
   if (profile.becomePig) {
     skillState.becomePig = resolvePetBecomePigEffect(game, enemy, profile, landedHits);
   }
+  if (profile.lighttake) {
+    skillState.lighttake = resolvePetLighttakeEffect(activePet, enemy, profile, landedHits);
+  }
   const hitText = hits.length > 1 ? `连续 ${landedHits.length}/${hits.length} 次命中，共` : "";
   const detailText = hits.length === 1
     ? (hits[0].dodged ? "（闪避）" : battleDetailSuffix(hits[0]))
@@ -9503,6 +9615,13 @@ function clearBattleRuntimeEffects(target = {}) {
   delete target.BattleEarthRound;
   delete target.BattleAcupuncture;
   delete target.BattleGuardian;
+  delete target.BattleMagicDefense;
+  delete target.WorkDamageAbsrob;
+  delete target.WorkDamageReflec;
+  delete target.WorkDamageVanish;
+  delete target.CHAR_WORKDAMAGEABSROB;
+  delete target.CHAR_WORKDAMAGEREFLEC;
+  delete target.CHAR_WORKDAMAGEVANISH;
 }
 
 function compactBattleEarthRoundState(state) {

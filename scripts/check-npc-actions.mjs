@@ -30,6 +30,7 @@ const supportedPetSkillFuncs = new Set([...supportedPetSkillSetSource.matchAll(/
   "PETSKILL_SelfExplodeAttack",
   "PETSKILL_Steal",
   "PETSKILL_StealMoney",
+  "PETSKILL_Lighttakeed",
   "PETSKILL_PowerBalance",
   "PETSKILL_WildViolentAttack",
   "PETSKILL_SpeedyAttack",
@@ -3441,6 +3442,89 @@ assertEqual(becomePigTelemetry?.becomePig?.durationSeconds, 60, "BecomePig prese
 assertEqual(becomePigTelemetry?.becomePig?.imageNumber, 100250, "BecomePig preserves executable source default pig image");
 assertEqual(becomePigTelemetry?.becomePig?.optionRaw, "30 180", "BecomePig telemetry keeps raw petskill2 option for audit");
 assert(!becomePigSkillGame.encounter?.BattleBecomePig, "BecomePig enemy target is not mutated into pig state");
+let lighttakeSkillGame = await api("/api/game/new", { name: "pet-lighttake-skill-test" });
+lighttakeSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+lighttakeSkillGame = await api("/api/game/dialog", { game: lighttakeSkillGame, npcId: battleNpc.npc.id, message: "宠物" });
+lighttakeSkillGame.pets[0].PetSkillIds = [609];
+lighttakeSkillGame.pets[0].PetSkills = [{
+  Id: 609,
+  Name: "采光术",
+  Des: "夺取对方使用中的光、镜、消失的效果",
+  FuncName: "PETSKILL_Lighttakeed",
+  Option: "ABSROB",
+  Field: 1,
+  Target: 7,
+  UseType: 2,
+  Source: "gmsv-data/petskill2.txt"
+}];
+Object.assign(lighttakeSkillGame.pets[0], {
+  Lv: 12,
+  WorkAttackPower: 200,
+  WorkFixStr: 200,
+  WorkDefencePower: 90,
+  WorkFixTough: 90,
+  WorkQuick: 999,
+  WorkFixDex: 999,
+  Critical: 0
+});
+Object.assign(lighttakeSkillGame.encounter, {
+  WhichType: 2,
+  Lv: 1,
+  WorkMaxHp: 999,
+  Hp: 999,
+  WorkFixTough: 0,
+  WorkDefencePower: 0,
+  WorkQuick: 0,
+  WorkFixDex: 0,
+  WorkAttackPower: 0,
+  WorkFixStr: 0,
+  Critical: 0,
+  WorkTacticsOption: "",
+  BattleMagicDefense: { absrob: 2 },
+  WorkDamageAbsrob: 2,
+  CHAR_WORKDAMAGEABSROB: 2
+});
+Object.assign(lighttakeSkillGame.battle?.enemyParty?.[0] || {}, {
+  WhichType: lighttakeSkillGame.encounter.WhichType,
+  Lv: lighttakeSkillGame.encounter.Lv,
+  WorkMaxHp: lighttakeSkillGame.encounter.WorkMaxHp,
+  Hp: lighttakeSkillGame.encounter.Hp,
+  WorkFixTough: lighttakeSkillGame.encounter.WorkFixTough,
+  WorkDefencePower: lighttakeSkillGame.encounter.WorkDefencePower,
+  WorkQuick: lighttakeSkillGame.encounter.WorkQuick,
+  WorkFixDex: lighttakeSkillGame.encounter.WorkFixDex,
+  WorkAttackPower: lighttakeSkillGame.encounter.WorkAttackPower,
+  WorkFixStr: lighttakeSkillGame.encounter.WorkFixStr,
+  Critical: lighttakeSkillGame.encounter.Critical,
+  WorkTacticsOption: lighttakeSkillGame.encounter.WorkTacticsOption,
+  BattleMagicDefense: { absrob: 2 },
+  WorkDamageAbsrob: 2,
+  CHAR_WORKDAMAGEABSROB: 2
+});
+if (Array.isArray(lighttakeSkillGame.battle?.enemyParty)) {
+  lighttakeSkillGame.battle.enemyParty = lighttakeSkillGame.battle.enemyParty.slice(0, 1);
+  lighttakeSkillGame.battle.activeEnemyIndex = 0;
+}
+const lighttakePetAttackBefore = Number(lighttakeSkillGame.pets[0].WorkAttackPower || 0);
+const lighttakePetDefenceBefore = Number(lighttakeSkillGame.pets[0].WorkDefencePower || 0);
+const lighttakeEnemyHpBefore = Number(lighttakeSkillGame.encounter.Hp || 0);
+lighttakeSkillGame = await api("/api/game/battle", { game: lighttakeSkillGame, action: "skill:0" });
+const lighttakeTelemetry = lighttakeSkillGame.battleOutcome.playerAction?.petSkill;
+assertEqual(lighttakeSkillGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_S_LIGHTTAKE", "Lighttakeed pet skill maps to source battle command");
+assert(Number(lighttakeTelemetry?.totalDamage || 0) > 0, "Lighttakeed source branch performs a physical attack");
+assert(Number(lighttakeSkillGame.encounter?.Hp || 0) < lighttakeEnemyHpBefore, "Lighttakeed damages the active battle target");
+assertEqual(lighttakeTelemetry?.attackPercent, -30, "Lighttakeed applies source attack=FIXSTR*0.7 temporary stat");
+assertEqual(lighttakeTelemetry?.defencePercent, -50, "Lighttakeed applies source defence=FIXTOUGH*0.5 temporary stat");
+assertEqual(lighttakeTelemetry?.lighttake?.token, "ABSROB", "Lighttakeed records the petskill2 option token");
+assertEqual(lighttakeTelemetry?.lighttake?.sourceReactType, "BATTLE_MD_ABSROB", "Lighttakeed records source magic-defense react type");
+assertEqual(lighttakeTelemetry?.lighttake?.targetCount, 2, "Lighttakeed reads matching target magic-defense count");
+assertEqual(lighttakeTelemetry?.lighttake?.transferredCount, 3, "Lighttakeed transfers source target count plus one");
+assertEqual(lighttakeTelemetry?.lighttake?.applied, true, "Lighttakeed applies when the target has matching magic-defense state");
+assertEqual(lighttakeTelemetry?.lighttake?.reason, "source-matching-reaction-transferred", "Lighttakeed records the source transfer reason");
+assertEqual(lighttakeSkillGame.pets[0].BattleMagicDefense?.absrob, 3, "Lighttakeed writes the transferred ABSROB count to the active pet battle state");
+assertEqual(lighttakeSkillGame.pets[0].WorkDamageAbsrob, 3, "Lighttakeed mirrors source CHAR_WORKDAMAGEABSROB on the active pet");
+assertEqual(lighttakeSkillGame.pets[0].WorkAttackPower, lighttakePetAttackBefore, "Lighttakeed restores temporary attack after the action");
+assertEqual(lighttakeSkillGame.pets[0].WorkDefencePower, lighttakePetDefenceBefore, "Lighttakeed restores temporary defence after the action");
 let abductSkillGame = await api("/api/game/new", { name: "pet-abduct-skill-test" });
 abductSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
 abductSkillGame = await api("/api/game/dialog", { game: abductSkillGame, npcId: battleNpc.npc.id, message: "宠物" });
@@ -6892,11 +6976,14 @@ battlePetSwitchGame = await api("/api/game/dialog", { game: battlePetSwitchGame,
 assertEqual(battlePetSwitchGame.petState.activeIndex, 0, "NPC dialog battleAction can switch to the next available pet");
 assert(battlePetSwitchGame.dialog.debug.vmTrace.some((event) => event.action === "battleAction" && event.detail?.outcome?.result === "pet-switch"), "NPC dialog pet switch records battleAction VM trace");
 battlePetSwitchGame.player.hp = 5000;
+battlePetSwitchGame.player.Hp = 5000;
 battlePetSwitchGame.player.maxHp = 5000;
 battlePetSwitchGame.player.WorkMaxHp = 5000;
 battlePetSwitchGame.player.WorkAttackPower = 250;
 battlePetSwitchGame.player.WorkDefencePower = 500;
 battlePetSwitchGame.player.WorkQuick = 250;
+battlePetSwitchGame.player.BattleStatuses = {};
+battlePetSwitchGame.player.BattleMagicStatuses = {};
 battlePetSwitchGame.encounter.WorkMaxHp = Math.max(999, Number(battlePetSwitchGame.encounter.WorkMaxHp || 0));
 battlePetSwitchGame.encounter.Hp = battlePetSwitchGame.encounter.WorkMaxHp;
 battlePetSwitchGame.encounter.WorkAttackPower = 0;
