@@ -27,6 +27,7 @@ const supportedPetSkillFuncs = new Set([...supportedPetSkillSetSource.matchAll(/
   "PETSKILL_ChargeAttack",
   "PETSKILL_SelfExplodeAttack",
   "PETSKILL_Steal",
+  "PETSKILL_StealMoney",
   "PETSKILL_PowerBalance",
   "PETSKILL_WildViolentAttack",
   "PETSKILL_SpeedyAttack",
@@ -3404,6 +3405,60 @@ assertEqual(stealSkillGame.battleOutcome.playerAction?.petSkill?.steal?.success,
 assertEqual(Number(stealSkillGame.battleOutcome.playerAction?.petSkill?.totalDamage || 0), 0, "Steal does not deal damage in the source enemy-target branch");
 assertEqual(Number(stealSkillGame.encounter?.Hp || 0), stealEnemyHpBefore, "Steal does not damage the active battle target");
 assertEqual(Number(stealSkillGame.player.stone || 0), stealPlayerStoneBefore, "Steal does not mutate player stone in the enemy-target branch");
+let stealMoneySkillGame = await api("/api/game/new", { name: "pet-stealmoney-skill-test" });
+stealMoneySkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+stealMoneySkillGame = await api("/api/game/dialog", { game: stealMoneySkillGame, npcId: battleNpc.npc.id, message: "宠物" });
+stealMoneySkillGame.pets[0].PetSkillIds = [211];
+stealMoneySkillGame.pets[0].PetSkills = [{
+  Id: 211,
+  Name: "捐献",
+  Des: "要求对方捐献石币",
+  FuncName: "PETSKILL_StealMoney",
+  Option: "",
+  Field: 1,
+  Target: 7,
+  UseType: 2,
+  Source: "gmsv-data/petskill2.txt"
+}];
+stealMoneySkillGame.player.stone = 100;
+stealMoneySkillGame.inventory.find((item) => item.id === "stone").qty = 100;
+stealMoneySkillGame.pets[0].WorkQuick = 999;
+stealMoneySkillGame.pets[0].WorkFixDex = 999;
+stealMoneySkillGame.encounter.WhichType = 2;
+stealMoneySkillGame.encounter.WorkMaxHp = 999;
+stealMoneySkillGame.encounter.Hp = 999;
+stealMoneySkillGame.encounter.WorkQuick = 0;
+stealMoneySkillGame.encounter.WorkFixDex = 0;
+stealMoneySkillGame.encounter.WorkAttackPower = 0;
+Object.assign(stealMoneySkillGame.battle?.enemyParty?.[0] || {}, {
+  WhichType: stealMoneySkillGame.encounter.WhichType,
+  WorkMaxHp: stealMoneySkillGame.encounter.WorkMaxHp,
+  Hp: stealMoneySkillGame.encounter.Hp,
+  WorkQuick: stealMoneySkillGame.encounter.WorkQuick,
+  WorkFixDex: stealMoneySkillGame.encounter.WorkFixDex,
+  WorkAttackPower: stealMoneySkillGame.encounter.WorkAttackPower
+});
+const stealMoneyEnemyHpBefore = Number(stealMoneySkillGame.encounter.Hp || 0);
+const originalRandomForStealMoney = Math.random;
+try {
+  const rolls = [0, 0];
+  Math.random = () => rolls.shift() ?? 0;
+  stealMoneySkillGame = await api("/api/game/battle", { game: stealMoneySkillGame, action: "skill:0" });
+} finally {
+  Math.random = originalRandomForStealMoney;
+}
+assertEqual(stealMoneySkillGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_S_STEALMONEY", "StealMoney pet skill maps to source battle command");
+assertEqual(stealMoneySkillGame.battleOutcome.playerAction?.petSkill?.stealMoney?.targetKind, "enemy", "StealMoney records source enemy target kind");
+assertEqual(stealMoneySkillGame.battleOutcome.playerAction?.petSkill?.stealMoney?.successPercent, 5, "StealMoney enemy-target success rate follows source per=5 branch");
+assertEqual(stealMoneySkillGame.battleOutcome.playerAction?.petSkill?.stealMoney?.roll, 1, "StealMoney uses source RAND(1,100) success roll");
+assertEqual(stealMoneySkillGame.battleOutcome.playerAction?.petSkill?.stealMoney?.success, true, "StealMoney succeeds when source roll is below per");
+assertEqual(stealMoneySkillGame.battleOutcome.playerAction?.petSkill?.stealMoney?.gold, 10, "StealMoney enemy target gold follows source RAND(10,100)");
+assertEqual(stealMoneySkillGame.battleOutcome.playerAction?.petSkill?.stealMoney?.petExited, true, "StealMoney successful pet action exits default pet");
+assertEqual(Number(stealMoneySkillGame.battleOutcome.playerAction?.petSkill?.totalDamage || 0), 0, "StealMoney does not deal damage in the source enemy-target branch");
+assertEqual(Number(stealMoneySkillGame.encounter?.Hp || 0), stealMoneyEnemyHpBefore, "StealMoney does not damage the active battle target");
+assertEqual(Number(stealMoneySkillGame.player.stone || 0), 110, "StealMoney adds enemy-branch stone reward to the player");
+assertEqual(Number(stealMoneySkillGame.inventory.find((item) => item.id === "stone")?.qty || 0), 110, "StealMoney keeps the stone inventory mirror synced");
+assertEqual(stealMoneySkillGame.petState?.activeIndex, -1, "StealMoney success withdraws the active pet from formation");
 let powerBalanceSkillGame = await api("/api/game/new", { name: "pet-powerbalance-skill-test" });
 powerBalanceSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
 powerBalanceSkillGame = await api("/api/game/dialog", { game: powerBalanceSkillGame, npcId: battleNpc.npc.id, message: "宠物" });

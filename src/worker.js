@@ -239,6 +239,7 @@ const BATTLE_PET_SKILL_FUNCS = new Set([
   "PETSKILL_ChargeAttack",
   "PETSKILL_SelfExplodeAttack",
   "PETSKILL_Steal",
+  "PETSKILL_StealMoney",
   "PETSKILL_PowerBalance",
   "PETSKILL_StatusChange",
   "PETSKILL_MagicStatusChange",
@@ -5356,6 +5357,10 @@ function performPetSkillAction(game, move) {
       resolvePetStealTurn(game, activePet, enemy, skill, profile, playerAction, battleLog);
       return true;
     }
+    if (profile.kind === "steal-money") {
+      resolvePetStealMoneyTurn(game, activePet, enemy, skill, profile, playerAction, battleLog);
+      return true;
+    }
     if (profile.kind === "firekill") {
       resolvePetFirekillTurn(game, activePet, enemy, skill, profile, enemyAi, playerAction, battleLog);
       return true;
@@ -5413,14 +5418,15 @@ function performPetSkillAction(game, move) {
     }
   } else if (petFirst) {
     petTurn();
-    if (enemy.Hp > 0 && !enemyEscaped) enemyTurn(false);
+    if (enemy.Hp > 0 && !enemyEscaped && !playerAction.petSkill?.stealMoney?.petExited) enemyTurn(false);
   } else {
     const endedEnemyTurn = enemyTurn(false);
     if (!endedEnemyTurn && activePet.Hp > 0) petTurn();
   }
 
   restorePetSkillStats();
-  return settleBattleRound(game, activePet, enemy, {
+  const settleActor = playerAction.petSkill?.stealMoney?.petExited ? game.player : activePet;
+  return settleBattleRound(game, settleActor, enemy, {
     battleLog,
     result: "turn",
     sourceCommand: move.command,
@@ -5805,6 +5811,7 @@ function sourcePlayerPetSkillAction(move, game, activePet, enemy, skill, profile
       toothCrushe: profile.toothCrushe ? { ...profile.toothCrushe } : null,
       selfExplode: profile.selfExplode ? { ...profile.selfExplode } : null,
       steal: profile.steal ? { ...profile.steal } : null,
+      stealMoney: profile.stealMoney ? { ...profile.stealMoney } : null,
       batFly: profile.batFly ? { ...profile.batFly } : null,
       divideAttack: profile.divideAttack ? { ...profile.divideAttack } : null,
       antInter: profile.antInter ? { ...profile.antInter } : null,
@@ -5904,6 +5911,25 @@ function petSkillBattleProfile(skill = {}) {
         playerBranchSupported: false
       },
       source: "gmsv battle/pet_skill.c PETSKILL_Steal + battle_event.c BATTLE_Steal"
+    };
+  }
+  if (func === "PETSKILL_StealMoney") {
+    return {
+      supported: true,
+      kind: "steal-money",
+      sourceCommand: "BATTLE_COM_S_STEALMONEY",
+      targetKind: "enemy",
+      hitCount: 0,
+      multiplier: 0,
+      stealMoney: {
+        enemyTargetSuccessPercent: 5,
+        minGold: 10,
+        maxGold: 100,
+        playerBranchSupported: false,
+        successRollOperator: "RAND(1,100) < per",
+        defaultPetEffect: "CHAR_DEFAULTPET=-1"
+      },
+      source: "gmsv battle/pet_skill.c PETSKILL_StealMoney + battle_event.c BATTLE_StealMoney"
     };
   }
   if (func === "PETSKILL_GuardBreak") {
@@ -8154,6 +8180,67 @@ function resolvePetStealTurn(game, activePet, enemy, skill, profile, playerActio
   skillState.totalDamage = 0;
   skillState.hits = [];
   battleLog.push(`${activePet.Name} 使用 ${skill.Name}，但没有偷到东西。`);
+}
+
+function resolvePetStealMoneyTurn(game, activePet, enemy, skill, profile, playerAction, battleLog) {
+  const skillState = playerAction.petSkill;
+  const targetType = Number(enemy?.WhichType ?? enemy?.whichType ?? 2);
+  const targetKind = targetType === 0 ? "player" : targetType === 1 ? "pet" : "enemy";
+  const beforeStone = Math.max(0, Number(game.player?.stone || 0));
+  const ownerAtCap = beforeStone >= CHAR_MAXGOLDHAVE;
+  let successPercent = targetKind === "enemy" ? Number(profile.stealMoney?.enemyTargetSuccessPercent || 5) : 0;
+  if (ownerAtCap) successPercent = 0;
+  const roll = sourceBattleRand(1, 100);
+  let success = roll < successPercent;
+  let gold = 0;
+  let reason = "";
+  if (success) {
+    if (targetKind === "enemy") {
+      gold = sourceBattleRand(
+        Number(profile.stealMoney?.minGold || 10),
+        Number(profile.stealMoney?.maxGold || 100)
+      );
+    }
+    gold = Math.max(0, Math.min(gold, CHAR_MAXGOLDHAVE - beforeStone));
+    if (gold <= 0) {
+      success = false;
+      reason = ownerAtCap ? "owner-gold-at-cap" : "source-gold-zero";
+    }
+  } else {
+    reason = ownerAtCap
+      ? "owner-gold-at-cap"
+      : targetKind === "enemy"
+        ? "source-roll-failed"
+        : "player-target-branch-not-modeled";
+  }
+  const result = {
+    success,
+    targetKind,
+    targetName: enemy?.Name || "enemy",
+    successPercent,
+    roll,
+    gold: success ? gold : 0,
+    beforeStone,
+    afterStone: success ? beforeStone + gold : beforeStone,
+    petExited: false,
+    playerBranchSupported: Boolean(profile.stealMoney?.playerBranchSupported),
+    reason,
+    source: "gmsv battle_event.c BATTLE_StealMoney per=5 for enemy targets; success uses RAND(1,100) < per"
+  };
+  if (success) {
+    game.player.stone = beforeStone + gold;
+    game.player.CHAR_GOLD = game.player.stone;
+    syncStoneItem(game);
+    ensurePetFormation(game).activeIndex = -1;
+    clearBattleRuntimeEffects(activePet);
+    result.petExited = true;
+    battleLog.push(`${activePet.Name} 使用 ${skill.Name}，获得 ${gold} 石币后退回队伍。`);
+  } else {
+    battleLog.push(`${activePet.Name} 使用 ${skill.Name}，但没有获得石币。`);
+  }
+  skillState.stealMoney = result;
+  skillState.totalDamage = 0;
+  skillState.hits = [];
 }
 
 function resolvePetFirekillTurn(game, activePet, enemy, skill, profile, enemyAi, playerAction, battleLog) {
