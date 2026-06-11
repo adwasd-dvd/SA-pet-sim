@@ -25,6 +25,7 @@ const supportedPetSkillFuncs = new Set([...supportedPetSkillSetSource.matchAll(/
 [
   "PETSKILL_Guardian",
   "PETSKILL_ChargeAttack",
+  "PETSKILL_Abduct",
   "PETSKILL_SelfExplodeAttack",
   "PETSKILL_Steal",
   "PETSKILL_StealMoney",
@@ -3364,6 +3365,67 @@ assertEqual(selfExplodeSkillGame.battleOutcome.playerAction?.petSkill?.multiplie
 assertEqual(selfExplodeSkillGame.battleOutcome.playerAction?.petSkill?.missChance, 0, "SelfExplodeAttack does not apply PvP explode option changes in non-PvP");
 assertEqual(selfExplodeSkillGame.pets[0].Hp, selfExplodePetHpBefore, "SelfExplodeAttack non-PvP fallback does not set attacker HP to 1");
 assert(Number(selfExplodeSkillGame.encounter?.Hp || 0) < selfExplodeEnemyHpBefore, "SelfExplodeAttack non-PvP fallback damages the active battle target");
+let abductSkillGame = await api("/api/game/new", { name: "pet-abduct-skill-test" });
+abductSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+abductSkillGame = await api("/api/game/dialog", { game: abductSkillGame, npcId: battleNpc.npc.id, message: "宠物" });
+abductSkillGame.pets[0].PetSkillIds = [130];
+abductSkillGame.pets[0].PetSkills = [{
+  Id: 130,
+  Name: "旅程伙伴",
+  Des: "把一只恐龙当作是伙伴当场带走",
+  FuncName: "PETSKILL_Abduct",
+  Option: "",
+  Field: 1,
+  Target: 7,
+  UseType: 2,
+  Source: "gmsv-data/petskill2.txt"
+}];
+abductSkillGame.pets[0].Lv = 1;
+abductSkillGame.pets[0].WorkQuick = 999;
+abductSkillGame.pets[0].WorkFixDex = 999;
+abductSkillGame.encounter.WhichType = 2;
+abductSkillGame.encounter.Lv = 1;
+abductSkillGame.encounter.WorkMaxHp = 999;
+abductSkillGame.encounter.Hp = 999;
+abductSkillGame.encounter.WorkQuick = 0;
+abductSkillGame.encounter.WorkFixDex = 0;
+abductSkillGame.encounter.WorkAttackPower = 0;
+Object.assign(abductSkillGame.battle?.enemyParty?.[0] || {}, {
+  WhichType: abductSkillGame.encounter.WhichType,
+  Lv: abductSkillGame.encounter.Lv,
+  WorkMaxHp: abductSkillGame.encounter.WorkMaxHp,
+  Hp: abductSkillGame.encounter.Hp,
+  WorkQuick: abductSkillGame.encounter.WorkQuick,
+  WorkFixDex: abductSkillGame.encounter.WorkFixDex,
+  WorkAttackPower: abductSkillGame.encounter.WorkAttackPower
+});
+if (Array.isArray(abductSkillGame.battle?.enemyParty)) {
+  abductSkillGame.battle.enemyParty = abductSkillGame.battle.enemyParty.slice(0, 1);
+  abductSkillGame.battle.activeEnemyIndex = 0;
+}
+const abductEnemyHpBefore = Number(abductSkillGame.encounter.Hp || 0);
+const originalRandomForAbduct = Math.random;
+try {
+  Math.random = () => 0;
+  abductSkillGame = await api("/api/game/battle", { game: abductSkillGame, action: "skill:0" });
+} finally {
+  Math.random = originalRandomForAbduct;
+}
+const abductTelemetry = abductSkillGame.battleOutcome.playerAction?.petSkill?.abduct;
+assertEqual(abductSkillGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_S_ABDUCT", "Abduct pet skill maps to source battle command");
+assertEqual(abductTelemetry?.targetKind, "enemy", "Abduct records source enemy target kind");
+assertEqual(abductTelemetry?.successPercent, 50, "Abduct ordinary enemy target uses source minimum success percent");
+assertEqual(abductTelemetry?.roll, 1, "Abduct uses source RAND(1,100) success roll");
+assertEqual(abductTelemetry?.success, true, "Abduct succeeds when source roll is below per");
+assertEqual(abductTelemetry?.targetExited, true, "Abduct success exits the target");
+assertEqual(abductTelemetry?.petExited, true, "Abduct exits the acting pet after the action");
+assertEqual(Number(abductSkillGame.battleOutcome.playerAction?.petSkill?.totalDamage || 0), 0, "Abduct does not deal damage in the source branch");
+assertEqual(abductEnemyHpBefore, 999, "Abduct fixture starts with a live enemy target");
+assertEqual(abductSkillGame.battleOutcome.result, "enemy-escaped", "Abduct ends a single-target battle as enemy escaped");
+assertEqual(abductSkillGame.battleOutcome.playerExp, 0, "Abduct escape does not grant victory EXP");
+assertEqual(abductSkillGame.battleOutcome.stone, 0, "Abduct escape does not grant stone rewards");
+assertEqual(abductSkillGame.petState?.activeIndex, -1, "Abduct withdraws the active pet from formation");
+assert(!abductSkillGame.encounter, "Abduct clears battle encounter after the target exits");
 let stealSkillGame = await api("/api/game/new", { name: "pet-steal-skill-test" });
 stealSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
 stealSkillGame = await api("/api/game/dialog", { game: stealSkillGame, npcId: battleNpc.npc.id, message: "宠物" });

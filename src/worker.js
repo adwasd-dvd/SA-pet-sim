@@ -231,6 +231,7 @@ const BATTLE_PET_SKILL_FUNCS = new Set([
   "PETSKILL_None",
   "PETSKILL_NormalAttack",
   "PETSKILL_NormalGuard",
+  "PETSKILL_Abduct",
   "PETSKILL_GuardBreak",
   "PETSKILL_GuardBreak2",
   "PETSKILL_ContinuationAttack",
@@ -5353,6 +5354,10 @@ function performPetSkillAction(game, move) {
       enemyEscaped ||= resolvePetRoarTurn(game, activePet, enemy, skill, profile, playerAction, battleLog);
       return true;
     }
+    if (profile.kind === "abduct") {
+      enemyEscaped ||= resolvePetAbductTurn(game, activePet, enemy, skill, profile, playerAction, battleLog);
+      return true;
+    }
     if (profile.kind === "steal") {
       resolvePetStealTurn(game, activePet, enemy, skill, profile, playerAction, battleLog);
       return true;
@@ -5418,14 +5423,14 @@ function performPetSkillAction(game, move) {
     }
   } else if (petFirst) {
     petTurn();
-    if (enemy.Hp > 0 && !enemyEscaped && !playerAction.petSkill?.stealMoney?.petExited) enemyTurn(false);
+    if (enemy.Hp > 0 && !enemyEscaped && !playerAction.petSkill?.stealMoney?.petExited && !playerAction.petSkill?.abduct?.petExited) enemyTurn(false);
   } else {
     const endedEnemyTurn = enemyTurn(false);
     if (!endedEnemyTurn && activePet.Hp > 0) petTurn();
   }
 
   restorePetSkillStats();
-  const settleActor = playerAction.petSkill?.stealMoney?.petExited ? game.player : activePet;
+  const settleActor = playerAction.petSkill?.stealMoney?.petExited || playerAction.petSkill?.abduct?.petExited ? game.player : activePet;
   return settleBattleRound(game, settleActor, enemy, {
     battleLog,
     result: "turn",
@@ -5812,6 +5817,7 @@ function sourcePlayerPetSkillAction(move, game, activePet, enemy, skill, profile
       selfExplode: profile.selfExplode ? { ...profile.selfExplode } : null,
       steal: profile.steal ? { ...profile.steal } : null,
       stealMoney: profile.stealMoney ? { ...profile.stealMoney } : null,
+      abduct: profile.abduct ? { ...profile.abduct } : null,
       batFly: profile.batFly ? { ...profile.batFly } : null,
       divideAttack: profile.divideAttack ? { ...profile.divideAttack } : null,
       antInter: profile.antInter ? { ...profile.antInter } : null,
@@ -5854,6 +5860,24 @@ function petSkillBattleProfile(skill = {}) {
   }
   if (func === "PETSKILL_NormalGuard") {
     return { supported: true, kind: "guard", sourceCommand: "BATTLE_COM_GUARD", targetKind: "self" };
+  }
+  if (func === "PETSKILL_Abduct") {
+    const aiThreshold = clampInt(String(skill.Option || "").match(/\d+/)?.[0], 0, 100, 0);
+    return {
+      supported: true,
+      kind: "abduct",
+      sourceCommand: "BATTLE_COM_S_ABDUCT",
+      targetKind: "enemy",
+      hitCount: 0,
+      multiplier: 0,
+      abduct: {
+        aiThreshold,
+        actorExitAlways: true,
+        enemyBranchMinPercent: 50,
+        successRollOperator: "RAND(1,100) < per"
+      },
+      source: "gmsv battle/pet_skill.c PETSKILL_Abduct + battle_event.c BATTLE_Abduct"
+    };
   }
   if (func === "PETSKILL_NoGuard") {
     const option = String(skill.Option || "");
@@ -8154,6 +8178,59 @@ function resolvePetRoarTurn(game, activePet, enemy, skill, profile, playerAction
     return true;
   }
   battleLog.push(`${activePet.Name} 使用 ${skill.Name}，但 ${enemy.Name} 不在原脚本可吓跑目标内。`);
+  return false;
+}
+
+function resolvePetAbductTurn(game, activePet, enemy, skill, profile, playerAction, battleLog) {
+  const skillState = playerAction.petSkill;
+  const targetType = Number(enemy?.WhichType ?? enemy?.whichType ?? 2);
+  const targetKind = targetType === 0 ? "player" : targetType === 1 ? "pet" : "enemy";
+  const aiThreshold = Number(profile.abduct?.aiThreshold || 0);
+  const targetAi = Number(enemy?.WorkFixAI ?? enemy?.WorkAi ?? enemy?.Ai ?? enemy?.ai ?? 0);
+  const petThresholdBranch = targetKind === "pet" && aiThreshold > 0;
+  let successPercent = 0;
+  let reason = "";
+  if (targetKind === "player") {
+    reason = "player-target-not-supported-by-source-branch";
+  } else if (petThresholdBranch) {
+    successPercent = targetAi < aiThreshold ? 200 : 0;
+    reason = targetAi < aiThreshold ? "source-pet-ai-threshold" : "target-ai-not-below-threshold";
+  } else {
+    const attackLevel = Number(activePet?.Lv || activePet?.Level || 1);
+    const targetLevel = Number(enemy?.Lv || enemy?.Level || 1);
+    successPercent = Math.max(Math.trunc((targetLevel - attackLevel) * 0.6 + 30), Number(profile.abduct?.enemyBranchMinPercent || 50));
+    reason = "source-level-formula";
+  }
+  const roll = sourceBattleRand(1, 100);
+  const success = targetKind !== "player" && roll < successPercent;
+  const result = {
+    success,
+    targetKind,
+    targetName: enemy?.Name || "enemy",
+    targetLevel: Number(enemy?.Lv || enemy?.Level || 0),
+    attackerLevel: Number(activePet?.Lv || activePet?.Level || 0),
+    targetAi,
+    aiThreshold,
+    petThresholdBranch,
+    successPercent,
+    roll,
+    targetExited: success,
+    petExited: targetKind !== "player",
+    reason,
+    source: "gmsv battle_event.c BATTLE_Abduct"
+  };
+  if (result.petExited) {
+    ensurePetFormation(game).activeIndex = -1;
+    clearBattleRuntimeEffects(activePet);
+  }
+  skillState.abduct = result;
+  skillState.totalDamage = 0;
+  skillState.hits = [];
+  if (success) {
+    battleLog.push(`${activePet.Name} 使用 ${skill.Name}，${enemy.Name} 离开了战斗。`);
+    return true;
+  }
+  battleLog.push(`${activePet.Name} 使用 ${skill.Name}，但没有让 ${enemy.Name} 离开。`);
   return false;
 }
 
