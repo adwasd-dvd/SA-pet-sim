@@ -7267,12 +7267,24 @@ blockedCaptureGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1,
 blockedCaptureGame = await api("/api/game/dialog", { game: blockedCaptureGame, npcId: battleNpc.npc.id, message: "宠物" });
 const blockedCapturePetsBefore = blockedCaptureGame.pets.length;
 blockedCaptureGame.encounter.CaptureRate = 100;
+blockedCaptureGame.player.Hp = 999;
 blockedCaptureGame.player.hp = 999;
+blockedCaptureGame.player.MaxHp = 999;
 blockedCaptureGame.player.maxHp = 999;
 blockedCaptureGame.player.WorkMaxHp = 999;
+blockedCaptureGame.player.WorkDefencePower = 999;
+blockedCaptureGame.player.WorkFixTough = 999;
+blockedCaptureGame.player.Defense = 999;
+blockedCaptureGame.player.Tough = 999;
 blockedCaptureGame.pets[0].Hp = 999;
+blockedCaptureGame.pets[0].hp = 999;
 blockedCaptureGame.pets[0].MaxHp = 999;
+blockedCaptureGame.pets[0].maxHp = 999;
 blockedCaptureGame.pets[0].WorkMaxHp = 999;
+blockedCaptureGame.pets[0].WorkDefencePower = 999;
+blockedCaptureGame.pets[0].WorkFixTough = 999;
+blockedCaptureGame.pets[0].Defense = 999;
+blockedCaptureGame.pets[0].Tough = 999;
 blockedCaptureGame.player.BattleStatuses = {
   sleep: { key: "sleep", label: "睡眠", turns: 1 }
 };

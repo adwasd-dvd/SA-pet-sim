@@ -173,6 +173,30 @@ assertEqual(game.transition.to.mapId, "100", "transition records target floor");
 assert(game.save.info.includes("LAST_WARP=100,637,491"), "saac-like save info records last mapwarp");
 assert(game.save.info.includes("DIR=2"), "saac-like save info records mapwarp direction");
 
+let koCaveGame = await api("/api/game/new", { name: "ko-cave-mapwarp-chain-test" });
+for (const link of [
+  ["10301", 6, 43, "10302", 27, 6],
+  ["10302", 6, 29, "10303", 7, 24],
+  ["10303", 14, 7, "10304", 14, 7],
+  ["10304", 21, 37, "10305", 37, 6],
+  ["10305", 18, 38, "10306", 19, 39],
+  ["10306", 38, 6, "10307", 37, 6],
+  ["10307", 13, 19, "10308", 12, 5]
+]) {
+  koCaveGame = await assertSourceMapwarpStep(koCaveGame, link, "forward Ko cave source mapwarp");
+}
+for (const link of [
+  ["10308", 12, 5, "10307", 13, 19],
+  ["10307", 37, 6, "10306", 38, 6],
+  ["10306", 19, 39, "10305", 18, 38],
+  ["10305", 37, 6, "10304", 21, 37],
+  ["10304", 14, 7, "10303", 14, 7],
+  ["10303", 7, 24, "10302", 6, 29],
+  ["10302", 27, 6, "10301", 6, 43]
+]) {
+  koCaveGame = await assertSourceMapwarpStep(koCaveGame, link, "reverse Ko cave source mapwarp");
+}
+
 let npcGame = await api("/api/game/new", { name: "npc-route-test" });
 const teacher = WORLD.maps["1000"].npcs.find((npc) => npc.name.includes("老师"));
 if (!teacher) throw new Error("missing teacher NPC fixture");
@@ -231,7 +255,7 @@ assertEqual(paidExit.location.y, 491, "paid-jump mapwarp target y follows source
 assertEqual(paidExit.paidJump.cost, paidJumpCostForTest(1), "paid-jump exit cost uses tiered distance pricing");
 assertEqual(paidExit.player.stone, 10000 - paidJumpCostForTest(1), "paid-jump exit deducts jump cost");
 
-console.log("Movement collision OK: frontend 8-way keyboard input/cache-bust guards, routing, blocked terrain, source-style diagonal corner blocking, source-style blocked-target facing, NPC cells, Worker exit routes, click-preferred NPC/warp targets, zero-step exact mapwarps, warp transitions, exact mapwarp tiles, map teleport points stay out of the NPC list, NPC approach routes are enforced, long-route heap routing is active, and paid-jump actions are server-priced and server-applied.");
+console.log("Movement collision OK: frontend 8-way keyboard input/cache-bust guards, routing, blocked terrain, source-style diagonal corner blocking, source-style blocked-target facing, NPC cells, Worker exit routes, click-preferred NPC/warp targets, zero-step exact mapwarps, warp transitions, exact mapwarp tiles, Ko cave 10301-10308 source mapwarp smoke, map teleport points stay out of the NPC list, NPC approach routes are enforced, long-route heap routing is active, and paid-jump actions are server-priced and server-applied.");
 
 function assert(value, label) {
   if (!value) throw new Error(label);
@@ -247,6 +271,37 @@ function assertLog(state, text) {
   if (!state.log.some((line) => line.includes(text))) {
     throw new Error(`missing log text: ${text}`);
   }
+}
+
+async function assertSourceMapwarpStep(state, link, label) {
+  const [from, x, y, to, targetX, targetY] = link;
+  const exit = (WORLD.maps[from]?.exits || []).find((candidate) => (
+    candidate.to === to
+    && candidate.tiles?.some((tile) => tile.x === x && tile.y === y && tile.target?.[0] === targetX && tile.target?.[1] === targetY)
+  ));
+  if (!exit) {
+    throw new Error(`${label}: missing WORLD source mapwarp ${from} (${x},${y}) -> ${to} (${targetX},${targetY})`);
+  }
+
+  const next = await api("/api/game/walk", {
+    game: {
+      ...state,
+      location: { mapId: from, x, y, dir: 2 },
+      player: { ...state.player, dir: 2 }
+    },
+    dx: 0,
+    dy: 0
+  });
+  assertEqual(next.location.mapId, to, `${label}: target floor ${from} -> ${to}`);
+  assertEqual(next.location.x, targetX, `${label}: target x ${from} -> ${to}`);
+  assertEqual(next.location.y, targetY, `${label}: target y ${from} -> ${to}`);
+  assertEqual(next.lastWarp.kind, "mapwarp", `${label}: lastWarp kind ${from} -> ${to}`);
+  assertEqual(next.lastWarp.sourceTile.x, x, `${label}: lastWarp source x ${from} -> ${to}`);
+  assertEqual(next.lastWarp.sourceTile.y, y, `${label}: lastWarp source y ${from} -> ${to}`);
+  assertEqual(next.transition.type, "warp", `${label}: transition type ${from} -> ${to}`);
+  assertEqual(next.transition.kind, "mapwarp", `${label}: transition kind ${from} -> ${to}`);
+  assertEqual(next.transition.to.mapId, to, `${label}: transition target floor ${from} -> ${to}`);
+  return next;
 }
 
 function assertFrontendMovementContract(appJs, indexHtml, serviceWorker) {
