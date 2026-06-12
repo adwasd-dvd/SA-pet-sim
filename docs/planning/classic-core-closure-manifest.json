@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-12T05:52:40.970Z",
+  "generatedAt": "2026-06-12T09:24:58.858Z",
   "sourcePolicy": "Closure is computed from local ref___data, generated world-data, client resource evidence, and profiles/content-profiles.json guardrails. It is a build-planning manifest, not a runtime filter yet.",
   "profileConfig": {
     "source": "profiles/content-profiles.json",
@@ -1278,106 +1278,105 @@
           ],
           "mapBytes": 40044,
           "clientMapBytes": 60008
-        }
-      ],
-      "sourceOnlyFloors": [
+        },
         {
           "floor": 10301,
           "name": "柯奥的洞窟１楼 100",
-          "generated": false,
+          "generated": true,
           "sourcePath": "external/sources/ref___data/map/sainasu/dungeon/dan_1-03-01",
           "size": [
             50,
             50
           ],
-          "mapBytes": 0,
+          "mapBytes": 10044,
           "clientMapBytes": 0
         },
         {
           "floor": 10302,
           "name": "柯奥的洞窟２楼 1000",
-          "generated": false,
+          "generated": true,
           "sourcePath": "external/sources/ref___data/map/sainasu/dungeon/dan_1-03-02",
           "size": [
             50,
             50
           ],
-          "mapBytes": 0,
+          "mapBytes": 10044,
           "clientMapBytes": 0
         },
         {
           "floor": 10303,
           "name": "柯奥的洞窟３楼 1000",
-          "generated": false,
+          "generated": true,
           "sourcePath": "external/sources/ref___data/map/sainasu/dungeon/dan_1-03-03",
           "size": [
             50,
             50
           ],
-          "mapBytes": 0,
+          "mapBytes": 10044,
           "clientMapBytes": 0
         },
         {
           "floor": 10304,
           "name": "柯奥的洞窟４楼 1000",
-          "generated": false,
+          "generated": true,
           "sourcePath": "external/sources/ref___data/map/sainasu/dungeon/dan_1-03-04",
           "size": [
             50,
             50
           ],
-          "mapBytes": 0,
+          "mapBytes": 10044,
           "clientMapBytes": 0
         },
         {
           "floor": 10305,
           "name": "柯奥的洞窟５楼 100",
-          "generated": false,
+          "generated": true,
           "sourcePath": "external/sources/ref___data/map/sainasu/dungeon/dan_1-03-05",
           "size": [
             50,
             50
           ],
-          "mapBytes": 0,
+          "mapBytes": 10044,
           "clientMapBytes": 0
         },
         {
           "floor": 10306,
           "name": "柯奥的洞窟６楼 100",
-          "generated": false,
+          "generated": true,
           "sourcePath": "external/sources/ref___data/map/sainasu/dungeon/dan_1-03-06",
           "size": [
             50,
             50
           ],
-          "mapBytes": 0,
+          "mapBytes": 10044,
           "clientMapBytes": 0
         },
         {
           "floor": 10307,
           "name": "柯奥的洞窟７楼 100",
-          "generated": false,
+          "generated": true,
           "sourcePath": "external/sources/ref___data/map/sainasu/dungeon/dan_1-03-07",
           "size": [
             50,
             50
           ],
-          "mapBytes": 0,
+          "mapBytes": 10044,
           "clientMapBytes": 0
         },
         {
           "floor": 10308,
           "name": "柯奥的洞窟８楼 1000",
-          "generated": false,
+          "generated": true,
           "sourcePath": "external/sources/ref___data/map/sainasu/dungeon/dan_1-03-08",
           "size": [
             50,
             50
           ],
-          "mapBytes": 0,
+          "mapBytes": 10044,
           "clientMapBytes": 0
         }
       ],
+      "sourceOnlyFloors": [],
       "closedWarps": [
         {
           "floor": 100,
@@ -1822,14 +1821,14 @@
         }
       ],
       "packageImpact": {
-        "mapBytes": 3962356,
+        "mapBytes": 4042708,
         "clientMapBytes": 5937792,
         "petStaticFrameCount": 39,
         "note": "This is an approximate manifest impact. It does not include future field/battle animation packs yet."
       },
       "counts": {
-        "floorCount": 99,
-        "sourceOnlyFloorCount": 8,
+        "floorCount": 107,
+        "sourceOnlyFloorCount": 0,
         "npcCount": 665,
         "closedWarpCount": 49,
         "encounterAreaCount": 57,
@@ -1838,9 +1837,8 @@
         "petResourceCount": 39
       },
       "validation": {
-        "status": "needs-world-generation",
+        "status": "closure-draft",
         "warnings": [
-          "8 source-confirmed floors are not in current generated WORLD.",
           "49 outgoing warps would need close/hide rules if this profile ships as-is."
         ]
       }
@@ -3094,105 +3092,105 @@
           ],
           "mapBytes": 40044,
           "clientMapBytes": 60008
-        }
-      ],
-      "sourceOnlyFloors": [
+        },
         {
           "floor": 10301,
           "name": "柯奥的洞窟１楼 100",
-          "generated": false,
+          "generated": true,
           "sourcePath": "external/sources/ref___data/map/sainasu/dungeon/dan_1-03-01",
           "size": [
             50,
             50
           ],
-          "mapBytes": 0,
+          "mapBytes": 10044,
           "clientMapBytes": 0
         },
         {
           "floor": 10302,
           "name": "柯奥的洞窟２楼 1000",
-          "generated": false,
+          "generated": true,
           "sourcePath": "external/sources/ref___data/map/sainasu/dungeon/dan_1-03-02",
           "size": [
             50,
             50
           ],
-          "mapBytes": 0,
+          "mapBytes": 10044,
           "clientMapBytes": 0
         },
         {
           "floor": 10303,
           "name": "柯奥的洞窟３楼 1000",
-          "generated": false,
+          "generated": true,
           "sourcePath": "external/sources/ref___data/map/sainasu/dungeon/dan_1-03-03",
           "size": [
             50,
             50
           ],
-          "mapBytes": 0,
+          "mapBytes": 10044,
           "clientMapBytes": 0
         },
         {
           "floor": 10304,
           "name": "柯奥的洞窟４楼 1000",
-          "generated": false,
+          "generated": true,
           "sourcePath": "external/sources/ref___data/map/sainasu/dungeon/dan_1-03-04",
           "size": [
             50,
             50
           ],
-          "mapBytes": 0,
+          "mapBytes": 10044,
           "clientMapBytes": 0
         },
         {
           "floor": 10305,
           "name": "柯奥的洞窟５楼 100",
-          "generated": false,
+          "generated": true,
           "sourcePath": "external/sources/ref___data/map/sainasu/dungeon/dan_1-03-05",
           "size": [
             50,
             50
           ],
-          "mapBytes": 0,
+          "mapBytes": 10044,
           "clientMapBytes": 0
         },
         {
           "floor": 10306,
           "name": "柯奥的洞窟６楼 100",
-          "generated": false,
+          "generated": true,
           "sourcePath": "external/sources/ref___data/map/sainasu/dungeon/dan_1-03-06",
           "size": [
             50,
             50
           ],
-          "mapBytes": 0,
+          "mapBytes": 10044,
           "clientMapBytes": 0
         },
         {
           "floor": 10307,
           "name": "柯奥的洞窟７楼 100",
-          "generated": false,
+          "generated": true,
           "sourcePath": "external/sources/ref___data/map/sainasu/dungeon/dan_1-03-07",
           "size": [
             50,
             50
           ],
-          "mapBytes": 0,
+          "mapBytes": 10044,
           "clientMapBytes": 0
         },
         {
           "floor": 10308,
           "name": "柯奥的洞窟８楼 1000",
-          "generated": false,
+          "generated": true,
           "sourcePath": "external/sources/ref___data/map/sainasu/dungeon/dan_1-03-08",
           "size": [
             50,
             50
           ],
-          "mapBytes": 0,
+          "mapBytes": 10044,
           "clientMapBytes": 0
-        },
+        }
+      ],
+      "sourceOnlyFloors": [
         {
           "floor": 11201,
           "name": "玄黄的洞窟地下１楼 14",
@@ -4754,14 +4752,14 @@
         }
       ],
       "packageImpact": {
-        "mapBytes": 7844532,
+        "mapBytes": 7924884,
         "clientMapBytes": 11760824,
         "petStaticFrameCount": 66,
         "note": "This is an approximate manifest impact. It does not include future field/battle animation packs yet."
       },
       "counts": {
-        "floorCount": 103,
-        "sourceOnlyFloorCount": 95,
+        "floorCount": 111,
+        "sourceOnlyFloorCount": 87,
         "npcCount": 732,
         "closedWarpCount": 57,
         "encounterAreaCount": 171,
@@ -4772,7 +4770,7 @@
       "validation": {
         "status": "needs-world-generation",
         "warnings": [
-          "95 source-confirmed floors are not in current generated WORLD.",
+          "87 source-confirmed floors are not in current generated WORLD.",
           "57 outgoing warps would need close/hide rules if this profile ships as-is."
         ]
       }
@@ -6027,105 +6025,105 @@
           ],
           "mapBytes": 40044,
           "clientMapBytes": 60008
-        }
-      ],
-      "sourceOnlyFloors": [
+        },
         {
           "floor": 10301,
           "name": "柯奥的洞窟１楼 100",
-          "generated": false,
+          "generated": true,
           "sourcePath": "external/sources/ref___data/map/sainasu/dungeon/dan_1-03-01",
           "size": [
             50,
             50
           ],
-          "mapBytes": 0,
+          "mapBytes": 10044,
           "clientMapBytes": 0
         },
         {
           "floor": 10302,
           "name": "柯奥的洞窟２楼 1000",
-          "generated": false,
+          "generated": true,
           "sourcePath": "external/sources/ref___data/map/sainasu/dungeon/dan_1-03-02",
           "size": [
             50,
             50
           ],
-          "mapBytes": 0,
+          "mapBytes": 10044,
           "clientMapBytes": 0
         },
         {
           "floor": 10303,
           "name": "柯奥的洞窟３楼 1000",
-          "generated": false,
+          "generated": true,
           "sourcePath": "external/sources/ref___data/map/sainasu/dungeon/dan_1-03-03",
           "size": [
             50,
             50
           ],
-          "mapBytes": 0,
+          "mapBytes": 10044,
           "clientMapBytes": 0
         },
         {
           "floor": 10304,
           "name": "柯奥的洞窟４楼 1000",
-          "generated": false,
+          "generated": true,
           "sourcePath": "external/sources/ref___data/map/sainasu/dungeon/dan_1-03-04",
           "size": [
             50,
             50
           ],
-          "mapBytes": 0,
+          "mapBytes": 10044,
           "clientMapBytes": 0
         },
         {
           "floor": 10305,
           "name": "柯奥的洞窟５楼 100",
-          "generated": false,
+          "generated": true,
           "sourcePath": "external/sources/ref___data/map/sainasu/dungeon/dan_1-03-05",
           "size": [
             50,
             50
           ],
-          "mapBytes": 0,
+          "mapBytes": 10044,
           "clientMapBytes": 0
         },
         {
           "floor": 10306,
           "name": "柯奥的洞窟６楼 100",
-          "generated": false,
+          "generated": true,
           "sourcePath": "external/sources/ref___data/map/sainasu/dungeon/dan_1-03-06",
           "size": [
             50,
             50
           ],
-          "mapBytes": 0,
+          "mapBytes": 10044,
           "clientMapBytes": 0
         },
         {
           "floor": 10307,
           "name": "柯奥的洞窟７楼 100",
-          "generated": false,
+          "generated": true,
           "sourcePath": "external/sources/ref___data/map/sainasu/dungeon/dan_1-03-07",
           "size": [
             50,
             50
           ],
-          "mapBytes": 0,
+          "mapBytes": 10044,
           "clientMapBytes": 0
         },
         {
           "floor": 10308,
           "name": "柯奥的洞窟８楼 1000",
-          "generated": false,
+          "generated": true,
           "sourcePath": "external/sources/ref___data/map/sainasu/dungeon/dan_1-03-08",
           "size": [
             50,
             50
           ],
-          "mapBytes": 0,
+          "mapBytes": 10044,
           "clientMapBytes": 0
-        },
+        }
+      ],
+      "sourceOnlyFloors": [
         {
           "floor": 11201,
           "name": "玄黄的洞窟地下１楼 14",
@@ -7687,14 +7685,14 @@
         }
       ],
       "packageImpact": {
-        "mapBytes": 7844532,
+        "mapBytes": 7924884,
         "clientMapBytes": 11760824,
         "petStaticFrameCount": 66,
         "note": "This is an approximate manifest impact. It does not include future field/battle animation packs yet."
       },
       "counts": {
-        "floorCount": 103,
-        "sourceOnlyFloorCount": 95,
+        "floorCount": 111,
+        "sourceOnlyFloorCount": 87,
         "npcCount": 732,
         "closedWarpCount": 57,
         "encounterAreaCount": 171,
@@ -7705,7 +7703,7 @@
       "validation": {
         "status": "needs-world-generation",
         "warnings": [
-          "95 source-confirmed floors are not in current generated WORLD.",
+          "87 source-confirmed floors are not in current generated WORLD.",
           "57 outgoing warps would need close/hide rules if this profile ships as-is."
         ]
       }
@@ -8961,105 +8959,105 @@
           ],
           "mapBytes": 40044,
           "clientMapBytes": 60008
-        }
-      ],
-      "sourceOnlyFloors": [
+        },
         {
           "floor": 10301,
           "name": "柯奥的洞窟１楼 100",
-          "generated": false,
+          "generated": true,
           "sourcePath": "external/sources/ref___data/map/sainasu/dungeon/dan_1-03-01",
           "size": [
             50,
             50
           ],
-          "mapBytes": 0,
+          "mapBytes": 10044,
           "clientMapBytes": 0
         },
         {
           "floor": 10302,
           "name": "柯奥的洞窟２楼 1000",
-          "generated": false,
+          "generated": true,
           "sourcePath": "external/sources/ref___data/map/sainasu/dungeon/dan_1-03-02",
           "size": [
             50,
             50
           ],
-          "mapBytes": 0,
+          "mapBytes": 10044,
           "clientMapBytes": 0
         },
         {
           "floor": 10303,
           "name": "柯奥的洞窟３楼 1000",
-          "generated": false,
+          "generated": true,
           "sourcePath": "external/sources/ref___data/map/sainasu/dungeon/dan_1-03-03",
           "size": [
             50,
             50
           ],
-          "mapBytes": 0,
+          "mapBytes": 10044,
           "clientMapBytes": 0
         },
         {
           "floor": 10304,
           "name": "柯奥的洞窟４楼 1000",
-          "generated": false,
+          "generated": true,
           "sourcePath": "external/sources/ref___data/map/sainasu/dungeon/dan_1-03-04",
           "size": [
             50,
             50
           ],
-          "mapBytes": 0,
+          "mapBytes": 10044,
           "clientMapBytes": 0
         },
         {
           "floor": 10305,
           "name": "柯奥的洞窟５楼 100",
-          "generated": false,
+          "generated": true,
           "sourcePath": "external/sources/ref___data/map/sainasu/dungeon/dan_1-03-05",
           "size": [
             50,
             50
           ],
-          "mapBytes": 0,
+          "mapBytes": 10044,
           "clientMapBytes": 0
         },
         {
           "floor": 10306,
           "name": "柯奥的洞窟６楼 100",
-          "generated": false,
+          "generated": true,
           "sourcePath": "external/sources/ref___data/map/sainasu/dungeon/dan_1-03-06",
           "size": [
             50,
             50
           ],
-          "mapBytes": 0,
+          "mapBytes": 10044,
           "clientMapBytes": 0
         },
         {
           "floor": 10307,
           "name": "柯奥的洞窟７楼 100",
-          "generated": false,
+          "generated": true,
           "sourcePath": "external/sources/ref___data/map/sainasu/dungeon/dan_1-03-07",
           "size": [
             50,
             50
           ],
-          "mapBytes": 0,
+          "mapBytes": 10044,
           "clientMapBytes": 0
         },
         {
           "floor": 10308,
           "name": "柯奥的洞窟８楼 1000",
-          "generated": false,
+          "generated": true,
           "sourcePath": "external/sources/ref___data/map/sainasu/dungeon/dan_1-03-08",
           "size": [
             50,
             50
           ],
-          "mapBytes": 0,
+          "mapBytes": 10044,
           "clientMapBytes": 0
-        },
+        }
+      ],
+      "sourceOnlyFloors": [
         {
           "floor": 11201,
           "name": "玄黄的洞窟地下１楼 14",
@@ -10621,14 +10619,14 @@
         }
       ],
       "packageImpact": {
-        "mapBytes": 7844532,
+        "mapBytes": 7924884,
         "clientMapBytes": 11760824,
         "petStaticFrameCount": 66,
         "note": "This is an approximate manifest impact. It does not include future field/battle animation packs yet."
       },
       "counts": {
-        "floorCount": 103,
-        "sourceOnlyFloorCount": 95,
+        "floorCount": 111,
+        "sourceOnlyFloorCount": 87,
         "npcCount": 732,
         "closedWarpCount": 57,
         "encounterAreaCount": 171,
@@ -10639,7 +10637,7 @@
       "validation": {
         "status": "needs-world-generation",
         "warnings": [
-          "95 source-confirmed floors are not in current generated WORLD.",
+          "87 source-confirmed floors are not in current generated WORLD.",
           "57 outgoing warps would need close/hide rules if this profile ships as-is."
         ]
       }
@@ -11840,106 +11838,105 @@
           ],
           "mapBytes": 40044,
           "clientMapBytes": 60008
-        }
-      ],
-      "sourceOnlyFloors": [
+        },
         {
           "floor": 10301,
           "name": "柯奥的洞窟１楼 100",
-          "generated": false,
+          "generated": true,
           "sourcePath": "external/sources/ref___data/map/sainasu/dungeon/dan_1-03-01",
           "size": [
             50,
             50
           ],
-          "mapBytes": 0,
+          "mapBytes": 10044,
           "clientMapBytes": 0
         },
         {
           "floor": 10302,
           "name": "柯奥的洞窟２楼 1000",
-          "generated": false,
+          "generated": true,
           "sourcePath": "external/sources/ref___data/map/sainasu/dungeon/dan_1-03-02",
           "size": [
             50,
             50
           ],
-          "mapBytes": 0,
+          "mapBytes": 10044,
           "clientMapBytes": 0
         },
         {
           "floor": 10303,
           "name": "柯奥的洞窟３楼 1000",
-          "generated": false,
+          "generated": true,
           "sourcePath": "external/sources/ref___data/map/sainasu/dungeon/dan_1-03-03",
           "size": [
             50,
             50
           ],
-          "mapBytes": 0,
+          "mapBytes": 10044,
           "clientMapBytes": 0
         },
         {
           "floor": 10304,
           "name": "柯奥的洞窟４楼 1000",
-          "generated": false,
+          "generated": true,
           "sourcePath": "external/sources/ref___data/map/sainasu/dungeon/dan_1-03-04",
           "size": [
             50,
             50
           ],
-          "mapBytes": 0,
+          "mapBytes": 10044,
           "clientMapBytes": 0
         },
         {
           "floor": 10305,
           "name": "柯奥的洞窟５楼 100",
-          "generated": false,
+          "generated": true,
           "sourcePath": "external/sources/ref___data/map/sainasu/dungeon/dan_1-03-05",
           "size": [
             50,
             50
           ],
-          "mapBytes": 0,
+          "mapBytes": 10044,
           "clientMapBytes": 0
         },
         {
           "floor": 10306,
           "name": "柯奥的洞窟６楼 100",
-          "generated": false,
+          "generated": true,
           "sourcePath": "external/sources/ref___data/map/sainasu/dungeon/dan_1-03-06",
           "size": [
             50,
             50
           ],
-          "mapBytes": 0,
+          "mapBytes": 10044,
           "clientMapBytes": 0
         },
         {
           "floor": 10307,
           "name": "柯奥的洞窟７楼 100",
-          "generated": false,
+          "generated": true,
           "sourcePath": "external/sources/ref___data/map/sainasu/dungeon/dan_1-03-07",
           "size": [
             50,
             50
           ],
-          "mapBytes": 0,
+          "mapBytes": 10044,
           "clientMapBytes": 0
         },
         {
           "floor": 10308,
           "name": "柯奥的洞窟８楼 1000",
-          "generated": false,
+          "generated": true,
           "sourcePath": "external/sources/ref___data/map/sainasu/dungeon/dan_1-03-08",
           "size": [
             50,
             50
           ],
-          "mapBytes": 0,
+          "mapBytes": 10044,
           "clientMapBytes": 0
         }
       ],
+      "sourceOnlyFloors": [],
       "closedWarps": [
         {
           "floor": 100,
@@ -12384,14 +12381,14 @@
         }
       ],
       "packageImpact": {
-        "mapBytes": 3962356,
+        "mapBytes": 4042708,
         "clientMapBytes": 5937792,
         "petStaticFrameCount": 39,
         "note": "This is an approximate manifest impact. It does not include future field/battle animation packs yet."
       },
       "counts": {
-        "floorCount": 99,
-        "sourceOnlyFloorCount": 8,
+        "floorCount": 107,
+        "sourceOnlyFloorCount": 0,
         "npcCount": 665,
         "closedWarpCount": 49,
         "encounterAreaCount": 57,
@@ -12400,9 +12397,8 @@
         "petResourceCount": 39
       },
       "validation": {
-        "status": "needs-world-generation",
+        "status": "closure-draft",
         "warnings": [
-          "8 source-confirmed floors are not in current generated WORLD.",
           "49 outgoing warps would need close/hide rules if this profile ships as-is."
         ]
       }
@@ -12895,97 +12891,97 @@
           {
             "floor": 10301,
             "name": "柯奥的洞窟１楼 100",
-            "generated": false,
+            "generated": true,
             "sourcePath": "external/sources/ref___data/map/sainasu/dungeon/dan_1-03-01",
             "size": [
               50,
               50
             ],
-            "mapBytes": 0,
+            "mapBytes": 10044,
             "clientMapBytes": 0
           },
           {
             "floor": 10302,
             "name": "柯奥的洞窟２楼 1000",
-            "generated": false,
+            "generated": true,
             "sourcePath": "external/sources/ref___data/map/sainasu/dungeon/dan_1-03-02",
             "size": [
               50,
               50
             ],
-            "mapBytes": 0,
+            "mapBytes": 10044,
             "clientMapBytes": 0
           },
           {
             "floor": 10303,
             "name": "柯奥的洞窟３楼 1000",
-            "generated": false,
+            "generated": true,
             "sourcePath": "external/sources/ref___data/map/sainasu/dungeon/dan_1-03-03",
             "size": [
               50,
               50
             ],
-            "mapBytes": 0,
+            "mapBytes": 10044,
             "clientMapBytes": 0
           },
           {
             "floor": 10304,
             "name": "柯奥的洞窟４楼 1000",
-            "generated": false,
+            "generated": true,
             "sourcePath": "external/sources/ref___data/map/sainasu/dungeon/dan_1-03-04",
             "size": [
               50,
               50
             ],
-            "mapBytes": 0,
+            "mapBytes": 10044,
             "clientMapBytes": 0
           },
           {
             "floor": 10305,
             "name": "柯奥的洞窟５楼 100",
-            "generated": false,
+            "generated": true,
             "sourcePath": "external/sources/ref___data/map/sainasu/dungeon/dan_1-03-05",
             "size": [
               50,
               50
             ],
-            "mapBytes": 0,
+            "mapBytes": 10044,
             "clientMapBytes": 0
           },
           {
             "floor": 10306,
             "name": "柯奥的洞窟６楼 100",
-            "generated": false,
+            "generated": true,
             "sourcePath": "external/sources/ref___data/map/sainasu/dungeon/dan_1-03-06",
             "size": [
               50,
               50
             ],
-            "mapBytes": 0,
+            "mapBytes": 10044,
             "clientMapBytes": 0
           },
           {
             "floor": 10307,
             "name": "柯奥的洞窟７楼 100",
-            "generated": false,
+            "generated": true,
             "sourcePath": "external/sources/ref___data/map/sainasu/dungeon/dan_1-03-07",
             "size": [
               50,
               50
             ],
-            "mapBytes": 0,
+            "mapBytes": 10044,
             "clientMapBytes": 0
           },
           {
             "floor": 10308,
             "name": "柯奥的洞窟８楼 1000",
-            "generated": false,
+            "generated": true,
             "sourcePath": "external/sources/ref___data/map/sainasu/dungeon/dan_1-03-08",
             "size": [
               50,
               50
             ],
-            "mapBytes": 0,
+            "mapBytes": 10044,
             "clientMapBytes": 0
           }
         ],
@@ -13409,106 +13405,105 @@
             ],
             "mapBytes": 9644,
             "clientMapBytes": 14408
-          }
-        ],
-        "sourceOnlyFloors": [
+          },
           {
             "floor": 10301,
             "name": "柯奥的洞窟１楼 100",
-            "generated": false,
+            "generated": true,
             "sourcePath": "external/sources/ref___data/map/sainasu/dungeon/dan_1-03-01",
             "size": [
               50,
               50
             ],
-            "mapBytes": 0,
+            "mapBytes": 10044,
             "clientMapBytes": 0
           },
           {
             "floor": 10302,
             "name": "柯奥的洞窟２楼 1000",
-            "generated": false,
+            "generated": true,
             "sourcePath": "external/sources/ref___data/map/sainasu/dungeon/dan_1-03-02",
             "size": [
               50,
               50
             ],
-            "mapBytes": 0,
+            "mapBytes": 10044,
             "clientMapBytes": 0
           },
           {
             "floor": 10303,
             "name": "柯奥的洞窟３楼 1000",
-            "generated": false,
+            "generated": true,
             "sourcePath": "external/sources/ref___data/map/sainasu/dungeon/dan_1-03-03",
             "size": [
               50,
               50
             ],
-            "mapBytes": 0,
+            "mapBytes": 10044,
             "clientMapBytes": 0
           },
           {
             "floor": 10304,
             "name": "柯奥的洞窟４楼 1000",
-            "generated": false,
+            "generated": true,
             "sourcePath": "external/sources/ref___data/map/sainasu/dungeon/dan_1-03-04",
             "size": [
               50,
               50
             ],
-            "mapBytes": 0,
+            "mapBytes": 10044,
             "clientMapBytes": 0
           },
           {
             "floor": 10305,
             "name": "柯奥的洞窟５楼 100",
-            "generated": false,
+            "generated": true,
             "sourcePath": "external/sources/ref___data/map/sainasu/dungeon/dan_1-03-05",
             "size": [
               50,
               50
             ],
-            "mapBytes": 0,
+            "mapBytes": 10044,
             "clientMapBytes": 0
           },
           {
             "floor": 10306,
             "name": "柯奥的洞窟６楼 100",
-            "generated": false,
+            "generated": true,
             "sourcePath": "external/sources/ref___data/map/sainasu/dungeon/dan_1-03-06",
             "size": [
               50,
               50
             ],
-            "mapBytes": 0,
+            "mapBytes": 10044,
             "clientMapBytes": 0
           },
           {
             "floor": 10307,
             "name": "柯奥的洞窟７楼 100",
-            "generated": false,
+            "generated": true,
             "sourcePath": "external/sources/ref___data/map/sainasu/dungeon/dan_1-03-07",
             "size": [
               50,
               50
             ],
-            "mapBytes": 0,
+            "mapBytes": 10044,
             "clientMapBytes": 0
           },
           {
             "floor": 10308,
             "name": "柯奥的洞窟８楼 1000",
-            "generated": false,
+            "generated": true,
             "sourcePath": "external/sources/ref___data/map/sainasu/dungeon/dan_1-03-08",
             "size": [
               50,
               50
             ],
-            "mapBytes": 0,
+            "mapBytes": 10044,
             "clientMapBytes": 0
           }
         ],
+        "sourceOnlyFloors": [],
         "oneHopTransitFloors": [
           {
             "floor": 101,
@@ -19785,6 +19780,132 @@
           "label": "去 海底通路地下１楼 100",
           "source": "gmsv-data/map/mapwarp.txt",
           "status": "outbound-needs-profile-decision"
+        },
+        {
+          "floor": 10301,
+          "mapName": "柯奥的洞窟１楼 100",
+          "to": 10302,
+          "toName": "柯奥的洞窟２楼 1000",
+          "label": "去 柯奥的洞窟２楼 1000",
+          "source": "gmsv-data/map/mapwarp.txt",
+          "status": "internal"
+        },
+        {
+          "floor": 10302,
+          "mapName": "柯奥的洞窟２楼 1000",
+          "to": 10301,
+          "toName": "柯奥的洞窟１楼 100",
+          "label": "去 柯奥的洞窟１楼 100",
+          "source": "gmsv-data/map/mapwarp.txt",
+          "status": "internal"
+        },
+        {
+          "floor": 10302,
+          "mapName": "柯奥的洞窟２楼 1000",
+          "to": 10303,
+          "toName": "柯奥的洞窟３楼 1000",
+          "label": "去 柯奥的洞窟３楼 1000",
+          "source": "gmsv-data/map/mapwarp.txt",
+          "status": "internal"
+        },
+        {
+          "floor": 10303,
+          "mapName": "柯奥的洞窟３楼 1000",
+          "to": 10302,
+          "toName": "柯奥的洞窟２楼 1000",
+          "label": "去 柯奥的洞窟２楼 1000",
+          "source": "gmsv-data/map/mapwarp.txt",
+          "status": "internal"
+        },
+        {
+          "floor": 10303,
+          "mapName": "柯奥的洞窟３楼 1000",
+          "to": 10304,
+          "toName": "柯奥的洞窟４楼 1000",
+          "label": "去 柯奥的洞窟４楼 1000",
+          "source": "gmsv-data/map/mapwarp.txt",
+          "status": "internal"
+        },
+        {
+          "floor": 10304,
+          "mapName": "柯奥的洞窟４楼 1000",
+          "to": 10303,
+          "toName": "柯奥的洞窟３楼 1000",
+          "label": "去 柯奥的洞窟３楼 1000",
+          "source": "gmsv-data/map/mapwarp.txt",
+          "status": "internal"
+        },
+        {
+          "floor": 10304,
+          "mapName": "柯奥的洞窟４楼 1000",
+          "to": 10305,
+          "toName": "柯奥的洞窟５楼 100",
+          "label": "去 柯奥的洞窟５楼 100",
+          "source": "gmsv-data/map/mapwarp.txt",
+          "status": "internal"
+        },
+        {
+          "floor": 10305,
+          "mapName": "柯奥的洞窟５楼 100",
+          "to": 10304,
+          "toName": "柯奥的洞窟４楼 1000",
+          "label": "去 柯奥的洞窟４楼 1000",
+          "source": "gmsv-data/map/mapwarp.txt",
+          "status": "internal"
+        },
+        {
+          "floor": 10305,
+          "mapName": "柯奥的洞窟５楼 100",
+          "to": 10306,
+          "toName": "柯奥的洞窟６楼 100",
+          "label": "去 柯奥的洞窟６楼 100",
+          "source": "gmsv-data/map/mapwarp.txt",
+          "status": "internal"
+        },
+        {
+          "floor": 10306,
+          "mapName": "柯奥的洞窟６楼 100",
+          "to": 10305,
+          "toName": "柯奥的洞窟５楼 100",
+          "label": "去 柯奥的洞窟５楼 100",
+          "source": "gmsv-data/map/mapwarp.txt",
+          "status": "internal"
+        },
+        {
+          "floor": 10306,
+          "mapName": "柯奥的洞窟６楼 100",
+          "to": 10307,
+          "toName": "柯奥的洞窟７楼 100",
+          "label": "去 柯奥的洞窟７楼 100",
+          "source": "gmsv-data/map/mapwarp.txt",
+          "status": "internal"
+        },
+        {
+          "floor": 10307,
+          "mapName": "柯奥的洞窟７楼 100",
+          "to": 10306,
+          "toName": "柯奥的洞窟６楼 100",
+          "label": "去 柯奥的洞窟６楼 100",
+          "source": "gmsv-data/map/mapwarp.txt",
+          "status": "internal"
+        },
+        {
+          "floor": 10307,
+          "mapName": "柯奥的洞窟７楼 100",
+          "to": 10308,
+          "toName": "柯奥的洞窟８楼 1000",
+          "label": "去 柯奥的洞窟８楼 1000",
+          "source": "gmsv-data/map/mapwarp.txt",
+          "status": "internal"
+        },
+        {
+          "floor": 10308,
+          "mapName": "柯奥的洞窟８楼 1000",
+          "to": 10307,
+          "toName": "柯奥的洞窟７楼 100",
+          "label": "去 柯奥的洞窟７楼 100",
+          "source": "gmsv-data/map/mapwarp.txt",
+          "status": "internal"
         }
       ],
       "items": [
@@ -30575,8 +30696,8 @@
       ],
       "counts": {
         "requiredFloorCount": 43,
-        "generatedFloorCount": 35,
-        "sourceOnlyFloorCount": 8,
+        "generatedFloorCount": 43,
+        "sourceOnlyFloorCount": 0,
         "transitFloorCount": 48,
         "routeTransitFloorCount": 0,
         "npcCount": 257,
@@ -30587,13 +30708,11 @@
         "encounterAreaCount": 47,
         "enemyTempNoCount": 34,
         "petResourceCount": 34,
-        "outboundWarpCount": 103
+        "outboundWarpCount": 117
       },
       "validation": {
-        "status": "needs-closure-work",
-        "warnings": [
-          "8 source map floors are not in current generated WORLD and must be added before this line is playable."
-        ]
+        "status": "playable-source-script-draft",
+        "warnings": []
       }
     },
     {

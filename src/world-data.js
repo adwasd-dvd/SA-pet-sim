@@ -111858,6 +111858,7 @@ export const WORLD = {
             ],
             "specialRate": 1,
             "hasCostPoint": true,
+            "stoneOnlyPointCost": true,
             "items": [
               {
                 "id": 20172,
@@ -243096,6 +243097,1152 @@ export const WORLD = {
               "target": [
                 31,
                 15
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        }
+      ]
+    },
+    "10301": {
+      "id": "10301",
+      "floorId": 10301,
+      "name": "柯奥的洞窟１楼 100",
+      "mapFile": "/data/maps/10301.ls2map",
+      "summary": "柯奥的洞窟１楼 100 | floor=10301 | 50x50 | gmsv-data/map/sainasu/dungeon/dan_1-03-01",
+      "size": [
+        50,
+        50
+      ],
+      "spawn": [
+        6,
+        43
+      ],
+      "encounterPets": [],
+      "encounterAreas": [],
+      "npcs": [],
+      "exits": [
+        {
+          "id": "10302-0",
+          "label": "去 柯奥的洞窟２楼 1000",
+          "detail": "柯奥的洞窟２楼 1000 | floor 10302 | 目标 (27,6) | 入口 (6,43)",
+          "to": "10302",
+          "x": 6,
+          "y": 43,
+          "bounds": [
+            6,
+            43,
+            6,
+            43
+          ],
+          "target": [
+            27,
+            6
+          ],
+          "tiles": [
+            {
+              "x": 6,
+              "y": 43,
+              "target": [
+                27,
+                6
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        }
+      ]
+    },
+    "10302": {
+      "id": "10302",
+      "floorId": 10302,
+      "name": "柯奥的洞窟２楼 1000",
+      "mapFile": "/data/maps/10302.ls2map",
+      "summary": "柯奥的洞窟２楼 1000 | floor=10302 | 50x50 | gmsv-data/map/sainasu/dungeon/dan_1-03-02",
+      "size": [
+        50,
+        50
+      ],
+      "spawn": [
+        27,
+        6
+      ],
+      "encounterPets": [],
+      "encounterAreas": [],
+      "npcs": [],
+      "exits": [
+        {
+          "id": "10301-0",
+          "label": "去 柯奥的洞窟１楼 100",
+          "detail": "柯奥的洞窟１楼 100 | floor 10301 | 目标 (6,43) | 入口 (27,6)",
+          "to": "10301",
+          "x": 27,
+          "y": 6,
+          "bounds": [
+            27,
+            6,
+            27,
+            6
+          ],
+          "target": [
+            6,
+            43
+          ],
+          "tiles": [
+            {
+              "x": 27,
+              "y": 6,
+              "target": [
+                6,
+                43
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        },
+        {
+          "id": "10303-1",
+          "label": "去 柯奥的洞窟３楼 1000",
+          "detail": "柯奥的洞窟３楼 1000 | floor 10303 | 目标 (7,24) | 入口 (6,29)",
+          "to": "10303",
+          "x": 6,
+          "y": 29,
+          "bounds": [
+            6,
+            29,
+            6,
+            29
+          ],
+          "target": [
+            7,
+            24
+          ],
+          "tiles": [
+            {
+              "x": 6,
+              "y": 29,
+              "target": [
+                7,
+                24
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        },
+        {
+          "id": "10303-2",
+          "label": "去 柯奥的洞窟３楼 1000",
+          "detail": "柯奥的洞窟３楼 1000 | floor 10303 | 目标 (25,33) | 入口 (29,36)",
+          "to": "10303",
+          "x": 29,
+          "y": 36,
+          "bounds": [
+            29,
+            36,
+            29,
+            36
+          ],
+          "target": [
+            25,
+            33
+          ],
+          "tiles": [
+            {
+              "x": 29,
+              "y": 36,
+              "target": [
+                25,
+                33
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        },
+        {
+          "id": "10303-3",
+          "label": "去 柯奥的洞窟３楼 1000",
+          "detail": "柯奥的洞窟３楼 1000 | floor 10303 | 目标 (7,41) | 入口 (15,37)",
+          "to": "10303",
+          "x": 15,
+          "y": 37,
+          "bounds": [
+            15,
+            37,
+            15,
+            37
+          ],
+          "target": [
+            7,
+            41
+          ],
+          "tiles": [
+            {
+              "x": 15,
+              "y": 37,
+              "target": [
+                7,
+                41
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        }
+      ]
+    },
+    "10303": {
+      "id": "10303",
+      "floorId": 10303,
+      "name": "柯奥的洞窟３楼 1000",
+      "mapFile": "/data/maps/10303.ls2map",
+      "summary": "柯奥的洞窟３楼 1000 | floor=10303 | 50x50 | gmsv-data/map/sainasu/dungeon/dan_1-03-03",
+      "size": [
+        50,
+        50
+      ],
+      "spawn": [
+        7,
+        24
+      ],
+      "encounterPets": [],
+      "encounterAreas": [],
+      "npcs": [],
+      "exits": [
+        {
+          "id": "10302-0",
+          "label": "去 柯奥的洞窟２楼 1000",
+          "detail": "柯奥的洞窟２楼 1000 | floor 10302 | 目标 (6,29) | 入口 (7,24)",
+          "to": "10302",
+          "x": 7,
+          "y": 24,
+          "bounds": [
+            7,
+            24,
+            7,
+            24
+          ],
+          "target": [
+            6,
+            29
+          ],
+          "tiles": [
+            {
+              "x": 7,
+              "y": 24,
+              "target": [
+                6,
+                29
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        },
+        {
+          "id": "10302-1",
+          "label": "去 柯奥的洞窟２楼 1000",
+          "detail": "柯奥的洞窟２楼 1000 | floor 10302 | 目标 (29,36) | 入口 (25,33)",
+          "to": "10302",
+          "x": 25,
+          "y": 33,
+          "bounds": [
+            25,
+            33,
+            25,
+            33
+          ],
+          "target": [
+            29,
+            36
+          ],
+          "tiles": [
+            {
+              "x": 25,
+              "y": 33,
+              "target": [
+                29,
+                36
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        },
+        {
+          "id": "10302-2",
+          "label": "去 柯奥的洞窟２楼 1000",
+          "detail": "柯奥的洞窟２楼 1000 | floor 10302 | 目标 (15,37) | 入口 (7,41)",
+          "to": "10302",
+          "x": 7,
+          "y": 41,
+          "bounds": [
+            7,
+            41,
+            7,
+            41
+          ],
+          "target": [
+            15,
+            37
+          ],
+          "tiles": [
+            {
+              "x": 7,
+              "y": 41,
+              "target": [
+                15,
+                37
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        },
+        {
+          "id": "10304-3",
+          "label": "去 柯奥的洞窟４楼 1000",
+          "detail": "柯奥的洞窟４楼 1000 | floor 10304 | 目标 (14,7) | 入口 (14,7)",
+          "to": "10304",
+          "x": 14,
+          "y": 7,
+          "bounds": [
+            14,
+            7,
+            14,
+            7
+          ],
+          "target": [
+            14,
+            7
+          ],
+          "tiles": [
+            {
+              "x": 14,
+              "y": 7,
+              "target": [
+                14,
+                7
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        },
+        {
+          "id": "10304-4",
+          "label": "去 柯奥的洞窟４楼 1000",
+          "detail": "柯奥的洞窟４楼 1000 | floor 10304 | 目标 (44,4) | 入口 (45,4)",
+          "to": "10304",
+          "x": 45,
+          "y": 4,
+          "bounds": [
+            45,
+            4,
+            45,
+            4
+          ],
+          "target": [
+            44,
+            4
+          ],
+          "tiles": [
+            {
+              "x": 45,
+              "y": 4,
+              "target": [
+                44,
+                4
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        }
+      ]
+    },
+    "10304": {
+      "id": "10304",
+      "floorId": 10304,
+      "name": "柯奥的洞窟４楼 1000",
+      "mapFile": "/data/maps/10304.ls2map",
+      "summary": "柯奥的洞窟４楼 1000 | floor=10304 | 50x50 | gmsv-data/map/sainasu/dungeon/dan_1-03-04",
+      "size": [
+        50,
+        50
+      ],
+      "spawn": [
+        14,
+        7
+      ],
+      "encounterPets": [],
+      "encounterAreas": [],
+      "npcs": [],
+      "exits": [
+        {
+          "id": "10303-0",
+          "label": "去 柯奥的洞窟３楼 1000",
+          "detail": "柯奥的洞窟３楼 1000 | floor 10303 | 目标 (14,7) | 入口 (14,7)",
+          "to": "10303",
+          "x": 14,
+          "y": 7,
+          "bounds": [
+            14,
+            7,
+            14,
+            7
+          ],
+          "target": [
+            14,
+            7
+          ],
+          "tiles": [
+            {
+              "x": 14,
+              "y": 7,
+              "target": [
+                14,
+                7
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        },
+        {
+          "id": "10303-1",
+          "label": "去 柯奥的洞窟３楼 1000",
+          "detail": "柯奥的洞窟３楼 1000 | floor 10303 | 目标 (45,4) | 入口 (44,4)",
+          "to": "10303",
+          "x": 44,
+          "y": 4,
+          "bounds": [
+            44,
+            4,
+            44,
+            4
+          ],
+          "target": [
+            45,
+            4
+          ],
+          "tiles": [
+            {
+              "x": 44,
+              "y": 4,
+              "target": [
+                45,
+                4
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        },
+        {
+          "id": "10305-2",
+          "label": "去 柯奥的洞窟５楼 100",
+          "detail": "柯奥的洞窟５楼 100 | floor 10305 | 目标 (37,6) | 入口 (21,37)",
+          "to": "10305",
+          "x": 21,
+          "y": 37,
+          "bounds": [
+            21,
+            37,
+            21,
+            37
+          ],
+          "target": [
+            37,
+            6
+          ],
+          "tiles": [
+            {
+              "x": 21,
+              "y": 37,
+              "target": [
+                37,
+                6
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        }
+      ]
+    },
+    "10305": {
+      "id": "10305",
+      "floorId": 10305,
+      "name": "柯奥的洞窟５楼 100",
+      "mapFile": "/data/maps/10305.ls2map",
+      "summary": "柯奥的洞窟５楼 100 | floor=10305 | 50x50 | gmsv-data/map/sainasu/dungeon/dan_1-03-05",
+      "size": [
+        50,
+        50
+      ],
+      "spawn": [
+        37,
+        6
+      ],
+      "encounterPets": [],
+      "encounterAreas": [],
+      "npcs": [],
+      "exits": [
+        {
+          "id": "10304-0",
+          "label": "去 柯奥的洞窟４楼 1000",
+          "detail": "柯奥的洞窟４楼 1000 | floor 10304 | 目标 (21,37) | 入口 (37,6)",
+          "to": "10304",
+          "x": 37,
+          "y": 6,
+          "bounds": [
+            37,
+            6,
+            37,
+            6
+          ],
+          "target": [
+            21,
+            37
+          ],
+          "tiles": [
+            {
+              "x": 37,
+              "y": 6,
+              "target": [
+                21,
+                37
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        },
+        {
+          "id": "10306-1",
+          "label": "去 柯奥的洞窟６楼 100",
+          "detail": "柯奥的洞窟６楼 100 | floor 10306 | 目标 (19,39) | 入口 (18,38)",
+          "to": "10306",
+          "x": 18,
+          "y": 38,
+          "bounds": [
+            18,
+            38,
+            18,
+            38
+          ],
+          "target": [
+            19,
+            39
+          ],
+          "tiles": [
+            {
+              "x": 18,
+              "y": 38,
+              "target": [
+                19,
+                39
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        },
+        {
+          "id": "10306-2",
+          "label": "去 柯奥的洞窟６楼 100",
+          "detail": "柯奥的洞窟６楼 100 | floor 10306 | 目标 (9,6) | 入口 (9,5)",
+          "to": "10306",
+          "x": 9,
+          "y": 5,
+          "bounds": [
+            9,
+            5,
+            9,
+            5
+          ],
+          "target": [
+            9,
+            6
+          ],
+          "tiles": [
+            {
+              "x": 9,
+              "y": 5,
+              "target": [
+                9,
+                6
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        },
+        {
+          "id": "10306-3",
+          "label": "去 柯奥的洞窟６楼 100",
+          "detail": "柯奥的洞窟６楼 100 | floor 10306 | 目标 (23,11) | 入口 (24,11)",
+          "to": "10306",
+          "x": 24,
+          "y": 11,
+          "bounds": [
+            24,
+            11,
+            24,
+            11
+          ],
+          "target": [
+            23,
+            11
+          ],
+          "tiles": [
+            {
+              "x": 24,
+              "y": 11,
+              "target": [
+                23,
+                11
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        },
+        {
+          "id": "10306-4",
+          "label": "去 柯奥的洞窟６楼 100",
+          "detail": "柯奥的洞窟６楼 100 | floor 10306 | 目标 (5,26) | 入口 (5,24)",
+          "to": "10306",
+          "x": 5,
+          "y": 24,
+          "bounds": [
+            5,
+            24,
+            5,
+            24
+          ],
+          "target": [
+            5,
+            26
+          ],
+          "tiles": [
+            {
+              "x": 5,
+              "y": 24,
+              "target": [
+                5,
+                26
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        }
+      ]
+    },
+    "10306": {
+      "id": "10306",
+      "floorId": 10306,
+      "name": "柯奥的洞窟６楼 100",
+      "mapFile": "/data/maps/10306.ls2map",
+      "summary": "柯奥的洞窟６楼 100 | floor=10306 | 50x50 | gmsv-data/map/sainasu/dungeon/dan_1-03-06",
+      "size": [
+        50,
+        50
+      ],
+      "spawn": [
+        19,
+        39
+      ],
+      "encounterPets": [],
+      "encounterAreas": [],
+      "npcs": [],
+      "exits": [
+        {
+          "id": "10305-0",
+          "label": "去 柯奥的洞窟５楼 100",
+          "detail": "柯奥的洞窟５楼 100 | floor 10305 | 目标 (18,38) | 入口 (19,39)",
+          "to": "10305",
+          "x": 19,
+          "y": 39,
+          "bounds": [
+            19,
+            39,
+            19,
+            39
+          ],
+          "target": [
+            18,
+            38
+          ],
+          "tiles": [
+            {
+              "x": 19,
+              "y": 39,
+              "target": [
+                18,
+                38
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        },
+        {
+          "id": "10305-1",
+          "label": "去 柯奥的洞窟５楼 100",
+          "detail": "柯奥的洞窟５楼 100 | floor 10305 | 目标 (9,5) | 入口 (9,6)",
+          "to": "10305",
+          "x": 9,
+          "y": 6,
+          "bounds": [
+            9,
+            6,
+            9,
+            6
+          ],
+          "target": [
+            9,
+            5
+          ],
+          "tiles": [
+            {
+              "x": 9,
+              "y": 6,
+              "target": [
+                9,
+                5
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        },
+        {
+          "id": "10305-2",
+          "label": "去 柯奥的洞窟５楼 100",
+          "detail": "柯奥的洞窟５楼 100 | floor 10305 | 目标 (24,11) | 入口 (23,11)",
+          "to": "10305",
+          "x": 23,
+          "y": 11,
+          "bounds": [
+            23,
+            11,
+            23,
+            11
+          ],
+          "target": [
+            24,
+            11
+          ],
+          "tiles": [
+            {
+              "x": 23,
+              "y": 11,
+              "target": [
+                24,
+                11
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        },
+        {
+          "id": "10305-3",
+          "label": "去 柯奥的洞窟５楼 100",
+          "detail": "柯奥的洞窟５楼 100 | floor 10305 | 目标 (5,24) | 入口 (5,26)",
+          "to": "10305",
+          "x": 5,
+          "y": 26,
+          "bounds": [
+            5,
+            26,
+            5,
+            26
+          ],
+          "target": [
+            5,
+            24
+          ],
+          "tiles": [
+            {
+              "x": 5,
+              "y": 26,
+              "target": [
+                5,
+                24
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        },
+        {
+          "id": "10307-4",
+          "label": "去 柯奥的洞窟７楼 100",
+          "detail": "柯奥的洞窟７楼 100 | floor 10307 | 目标 (37,6) | 入口 (38,6)",
+          "to": "10307",
+          "x": 38,
+          "y": 6,
+          "bounds": [
+            38,
+            6,
+            38,
+            6
+          ],
+          "target": [
+            37,
+            6
+          ],
+          "tiles": [
+            {
+              "x": 38,
+              "y": 6,
+              "target": [
+                37,
+                6
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        },
+        {
+          "id": "10307-5",
+          "label": "去 柯奥的洞窟７楼 100",
+          "detail": "柯奥的洞窟７楼 100 | floor 10307 | 目标 (39,41) | 入口 (42,41)",
+          "to": "10307",
+          "x": 42,
+          "y": 41,
+          "bounds": [
+            42,
+            41,
+            42,
+            41
+          ],
+          "target": [
+            39,
+            41
+          ],
+          "tiles": [
+            {
+              "x": 42,
+              "y": 41,
+              "target": [
+                39,
+                41
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        }
+      ]
+    },
+    "10307": {
+      "id": "10307",
+      "floorId": 10307,
+      "name": "柯奥的洞窟７楼 100",
+      "mapFile": "/data/maps/10307.ls2map",
+      "summary": "柯奥的洞窟７楼 100 | floor=10307 | 50x50 | gmsv-data/map/sainasu/dungeon/dan_1-03-07",
+      "size": [
+        50,
+        50
+      ],
+      "spawn": [
+        37,
+        6
+      ],
+      "encounterPets": [],
+      "encounterAreas": [],
+      "npcs": [],
+      "exits": [
+        {
+          "id": "10306-0",
+          "label": "去 柯奥的洞窟６楼 100",
+          "detail": "柯奥的洞窟６楼 100 | floor 10306 | 目标 (38,6) | 入口 (37,6)",
+          "to": "10306",
+          "x": 37,
+          "y": 6,
+          "bounds": [
+            37,
+            6,
+            37,
+            6
+          ],
+          "target": [
+            38,
+            6
+          ],
+          "tiles": [
+            {
+              "x": 37,
+              "y": 6,
+              "target": [
+                38,
+                6
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        },
+        {
+          "id": "10306-1",
+          "label": "去 柯奥的洞窟６楼 100",
+          "detail": "柯奥的洞窟６楼 100 | floor 10306 | 目标 (42,41) | 入口 (39,41)",
+          "to": "10306",
+          "x": 39,
+          "y": 41,
+          "bounds": [
+            39,
+            41,
+            39,
+            41
+          ],
+          "target": [
+            42,
+            41
+          ],
+          "tiles": [
+            {
+              "x": 39,
+              "y": 41,
+              "target": [
+                42,
+                41
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        },
+        {
+          "id": "10308-2",
+          "label": "去 柯奥的洞窟８楼 1000",
+          "detail": "柯奥的洞窟８楼 1000 | floor 10308 | 目标 (12,5) | 入口 (13,19)",
+          "to": "10308",
+          "x": 13,
+          "y": 19,
+          "bounds": [
+            13,
+            19,
+            13,
+            19
+          ],
+          "target": [
+            12,
+            5
+          ],
+          "tiles": [
+            {
+              "x": 13,
+              "y": 19,
+              "target": [
+                12,
+                5
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        },
+        {
+          "id": "10308-3",
+          "label": "去 柯奥的洞窟８楼 1000",
+          "detail": "柯奥的洞窟８楼 1000 | floor 10308 | 目标 (20,5) | 入口 (18,17)",
+          "to": "10308",
+          "x": 18,
+          "y": 17,
+          "bounds": [
+            18,
+            17,
+            18,
+            17
+          ],
+          "target": [
+            20,
+            5
+          ],
+          "tiles": [
+            {
+              "x": 18,
+              "y": 17,
+              "target": [
+                20,
+                5
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        },
+        {
+          "id": "10308-4",
+          "label": "去 柯奥的洞窟８楼 1000",
+          "detail": "柯奥的洞窟８楼 1000 | floor 10308 | 目标 (28,4) | 入口 (22,17)",
+          "to": "10308",
+          "x": 22,
+          "y": 17,
+          "bounds": [
+            22,
+            17,
+            22,
+            17
+          ],
+          "target": [
+            28,
+            4
+          ],
+          "tiles": [
+            {
+              "x": 22,
+              "y": 17,
+              "target": [
+                28,
+                4
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        },
+        {
+          "id": "10308-5",
+          "label": "去 柯奥的洞窟８楼 1000",
+          "detail": "柯奥的洞窟８楼 1000 | floor 10308 | 目标 (40,5) | 入口 (27,18)",
+          "to": "10308",
+          "x": 27,
+          "y": 18,
+          "bounds": [
+            27,
+            18,
+            27,
+            18
+          ],
+          "target": [
+            40,
+            5
+          ],
+          "tiles": [
+            {
+              "x": 27,
+              "y": 18,
+              "target": [
+                40,
+                5
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        }
+      ]
+    },
+    "10308": {
+      "id": "10308",
+      "floorId": 10308,
+      "name": "柯奥的洞窟８楼 1000",
+      "mapFile": "/data/maps/10308.ls2map",
+      "summary": "柯奥的洞窟８楼 1000 | floor=10308 | 50x50 | gmsv-data/map/sainasu/dungeon/dan_1-03-08",
+      "size": [
+        50,
+        50
+      ],
+      "spawn": [
+        12,
+        5
+      ],
+      "encounterPets": [],
+      "encounterAreas": [],
+      "npcs": [],
+      "exits": [
+        {
+          "id": "10307-0",
+          "label": "去 柯奥的洞窟７楼 100",
+          "detail": "柯奥的洞窟７楼 100 | floor 10307 | 目标 (13,19) | 入口 (12,5)",
+          "to": "10307",
+          "x": 12,
+          "y": 5,
+          "bounds": [
+            12,
+            5,
+            12,
+            5
+          ],
+          "target": [
+            13,
+            19
+          ],
+          "tiles": [
+            {
+              "x": 12,
+              "y": 5,
+              "target": [
+                13,
+                19
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        },
+        {
+          "id": "10307-1",
+          "label": "去 柯奥的洞窟７楼 100",
+          "detail": "柯奥的洞窟７楼 100 | floor 10307 | 目标 (18,17) | 入口 (20,5)",
+          "to": "10307",
+          "x": 20,
+          "y": 5,
+          "bounds": [
+            20,
+            5,
+            20,
+            5
+          ],
+          "target": [
+            18,
+            17
+          ],
+          "tiles": [
+            {
+              "x": 20,
+              "y": 5,
+              "target": [
+                18,
+                17
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        },
+        {
+          "id": "10307-2",
+          "label": "去 柯奥的洞窟７楼 100",
+          "detail": "柯奥的洞窟７楼 100 | floor 10307 | 目标 (22,17) | 入口 (28,4)",
+          "to": "10307",
+          "x": 28,
+          "y": 4,
+          "bounds": [
+            28,
+            4,
+            28,
+            4
+          ],
+          "target": [
+            22,
+            17
+          ],
+          "tiles": [
+            {
+              "x": 28,
+              "y": 4,
+              "target": [
+                22,
+                17
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        },
+        {
+          "id": "10307-3",
+          "label": "去 柯奥的洞窟７楼 100",
+          "detail": "柯奥的洞窟７楼 100 | floor 10307 | 目标 (27,18) | 入口 (40,5)",
+          "to": "10307",
+          "x": 40,
+          "y": 5,
+          "bounds": [
+            40,
+            5,
+            40,
+            5
+          ],
+          "target": [
+            27,
+            18
+          ],
+          "tiles": [
+            {
+              "x": 40,
+              "y": 5,
+              "target": [
+                27,
+                18
               ]
             }
           ],

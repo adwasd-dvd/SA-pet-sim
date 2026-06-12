@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-06-12T05:56:09.628Z",
+  "generatedAt": "2026-06-12T09:27:16.436Z",
   "sourcePolicy": "Local ref___data NPC files are the source of truth. External guides only influence profile candidates; this report ranks local source actions by current profile impact. Raw scripts are summarized here for developer planning and are not sent to normal client payloads.",
   "summary": {
     "rawFilesScanned": 3599,
-    "worldMaps": 300,
+    "worldMaps": 308,
     "worldNpcs": 1749,
     "worldScriptNpcs": 394,
     "worldScriptEvents": 1725,
@@ -15,7 +15,7 @@
   "profiles": {
     "classic-core": {
       "id": "classic-core",
-      "floors": 99,
+      "floors": 107,
       "sourceFiles": 656,
       "worldNpcs": 701,
       "worldScriptNpcs": 117,
@@ -23,7 +23,7 @@
     },
     "classic-rebirth": {
       "id": "classic-rebirth",
-      "floors": 103,
+      "floors": 111,
       "sourceFiles": 726,
       "worldNpcs": 772,
       "worldScriptNpcs": 135,
@@ -31,7 +31,7 @@
     },
     "classic-advanced-2.0": {
       "id": "classic-advanced-2.0",
-      "floors": 103,
+      "floors": 111,
       "sourceFiles": 726,
       "worldNpcs": 772,
       "worldScriptNpcs": 135,
@@ -39,7 +39,7 @@
     },
     "classic-advanced-2.5": {
       "id": "classic-advanced-2.5",
-      "floors": 103,
+      "floors": 111,
       "sourceFiles": 726,
       "worldNpcs": 772,
       "worldScriptNpcs": 135,
@@ -48,7 +48,7 @@
   },
   "parsedWorldActions": {
     "full": {
-      "maps": 300,
+      "maps": 308,
       "npcs": 1749,
       "scriptNpcs": 394,
       "scriptEvents": 1725,
@@ -88,7 +88,7 @@
     },
     "profiles": {
       "classic-core": {
-        "maps": 99,
+        "maps": 107,
         "npcs": 701,
         "scriptNpcs": 117,
         "scriptEvents": 604,
@@ -119,7 +119,7 @@
         }
       },
       "classic-rebirth": {
-        "maps": 103,
+        "maps": 111,
         "npcs": 772,
         "scriptNpcs": 135,
         "scriptEvents": 703,
@@ -150,7 +150,7 @@
         }
       },
       "classic-advanced-2.0": {
-        "maps": 103,
+        "maps": 111,
         "npcs": 772,
         "scriptNpcs": 135,
         "scriptEvents": 703,
@@ -181,7 +181,7 @@
         }
       },
       "classic-advanced-2.5": {
-        "maps": 103,
+        "maps": 111,
         "npcs": 772,
         "scriptNpcs": 135,
         "scriptEvents": 703,

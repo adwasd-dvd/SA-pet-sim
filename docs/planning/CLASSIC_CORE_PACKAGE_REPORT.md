@@ -1,26 +1,26 @@
 # Classic Core Package Report
 
-Generated at: 2026-06-12T05:53:06.888Z
+Generated at: 2026-06-12T09:25:03.002Z
 
 Package estimates are computed from local WORLD data, the classic-core closure manifest, and current public map/client-map files. They do not invent or modify resources.
 
 ## Summary
 
-Current public directory: 911 files, 94.33 MiB raw, 52.59 MiB gzip-estimated.
+Current public directory: 935 files, 94.66 MiB raw, 52.82 MiB gzip-estimated.
 
-Shared assets not yet profile-filtered: 20 files, 25.65 MiB raw, 19.14 MiB gzip-estimated.
+Shared assets not yet profile-filtered: 20 files, 25.61 MiB raw, 19.10 MiB gzip-estimated.
 
 | Metric | Full-dev current | Classic-core estimate | Difference |
 | --- | ---: | ---: | ---: |
-| Floors | 300 | 99 | 201 |
+| Floors | 308 | 107 | 201 |
 | NPCs | 1749 | 701 | -1048 |
-| Active exits | 982 | 176 | -806 |
+| Active exits | 1016 | 210 | -806 |
 | Profile-closed exits | 0 | 56 | 56 |
-| LS2MAP raw | 15.24 MiB | 3.78 MiB | 11.47 MiB |
+| LS2MAP raw | 15.32 MiB | 3.86 MiB | 11.47 MiB |
 | Client DAT raw | 22.67 MiB | 5.66 MiB | 17.01 MiB |
-| WORLD model raw | 7.60 MiB | 2.82 MiB | 4.78 MiB |
-| Estimated raw package | 71.16 MiB | 37.91 MiB | 33.25 MiB (46.7%) |
-| Estimated gzip package | 24.26 MiB | 20.58 MiB | 3.67 MiB (15.1%) |
+| WORLD model raw | 7.63 MiB | 2.85 MiB | 4.78 MiB |
+| Estimated raw package | 71.22 MiB | 37.97 MiB | 33.25 MiB (46.7%) |
+| Estimated gzip package | 24.23 MiB | 20.56 MiB | 3.67 MiB (15.2%) |
 
 ## Largest Omitted Current Floors
 
@@ -51,7 +51,14 @@ These are full-dev generated floors not present in the current classic-core prof
 
 ## Classic-Core Missing Assets
 
-- None.
+- floor 10301 柯奥的洞窟１楼 100: missing DAT
+- floor 10302 柯奥的洞窟２楼 1000: missing DAT
+- floor 10303 柯奥的洞窟３楼 1000: missing DAT
+- floor 10304 柯奥的洞窟４楼 1000: missing DAT
+- floor 10305 柯奥的洞窟５楼 100: missing DAT
+- floor 10306 柯奥的洞窟６楼 100: missing DAT
+- floor 10307 柯奥的洞窟７楼 100: missing DAT
+- floor 10308 柯奥的洞窟８楼 1000: missing DAT
 
 ## Notes
 

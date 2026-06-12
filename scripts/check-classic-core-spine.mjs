@@ -8,6 +8,7 @@ const failures = [];
 
 const pkg = readJson(path.join(appRoot, "package.json"));
 const manifest = readJson(path.join(appRoot, "docs/planning/classic-core-closure-manifest.json"));
+const profilePackPlan = readJson(path.join(appRoot, "public/data/profiles/classic-core/profile-texture-pack-plan.json"));
 
 expect(
   pkg.scripts?.["check:classic-core-spine"] === "node scripts/check-classic-core-spine.mjs",
@@ -35,6 +36,30 @@ expect(hasFloor(adultLine?.maps?.routeTransitFloors, 10202), "adult ceremony rou
 expect(hasFloor(adultLine?.maps?.routeTransitFloors, 10203), "adult ceremony route must retain transit floor 10203");
 expect((adultLine?.maps?.sourceOnlyFloors || []).length === 0, "adult ceremony must not have source-only floors");
 expect((adultLine?.maps?.missingSeedFloors || []).length === 0, "adult ceremony must not have missing seed floors");
+
+const classicCoreProfile = (manifest.profiles || []).find((profile) => profile.id === "classic-core");
+expect(classicCoreProfile, "classic-core closure manifest must contain the classic-core profile");
+expect((classicCoreProfile?.sourceOnlyFloors || []).length === 0, "classic-core profile must not retain source-only floors");
+expect(classicCoreProfile?.validation?.status !== "needs-world-generation", "classic-core profile must not require world generation");
+
+const villageStartLine = (manifest.lines || []).find((line) => line.id === "classic-village-start");
+expect(villageStartLine, "classic-core closure manifest must contain classic-village-start");
+expect(villageStartLine?.profile === "classic-core", "Classic Village Start must remain in classic-core profile");
+expect((villageStartLine?.maps?.sourceOnlyFloors || []).length === 0, "Classic Village Start must not have source-only floors");
+
+const koCaveFloors = [10301, 10302, 10303, 10304, 10305, 10306, 10307, 10308];
+for (const floor of koCaveFloors) {
+  expect(hasFloor(villageStartLine?.maps?.generatedFloors, floor), `Classic Village Start must generate Ko cave floor ${floor}`);
+  expect(WORLD.maps[String(floor)] || WORLD.maps[floor], `WORLD must include Ko cave floor ${floor}`);
+  const floorPacks = profilePackPlan.runtimeManifestSketch?.floors?.[String(floor)]?.packs || [];
+  expect(floorPacks.length > 0, `classic-core profile runtime manifest must cover Ko cave floor ${floor}`);
+  for (const packRef of floorPacks) {
+    expect(
+      existsSync(path.join(appRoot, "public/data/profiles/classic-core", packRef)),
+      `classic-core profile pack is missing for Ko cave floor ${floor}: ${packRef}`
+    );
+  }
+}
 
 expect(
   adultLine?.npcs?.some((npc) =>

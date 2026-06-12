@@ -10,19 +10,19 @@
     "failOn": "error"
   },
   "summary": {
-    "atlasFrames": 6803,
-    "planPacks": 93,
-    "keepFloors": 99,
+    "atlasFrames": 6805,
+    "planPacks": 96,
+    "keepFloors": 107,
     "floorCoverage": {
-      "checked": 99,
-      "ok": 99,
+      "checked": 107,
+      "ok": 107,
       "failed": 0,
       "missingByFloor": {}
     },
     "packFiles": {
-      "checked": 93,
-      "withJson": 93,
-      "withPng": 93
+      "checked": 96,
+      "withJson": 96,
+      "withPng": 96
     },
     "issues": {
       "error": 0,

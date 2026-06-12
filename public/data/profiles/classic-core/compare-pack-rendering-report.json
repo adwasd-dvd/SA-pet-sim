@@ -11,9 +11,9 @@
     "failOnDiff": true
   },
   "summary": {
-    "packsChecked": 93,
-    "checkedFrames": 8205,
-    "exactFrames": 8205,
+    "packsChecked": 96,
+    "checkedFrames": 8182,
+    "exactFrames": 8182,
     "mismatchedFrames": 0,
     "exactRatio": 1,
     "missingSourceFrames": 0,
@@ -59,43 +59,43 @@
     {
       "id": "map-tiles-shared-core",
       "status": "checked",
-      "framesChecked": 54,
-      "exactFrames": 54,
+      "framesChecked": 67,
+      "exactFrames": 67,
       "mismatchedFrames": 0
     },
     {
       "id": "map-tiles-region-1000",
       "status": "checked",
-      "framesChecked": 440,
-      "exactFrames": 440,
+      "framesChecked": 427,
+      "exactFrames": 427,
       "mismatchedFrames": 0
     },
     {
       "id": "map-tiles-region-2000",
       "status": "checked",
-      "framesChecked": 5,
-      "exactFrames": 5,
+      "framesChecked": 7,
+      "exactFrames": 7,
       "mismatchedFrames": 0
     },
     {
       "id": "map-tiles-region-3000",
       "status": "checked",
-      "framesChecked": 490,
-      "exactFrames": 490,
+      "framesChecked": 493,
+      "exactFrames": 493,
       "mismatchedFrames": 0
     },
     {
       "id": "map-tiles-region-4000",
       "status": "checked",
-      "framesChecked": 2,
-      "exactFrames": 2,
+      "framesChecked": 3,
+      "exactFrames": 3,
       "mismatchedFrames": 0
     },
     {
       "id": "map-tiles-region-10000",
       "status": "checked",
-      "framesChecked": 122,
-      "exactFrames": 122,
+      "framesChecked": 117,
+      "exactFrames": 117,
       "mismatchedFrames": 0
     },
     {
@@ -388,8 +388,8 @@
     {
       "id": "floor-2007-map-delta",
       "status": "checked",
-      "framesChecked": 138,
-      "exactFrames": 138,
+      "framesChecked": 123,
+      "exactFrames": 123,
       "mismatchedFrames": 0
     },
     {
@@ -402,8 +402,8 @@
     {
       "id": "floor-2009-map-delta",
       "status": "checked",
-      "framesChecked": 46,
-      "exactFrames": 46,
+      "framesChecked": 47,
+      "exactFrames": 47,
       "mismatchedFrames": 0
     },
     {
@@ -451,8 +451,8 @@
     {
       "id": "floor-3022-map-delta",
       "status": "checked",
-      "framesChecked": 23,
-      "exactFrames": 23,
+      "framesChecked": 7,
+      "exactFrames": 7,
       "mismatchedFrames": 0
     },
     {
@@ -605,8 +605,8 @@
     {
       "id": "floor-4002-map-delta",
       "status": "checked",
-      "framesChecked": 7,
-      "exactFrames": 7,
+      "framesChecked": 8,
+      "exactFrames": 8,
       "mismatchedFrames": 0
     },
     {
@@ -633,43 +633,64 @@
     {
       "id": "floor-4006-map-delta",
       "status": "checked",
-      "framesChecked": 17,
-      "exactFrames": 17,
+      "framesChecked": 18,
+      "exactFrames": 18,
       "mismatchedFrames": 0
     },
     {
       "id": "floor-10006-map-delta",
       "status": "checked",
-      "framesChecked": 20,
-      "exactFrames": 20,
+      "framesChecked": 15,
+      "exactFrames": 15,
       "mismatchedFrames": 0
     },
     {
       "id": "floor-10007-map-delta",
       "status": "checked",
-      "framesChecked": 29,
-      "exactFrames": 29,
+      "framesChecked": 26,
+      "exactFrames": 26,
       "mismatchedFrames": 0
     },
     {
       "id": "floor-10202-map-delta",
       "status": "checked",
-      "framesChecked": 22,
-      "exactFrames": 22,
+      "framesChecked": 19,
+      "exactFrames": 19,
       "mismatchedFrames": 0
     },
     {
       "id": "floor-10203-map-delta",
       "status": "checked",
-      "framesChecked": 16,
-      "exactFrames": 16,
+      "framesChecked": 10,
+      "exactFrames": 10,
       "mismatchedFrames": 0
     },
     {
       "id": "floor-10204-map-delta",
       "status": "checked",
-      "framesChecked": 3,
-      "exactFrames": 3,
+      "framesChecked": 1,
+      "exactFrames": 1,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-10301-map-delta",
+      "status": "checked",
+      "framesChecked": 1,
+      "exactFrames": 1,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-10306-map-delta",
+      "status": "checked",
+      "framesChecked": 1,
+      "exactFrames": 1,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-10308-map-delta",
+      "status": "checked",
+      "framesChecked": 21,
+      "exactFrames": 21,
       "mismatchedFrames": 0
     }
   ],

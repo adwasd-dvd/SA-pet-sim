@@ -1,6 +1,6 @@
 # NPC Script Coverage Report
 
-Generated: 2026-06-12T05:56:09.628Z
+Generated: 2026-06-12T09:27:16.436Z
 
 This report is generated from local NPC source files and generated world data. It is the planning gate for loading more source NPC tasks without sending raw scripts to the client.
 
@@ -21,10 +21,10 @@ This report is generated from local NPC source files and generated world data. I
 
 | Profile | Floors | Source files | World NPCs | Script NPCs | Script events |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| classic-core | 99 | 656 | 701 | 117 | 604 |
-| classic-rebirth | 103 | 726 | 772 | 135 | 703 |
-| classic-advanced-2.0 | 103 | 726 | 772 | 135 | 703 |
-| classic-advanced-2.5 | 103 | 726 | 772 | 135 | 703 |
+| classic-core | 107 | 656 | 701 | 117 | 604 |
+| classic-rebirth | 111 | 726 | 772 | 135 | 703 |
+| classic-advanced-2.0 | 111 | 726 | 772 | 135 | 703 |
+| classic-advanced-2.5 | 111 | 726 | 772 | 135 | 703 |
 
 ## Parsed Runtime Actions
 

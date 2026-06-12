@@ -4458,7 +4458,13 @@ const battleModelTargets = [0, 1, 2].map((index) => ({
 battleModelSkillGame.encounter = battleModelTargets[0];
 battleModelSkillGame.battle.enemyParty = battleModelTargets;
 battleModelSkillGame.battle.activeEnemyIndex = 0;
-battleModelSkillGame = await api("/api/game/battle", { game: battleModelSkillGame, action: "skill:0" });
+const originalRandomForBattleModel = Math.random;
+try {
+  Math.random = () => 0.1;
+  battleModelSkillGame = await api("/api/game/battle", { game: battleModelSkillGame, action: "skill:0" });
+} finally {
+  Math.random = originalRandomForBattleModel;
+}
 const battleModelTelemetry = battleModelSkillGame.battleOutcome.playerAction?.petSkill;
 assertEqual(battleModelSkillGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_S_BATTLE_MODEL", "BattleModel pet skill maps to source battle command");
 assertEqual(battleModelTelemetry?.battleModel?.type, 5, "BattleModel parses source attack type");

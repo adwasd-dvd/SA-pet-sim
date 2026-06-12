@@ -1,45 +1,93 @@
 {
-  "generatedAt": "2026-06-12T05:53:06.888Z",
+  "generatedAt": "2026-06-12T09:25:03.002Z",
   "sourcePolicy": "Package estimates are computed from local WORLD data, the classic-core closure manifest, and current public map/client-map files. They do not invent or modify resources.",
   "currentPublic": {
-    "fileCount": 911,
-    "bytes": 98907593,
-    "gzipBytes": 55145054
+    "fileCount": 935,
+    "bytes": 99258612,
+    "gzipBytes": 55390011
   },
   "sharedPublic": {
     "fileCount": 20,
-    "bytes": 26890867,
-    "gzipBytes": 20064706
+    "bytes": 26848815,
+    "gzipBytes": 20023193
   },
   "profiles": [
     {
       "id": "full-dev-current",
-      "floorCount": 300,
+      "floorCount": 308,
       "npcCount": 1749,
-      "activeExitCount": 982,
+      "activeExitCount": 1016,
       "profileClosedExitCount": 0,
       "mapAssets": {
-        "fileCount": 300,
-        "bytes": 15984393,
-        "gzipBytes": 2481455
+        "fileCount": 308,
+        "bytes": 16064745,
+        "gzipBytes": 2495319
       },
       "clientMapAssets": {
-        "fileCount": 300,
+        "fileCount": 308,
         "bytes": 23773180,
         "gzipBytes": 2174578
       },
       "worldModel": {
-        "bytes": 7970533,
-        "gzipBytes": 713565,
-        "activeExitCount": 982,
+        "bytes": 7996584,
+        "gzipBytes": 716196,
+        "activeExitCount": 1016,
         "profileClosedExitCount": 0
       },
-      "profileRawBytes": 47728106,
-      "profileGzipBytes": 5369598,
+      "profileRawBytes": 47834509,
+      "profileGzipBytes": 5386093,
       "missing": [
         {
           "floor": 1408,
           "name": "卡坦的道场",
+          "missingMap": false,
+          "missingClientMap": true
+        },
+        {
+          "floor": 10301,
+          "name": "柯奥的洞窟１楼 100",
+          "missingMap": false,
+          "missingClientMap": true
+        },
+        {
+          "floor": 10302,
+          "name": "柯奥的洞窟２楼 1000",
+          "missingMap": false,
+          "missingClientMap": true
+        },
+        {
+          "floor": 10303,
+          "name": "柯奥的洞窟３楼 1000",
+          "missingMap": false,
+          "missingClientMap": true
+        },
+        {
+          "floor": 10304,
+          "name": "柯奥的洞窟４楼 1000",
+          "missingMap": false,
+          "missingClientMap": true
+        },
+        {
+          "floor": 10305,
+          "name": "柯奥的洞窟５楼 100",
+          "missingMap": false,
+          "missingClientMap": true
+        },
+        {
+          "floor": 10306,
+          "name": "柯奥的洞窟６楼 100",
+          "missingMap": false,
+          "missingClientMap": true
+        },
+        {
+          "floor": 10307,
+          "name": "柯奥的洞窟７楼 100",
+          "missingMap": false,
+          "missingClientMap": true
+        },
+        {
+          "floor": 10308,
+          "name": "柯奥的洞窟８楼 1000",
           "missingMap": false,
           "missingClientMap": true
         }
@@ -47,61 +95,110 @@
     },
     {
       "id": "classic-core",
-      "floorCount": 99,
+      "floorCount": 107,
       "npcCount": 701,
-      "activeExitCount": 176,
+      "activeExitCount": 210,
       "profileClosedExitCount": 56,
       "mapAssets": {
-        "fileCount": 99,
-        "bytes": 3962356,
-        "gzipBytes": 641445
+        "fileCount": 107,
+        "bytes": 4042708,
+        "gzipBytes": 655309
       },
       "clientMapAssets": {
-        "fileCount": 99,
+        "fileCount": 107,
         "bytes": 5937792,
         "gzipBytes": 567053
       },
       "worldModel": {
-        "bytes": 2960981,
-        "gzipBytes": 309426,
-        "activeExitCount": 176,
+        "bytes": 2987032,
+        "gzipBytes": 311626,
+        "activeExitCount": 210,
         "profileClosedExitCount": 57
       },
-      "profileRawBytes": 12861129,
-      "profileGzipBytes": 1517924,
-      "missing": []
+      "profileRawBytes": 12967532,
+      "profileGzipBytes": 1533988,
+      "missing": [
+        {
+          "floor": 10301,
+          "name": "柯奥的洞窟１楼 100",
+          "missingMap": false,
+          "missingClientMap": true
+        },
+        {
+          "floor": 10302,
+          "name": "柯奥的洞窟２楼 1000",
+          "missingMap": false,
+          "missingClientMap": true
+        },
+        {
+          "floor": 10303,
+          "name": "柯奥的洞窟３楼 1000",
+          "missingMap": false,
+          "missingClientMap": true
+        },
+        {
+          "floor": 10304,
+          "name": "柯奥的洞窟４楼 1000",
+          "missingMap": false,
+          "missingClientMap": true
+        },
+        {
+          "floor": 10305,
+          "name": "柯奥的洞窟５楼 100",
+          "missingMap": false,
+          "missingClientMap": true
+        },
+        {
+          "floor": 10306,
+          "name": "柯奥的洞窟６楼 100",
+          "missingMap": false,
+          "missingClientMap": true
+        },
+        {
+          "floor": 10307,
+          "name": "柯奥的洞窟７楼 100",
+          "missingMap": false,
+          "missingClientMap": true
+        },
+        {
+          "floor": 10308,
+          "name": "柯奥的洞窟８楼 1000",
+          "missingMap": false,
+          "missingClientMap": true
+        }
+      ]
     }
   ],
   "comparison": {
     "floorSavings": 201,
     "npcDelta": -1048,
     "estimatedRawBytes": {
-      "fullDev": 74618973,
-      "classicCore": 39751996
+      "fullDev": 74683324,
+      "classicCore": 39816347
     },
     "estimatedGzipBytes": {
-      "fullDev": 25434304,
-      "classicCore": 21582630
+      "fullDev": 25409286,
+      "classicCore": 21557181
     },
     "estimatedRawSavings": {
       "bytes": 34866977,
-      "percent": 46.726691078956556
+      "percent": 46.6864289543406
     },
     "estimatedGzipSavings": {
-      "bytes": 3851674,
-      "percent": 15.143618634109272
+      "bytes": 3852105,
+      "percent": 15.160225281418768
     },
     "mapAssetSavings": {
       "bytes": 29857425,
-      "percent": 75.0987113826088
+      "percent": 74.94723934542273
     },
     "worldModelSavings": {
       "bytes": 5009552,
-      "percent": 62.850903446482185
+      "percent": 62.64614990600986
     },
     "unchangedSharedAssets": {
-      "bytes": 26890867,
-      "gzipBytes": 20064706,
+      "bytes": 26848815,
+      "gzipBytes": 20023193,
       "note": "Shared assets include the current monolithic client tile atlas and data tables; these require later resource-pack extraction to shrink further."
     }
   },
