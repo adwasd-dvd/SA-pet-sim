@@ -2,10 +2,12 @@ import fs from "node:fs";
 import path from "node:path";
 
 const root = process.cwd();
+const closureManifestPath = path.join(root, "docs/planning/classic-core-closure-manifest.json");
 const keepSetPath = path.join(root, "public/data/profiles/classic-core/texture-keep-set.json");
 const packPlanPath = path.join(root, "public/data/profiles/classic-core/profile-texture-pack-plan.json");
 const packsRoot = path.dirname(packPlanPath);
 
+const closureManifest = readJson(closureManifestPath);
 const keepSet = readJson(keepSetPath);
 const packPlan = readJson(packPlanPath);
 const packById = new Map((packPlan.packs || []).map((pack) => [String(pack.id), pack]));
@@ -15,6 +17,8 @@ const issues = [];
 const floorDetails = keepSet.floorDetails || {};
 let checkedFloors = 0;
 let okFloors = 0;
+
+assertKeepSetMatchesClosure();
 
 for (const [floor, detail] of Object.entries(floorDetails)) {
   checkedFloors += 1;
@@ -57,6 +61,30 @@ const summary = {
 
 console.log(JSON.stringify({ v: 1, summary, issues }, null, 2));
 if (issues.length) process.exit(1);
+
+function assertKeepSetMatchesClosure() {
+  const classicProfile = (closureManifest.profiles || []).find((profile) => profile.id === "classic-core");
+  const closureFloors = uniqueSorted((classicProfile?.floors || []).map((entry) => entry?.floor ?? entry));
+  const keepSetFloors = uniqueSorted(Object.keys(floorDetails));
+  const missing = closureFloors.filter((floor) => !keepSetFloors.includes(floor));
+  const extra = keepSetFloors.filter((floor) => !closureFloors.includes(floor));
+  if (missing.length) {
+    addIssue(
+      "closure-keep-set-floor-gap",
+      "classic-core",
+      `Texture keep-set is missing ${missing.length} classic-core closure floors. Run npm run profile:assets:classic-core.`,
+      missing
+    );
+  }
+  if (extra.length) {
+    addIssue(
+      "keep-set-extra-floor",
+      "classic-core",
+      `Texture keep-set has ${extra.length} floors outside the classic-core closure manifest.`,
+      extra
+    );
+  }
+}
 
 function runtimeRefsForFloor(floor) {
   const sketch = packPlan.runtimeManifestSketch || {};

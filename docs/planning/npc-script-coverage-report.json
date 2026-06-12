@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-27T20:56:29.300Z",
+  "generatedAt": "2026-06-12T05:56:09.628Z",
   "sourcePolicy": "Local ref___data NPC files are the source of truth. External guides only influence profile candidates; this report ranks local source actions by current profile impact. Raw scripts are summarized here for developer planning and are not sent to normal client payloads.",
   "summary": {
     "rawFilesScanned": 3599,
@@ -15,35 +15,35 @@
   "profiles": {
     "classic-core": {
       "id": "classic-core",
-      "floors": 93,
-      "sourceFiles": 641,
-      "worldNpcs": 681,
-      "worldScriptNpcs": 114,
-      "worldScriptEvents": 589
+      "floors": 99,
+      "sourceFiles": 656,
+      "worldNpcs": 701,
+      "worldScriptNpcs": 117,
+      "worldScriptEvents": 604
     },
     "classic-rebirth": {
       "id": "classic-rebirth",
-      "floors": 95,
-      "sourceFiles": 692,
-      "worldNpcs": 737,
-      "worldScriptNpcs": 127,
-      "worldScriptEvents": 656
+      "floors": 103,
+      "sourceFiles": 726,
+      "worldNpcs": 772,
+      "worldScriptNpcs": 135,
+      "worldScriptEvents": 703
     },
     "classic-advanced-2.0": {
       "id": "classic-advanced-2.0",
-      "floors": 95,
-      "sourceFiles": 692,
-      "worldNpcs": 737,
-      "worldScriptNpcs": 127,
-      "worldScriptEvents": 656
+      "floors": 103,
+      "sourceFiles": 726,
+      "worldNpcs": 772,
+      "worldScriptNpcs": 135,
+      "worldScriptEvents": 703
     },
     "classic-advanced-2.5": {
       "id": "classic-advanced-2.5",
-      "floors": 95,
-      "sourceFiles": 692,
-      "worldNpcs": 737,
-      "worldScriptNpcs": 127,
-      "worldScriptEvents": 656
+      "floors": 103,
+      "sourceFiles": 726,
+      "worldNpcs": 772,
+      "worldScriptNpcs": 135,
+      "worldScriptEvents": 703
     }
   },
   "parsedWorldActions": {
@@ -88,21 +88,21 @@
     },
     "profiles": {
       "classic-core": {
-        "maps": 93,
-        "npcs": 681,
-        "scriptNpcs": 114,
-        "scriptEvents": 589,
+        "maps": 99,
+        "npcs": 701,
+        "scriptNpcs": 117,
+        "scriptEvents": 604,
         "parsedActions": {
-          "condition": 589,
-          "DelItem": 225,
-          "GetItem": 167,
+          "condition": 604,
+          "DelItem": 229,
+          "GetItem": 171,
           "MessagePages": 72,
           "GetStone": 63,
-          "EndSetFlg": 33,
+          "EndSetFlg": 34,
           "GetRandItem": 30,
-          "StopMsg": 27,
+          "StopMsg": 28,
           "DelPet": 22,
-          "KeyWord": 19,
+          "KeyWord": 20,
           "NpcWarp": 14,
           "GetPet": 11,
           "CleanFlg": 8,
@@ -112,27 +112,27 @@
           "Charm": 2
         },
         "eventTypes": {
-          "MESSAGE": 317,
-          "ACCEPT": 222,
-          "REQUEST": 42,
+          "MESSAGE": 328,
+          "ACCEPT": 225,
+          "REQUEST": 43,
           "CLEAN": 8
         }
       },
       "classic-rebirth": {
-        "maps": 95,
-        "npcs": 737,
-        "scriptNpcs": 127,
-        "scriptEvents": 656,
+        "maps": 103,
+        "npcs": 772,
+        "scriptNpcs": 135,
+        "scriptEvents": 703,
         "parsedActions": {
-          "condition": 656,
-          "DelItem": 236,
-          "GetItem": 186,
-          "MessagePages": 83,
+          "condition": 703,
+          "DelItem": 243,
+          "GetItem": 194,
+          "MessagePages": 88,
           "GetStone": 63,
-          "EndSetFlg": 34,
+          "EndSetFlg": 37,
           "GetRandItem": 30,
-          "StopMsg": 28,
-          "KeyWord": 25,
+          "StopMsg": 30,
+          "KeyWord": 26,
           "DelPet": 22,
           "NpcWarp": 15,
           "GetPet": 11,
@@ -143,27 +143,27 @@
           "Charm": 2
         },
         "eventTypes": {
-          "MESSAGE": 371,
-          "ACCEPT": 233,
-          "REQUEST": 44,
+          "MESSAGE": 408,
+          "ACCEPT": 241,
+          "REQUEST": 46,
           "CLEAN": 8
         }
       },
       "classic-advanced-2.0": {
-        "maps": 95,
-        "npcs": 737,
-        "scriptNpcs": 127,
-        "scriptEvents": 656,
+        "maps": 103,
+        "npcs": 772,
+        "scriptNpcs": 135,
+        "scriptEvents": 703,
         "parsedActions": {
-          "condition": 656,
-          "DelItem": 236,
-          "GetItem": 186,
-          "MessagePages": 83,
+          "condition": 703,
+          "DelItem": 243,
+          "GetItem": 194,
+          "MessagePages": 88,
           "GetStone": 63,
-          "EndSetFlg": 34,
+          "EndSetFlg": 37,
           "GetRandItem": 30,
-          "StopMsg": 28,
-          "KeyWord": 25,
+          "StopMsg": 30,
+          "KeyWord": 26,
           "DelPet": 22,
           "NpcWarp": 15,
           "GetPet": 11,
@@ -174,27 +174,27 @@
           "Charm": 2
         },
         "eventTypes": {
-          "MESSAGE": 371,
-          "ACCEPT": 233,
-          "REQUEST": 44,
+          "MESSAGE": 408,
+          "ACCEPT": 241,
+          "REQUEST": 46,
           "CLEAN": 8
         }
       },
       "classic-advanced-2.5": {
-        "maps": 95,
-        "npcs": 737,
-        "scriptNpcs": 127,
-        "scriptEvents": 656,
+        "maps": 103,
+        "npcs": 772,
+        "scriptNpcs": 135,
+        "scriptEvents": 703,
         "parsedActions": {
-          "condition": 656,
-          "DelItem": 236,
-          "GetItem": 186,
-          "MessagePages": 83,
+          "condition": 703,
+          "DelItem": 243,
+          "GetItem": 194,
+          "MessagePages": 88,
           "GetStone": 63,
-          "EndSetFlg": 34,
+          "EndSetFlg": 37,
           "GetRandItem": 30,
-          "StopMsg": 28,
-          "KeyWord": 25,
+          "StopMsg": 30,
+          "KeyWord": 26,
           "DelPet": 22,
           "NpcWarp": 15,
           "GetPet": 11,
@@ -205,9 +205,9 @@
           "Charm": 2
         },
         "eventTypes": {
-          "MESSAGE": 371,
-          "ACCEPT": 233,
-          "REQUEST": 44,
+          "MESSAGE": 408,
+          "ACCEPT": 241,
+          "REQUEST": 46,
           "CLEAN": 8
         }
       }
@@ -233,20 +233,20 @@
         "files": 394,
         "profiles": {
           "classic-core": {
-            "occurrences": 249,
-            "files": 66
+            "occurrences": 252,
+            "files": 68
           },
           "classic-rebirth": {
-            "occurrences": 270,
-            "files": 73
+            "occurrences": 280,
+            "files": 78
           },
           "classic-advanced-2.0": {
-            "occurrences": 270,
-            "files": 73
+            "occurrences": 280,
+            "files": 78
           },
           "classic-advanced-2.5": {
-            "occurrences": 270,
-            "files": 73
+            "occurrences": 280,
+            "files": 78
           }
         },
         "samples": [
@@ -1036,16 +1036,16 @@
             "files": 14
           },
           "classic-rebirth": {
-            "occurrences": 16,
-            "files": 16
+            "occurrences": 17,
+            "files": 17
           },
           "classic-advanced-2.0": {
-            "occurrences": 16,
-            "files": 16
+            "occurrences": 17,
+            "files": 17
           },
           "classic-advanced-2.5": {
-            "occurrences": 16,
-            "files": 16
+            "occurrences": 17,
+            "files": 17
           }
         },
         "samples": [
@@ -1188,20 +1188,20 @@
         "files": 302,
         "profiles": {
           "classic-core": {
-            "occurrences": 105,
-            "files": 105
+            "occurrences": 109,
+            "files": 109
           },
           "classic-rebirth": {
-            "occurrences": 105,
-            "files": 105
+            "occurrences": 110,
+            "files": 110
           },
           "classic-advanced-2.0": {
-            "occurrences": 105,
-            "files": 105
+            "occurrences": 110,
+            "files": 110
           },
           "classic-advanced-2.5": {
-            "occurrences": 105,
-            "files": 105
+            "occurrences": 110,
+            "files": 110
           }
         },
         "samples": [
@@ -1240,20 +1240,20 @@
         "files": 348,
         "profiles": {
           "classic-core": {
-            "occurrences": 114,
-            "files": 114
+            "occurrences": 119,
+            "files": 119
           },
           "classic-rebirth": {
-            "occurrences": 114,
-            "files": 114
+            "occurrences": 120,
+            "files": 120
           },
           "classic-advanced-2.0": {
-            "occurrences": 114,
-            "files": 114
+            "occurrences": 120,
+            "files": 120
           },
           "classic-advanced-2.5": {
-            "occurrences": 114,
-            "files": 114
+            "occurrences": 120,
+            "files": 120
           }
         },
         "samples": [
@@ -1292,20 +1292,20 @@
         "files": 301,
         "profiles": {
           "classic-core": {
-            "occurrences": 105,
-            "files": 105
+            "occurrences": 109,
+            "files": 109
           },
           "classic-rebirth": {
-            "occurrences": 105,
-            "files": 105
+            "occurrences": 110,
+            "files": 110
           },
           "classic-advanced-2.0": {
-            "occurrences": 105,
-            "files": 105
+            "occurrences": 110,
+            "files": 110
           },
           "classic-advanced-2.5": {
-            "occurrences": 105,
-            "files": 105
+            "occurrences": 110,
+            "files": 110
           }
         },
         "samples": [
@@ -2583,20 +2583,20 @@
         "files": 567,
         "profiles": {
           "classic-core": {
-            "occurrences": 235,
-            "files": 87
+            "occurrences": 239,
+            "files": 89
           },
           "classic-rebirth": {
-            "occurrences": 246,
-            "files": 96
+            "occurrences": 253,
+            "files": 100
           },
           "classic-advanced-2.0": {
-            "occurrences": 246,
-            "files": 96
+            "occurrences": 253,
+            "files": 100
           },
           "classic-advanced-2.5": {
-            "occurrences": 246,
-            "files": 96
+            "occurrences": 253,
+            "files": 100
           }
         },
         "samples": [
@@ -2743,16 +2743,16 @@
             "files": 5
           },
           "classic-rebirth": {
-            "occurrences": 8,
-            "files": 8
+            "occurrences": 9,
+            "files": 9
           },
           "classic-advanced-2.0": {
-            "occurrences": 8,
-            "files": 8
+            "occurrences": 9,
+            "files": 9
           },
           "classic-advanced-2.5": {
-            "occurrences": 8,
-            "files": 8
+            "occurrences": 9,
+            "files": 9
           }
         },
         "samples": [
@@ -3172,20 +3172,20 @@
         "files": 131,
         "profiles": {
           "classic-core": {
-            "occurrences": 33,
-            "files": 22
+            "occurrences": 34,
+            "files": 23
           },
           "classic-rebirth": {
-            "occurrences": 34,
-            "files": 23
+            "occurrences": 37,
+            "files": 25
           },
           "classic-advanced-2.0": {
-            "occurrences": 34,
-            "files": 23
+            "occurrences": 37,
+            "files": 25
           },
           "classic-advanced-2.5": {
-            "occurrences": 34,
-            "files": 23
+            "occurrences": 37,
+            "files": 25
           }
         },
         "samples": [
@@ -3224,20 +3224,20 @@
         "files": 64,
         "profiles": {
           "classic-core": {
-            "occurrences": 28,
-            "files": 21
+            "occurrences": 29,
+            "files": 22
           },
           "classic-rebirth": {
-            "occurrences": 29,
-            "files": 22
+            "occurrences": 31,
+            "files": 24
           },
           "classic-advanced-2.0": {
-            "occurrences": 29,
-            "files": 22
+            "occurrences": 31,
+            "files": 24
           },
           "classic-advanced-2.5": {
-            "occurrences": 29,
-            "files": 22
+            "occurrences": 31,
+            "files": 24
           }
         },
         "samples": [
@@ -3667,20 +3667,20 @@
         "files": 844,
         "profiles": {
           "classic-core": {
-            "occurrences": 566,
-            "files": 101
+            "occurrences": 581,
+            "files": 104
           },
           "classic-rebirth": {
-            "occurrences": 633,
-            "files": 114
+            "occurrences": 674,
+            "files": 121
           },
           "classic-advanced-2.0": {
-            "occurrences": 633,
-            "files": 114
+            "occurrences": 674,
+            "files": 121
           },
           "classic-advanced-2.5": {
-            "occurrences": 633,
-            "files": 114
+            "occurrences": 674,
+            "files": 121
           }
         },
         "samples": [
@@ -3823,20 +3823,20 @@
         "files": 844,
         "profiles": {
           "classic-core": {
-            "occurrences": 565,
-            "files": 101
+            "occurrences": 580,
+            "files": 104
           },
           "classic-rebirth": {
-            "occurrences": 632,
-            "files": 114
+            "occurrences": 673,
+            "files": 121
           },
           "classic-advanced-2.0": {
-            "occurrences": 632,
-            "files": 114
+            "occurrences": 673,
+            "files": 121
           },
           "classic-advanced-2.5": {
-            "occurrences": 632,
-            "files": 114
+            "occurrences": 673,
+            "files": 121
           }
         },
         "samples": [
@@ -4346,16 +4346,16 @@
             "files": 29
           },
           "classic-rebirth": {
-            "occurrences": 54,
-            "files": 34
+            "occurrences": 60,
+            "files": 35
           },
           "classic-advanced-2.0": {
-            "occurrences": 54,
-            "files": 34
+            "occurrences": 60,
+            "files": 35
           },
           "classic-advanced-2.5": {
-            "occurrences": 54,
-            "files": 34
+            "occurrences": 60,
+            "files": 35
           }
         },
         "samples": [
@@ -4398,16 +4398,16 @@
             "files": 14
           },
           "classic-rebirth": {
-            "occurrences": 24,
-            "files": 19
+            "occurrences": 29,
+            "files": 20
           },
           "classic-advanced-2.0": {
-            "occurrences": 24,
-            "files": 19
+            "occurrences": 29,
+            "files": 20
           },
           "classic-advanced-2.5": {
-            "occurrences": 24,
-            "files": 19
+            "occurrences": 29,
+            "files": 20
           }
         },
         "samples": [
@@ -4834,20 +4834,20 @@
         "files": 413,
         "profiles": {
           "classic-core": {
-            "occurrences": 163,
-            "files": 93
+            "occurrences": 167,
+            "files": 96
           },
           "classic-rebirth": {
-            "occurrences": 184,
-            "files": 108
+            "occurrences": 193,
+            "files": 114
           },
           "classic-advanced-2.0": {
-            "occurrences": 184,
-            "files": 108
+            "occurrences": 193,
+            "files": 114
           },
           "classic-advanced-2.5": {
-            "occurrences": 184,
-            "files": 108
+            "occurrences": 193,
+            "files": 114
           }
         },
         "samples": [
@@ -5477,20 +5477,20 @@
         "files": 345,
         "profiles": {
           "classic-core": {
-            "occurrences": 113,
-            "files": 113
+            "occurrences": 118,
+            "files": 118
           },
           "classic-rebirth": {
-            "occurrences": 113,
-            "files": 113
+            "occurrences": 119,
+            "files": 119
           },
           "classic-advanced-2.0": {
-            "occurrences": 113,
-            "files": 113
+            "occurrences": 119,
+            "files": 119
           },
           "classic-advanced-2.5": {
-            "occurrences": 113,
-            "files": 113
+            "occurrences": 119,
+            "files": 119
           }
         },
         "samples": [
@@ -5585,16 +5585,16 @@
             "files": 14
           },
           "classic-rebirth": {
-            "occurrences": 16,
-            "files": 16
+            "occurrences": 17,
+            "files": 17
           },
           "classic-advanced-2.0": {
-            "occurrences": 16,
-            "files": 16
+            "occurrences": 17,
+            "files": 17
           },
           "classic-advanced-2.5": {
-            "occurrences": 16,
-            "files": 16
+            "occurrences": 17,
+            "files": 17
           }
         },
         "samples": [
@@ -5685,20 +5685,20 @@
         "files": 303,
         "profiles": {
           "classic-core": {
-            "occurrences": 104,
-            "files": 104
+            "occurrences": 107,
+            "files": 107
           },
           "classic-rebirth": {
-            "occurrences": 104,
-            "files": 104
+            "occurrences": 108,
+            "files": 108
           },
           "classic-advanced-2.0": {
-            "occurrences": 104,
-            "files": 104
+            "occurrences": 108,
+            "files": 108
           },
           "classic-advanced-2.5": {
-            "occurrences": 104,
-            "files": 104
+            "occurrences": 108,
+            "files": 108
           }
         },
         "samples": [
@@ -5737,20 +5737,20 @@
         "files": 440,
         "profiles": {
           "classic-core": {
-            "occurrences": 172,
-            "files": 86
+            "occurrences": 176,
+            "files": 89
           },
           "classic-rebirth": {
-            "occurrences": 191,
-            "files": 99
+            "occurrences": 199,
+            "files": 104
           },
           "classic-advanced-2.0": {
-            "occurrences": 191,
-            "files": 99
+            "occurrences": 199,
+            "files": 104
           },
           "classic-advanced-2.5": {
-            "occurrences": 191,
-            "files": 99
+            "occurrences": 199,
+            "files": 104
           }
         },
         "samples": [
@@ -5789,20 +5789,20 @@
         "files": 301,
         "profiles": {
           "classic-core": {
-            "occurrences": 105,
-            "files": 105
+            "occurrences": 109,
+            "files": 109
           },
           "classic-rebirth": {
-            "occurrences": 105,
-            "files": 105
+            "occurrences": 110,
+            "files": 110
           },
           "classic-advanced-2.0": {
-            "occurrences": 105,
-            "files": 105
+            "occurrences": 110,
+            "files": 110
           },
           "classic-advanced-2.5": {
-            "occurrences": 105,
-            "files": 105
+            "occurrences": 110,
+            "files": 110
           }
         },
         "samples": [
@@ -5915,20 +5915,20 @@
         "files": 87,
         "profiles": {
           "classic-core": {
-            "occurrences": 19,
-            "files": 19
+            "occurrences": 20,
+            "files": 20
           },
           "classic-rebirth": {
-            "occurrences": 25,
-            "files": 25
+            "occurrences": 26,
+            "files": 26
           },
           "classic-advanced-2.0": {
-            "occurrences": 25,
-            "files": 25
+            "occurrences": 26,
+            "files": 26
           },
           "classic-advanced-2.5": {
-            "occurrences": 25,
-            "files": 25
+            "occurrences": 26,
+            "files": 26
           }
         },
         "samples": [
@@ -6071,20 +6071,20 @@
         "files": 302,
         "profiles": {
           "classic-core": {
-            "occurrences": 105,
-            "files": 105
+            "occurrences": 109,
+            "files": 109
           },
           "classic-rebirth": {
-            "occurrences": 105,
-            "files": 105
+            "occurrences": 110,
+            "files": 110
           },
           "classic-advanced-2.0": {
-            "occurrences": 105,
-            "files": 105
+            "occurrences": 110,
+            "files": 110
           },
           "classic-advanced-2.5": {
-            "occurrences": 105,
-            "files": 105
+            "occurrences": 110,
+            "files": 110
           }
         },
         "samples": [
@@ -6123,20 +6123,20 @@
         "files": 346,
         "profiles": {
           "classic-core": {
-            "occurrences": 114,
-            "files": 114
+            "occurrences": 119,
+            "files": 119
           },
           "classic-rebirth": {
-            "occurrences": 114,
-            "files": 114
+            "occurrences": 120,
+            "files": 120
           },
           "classic-advanced-2.0": {
-            "occurrences": 114,
-            "files": 114
+            "occurrences": 120,
+            "files": 120
           },
           "classic-advanced-2.5": {
-            "occurrences": 114,
-            "files": 114
+            "occurrences": 120,
+            "files": 120
           }
         },
         "samples": [
@@ -6175,20 +6175,20 @@
         "files": 171,
         "profiles": {
           "classic-core": {
-            "occurrences": 93,
-            "files": 93
+            "occurrences": 97,
+            "files": 97
           },
           "classic-rebirth": {
-            "occurrences": 93,
-            "files": 93
+            "occurrences": 98,
+            "files": 98
           },
           "classic-advanced-2.0": {
-            "occurrences": 93,
-            "files": 93
+            "occurrences": 98,
+            "files": 98
           },
           "classic-advanced-2.5": {
-            "occurrences": 93,
-            "files": 93
+            "occurrences": 98,
+            "files": 98
           }
         },
         "samples": [
@@ -6588,20 +6588,20 @@
         "files": 456,
         "profiles": {
           "classic-core": {
-            "occurrences": 173,
-            "files": 173
+            "occurrences": 179,
+            "files": 179
           },
           "classic-rebirth": {
-            "occurrences": 175,
-            "files": 175
+            "occurrences": 182,
+            "files": 182
           },
           "classic-advanced-2.0": {
-            "occurrences": 175,
-            "files": 175
+            "occurrences": 182,
+            "files": 182
           },
           "classic-advanced-2.5": {
-            "occurrences": 175,
-            "files": 175
+            "occurrences": 182,
+            "files": 182
           }
         },
         "samples": [
@@ -7062,16 +7062,16 @@
             "files": 12
           },
           "classic-rebirth": {
-            "occurrences": 17,
-            "files": 17
+            "occurrences": 22,
+            "files": 18
           },
           "classic-advanced-2.0": {
-            "occurrences": 17,
-            "files": 17
+            "occurrences": 22,
+            "files": 18
           },
           "classic-advanced-2.5": {
-            "occurrences": 17,
-            "files": 17
+            "occurrences": 22,
+            "files": 18
           }
         },
         "samples": [
@@ -7245,16 +7245,16 @@
             "files": 5
           },
           "classic-rebirth": {
-            "occurrences": 8,
-            "files": 8
+            "occurrences": 9,
+            "files": 9
           },
           "classic-advanced-2.0": {
-            "occurrences": 8,
-            "files": 8
+            "occurrences": 9,
+            "files": 9
           },
           "classic-advanced-2.5": {
-            "occurrences": 8,
-            "files": 8
+            "occurrences": 9,
+            "files": 9
           }
         },
         "samples": [
@@ -7297,16 +7297,16 @@
             "files": 5
           },
           "classic-rebirth": {
-            "occurrences": 8,
-            "files": 8
+            "occurrences": 9,
+            "files": 9
           },
           "classic-advanced-2.0": {
-            "occurrences": 8,
-            "files": 8
+            "occurrences": 9,
+            "files": 9
           },
           "classic-advanced-2.5": {
-            "occurrences": 8,
-            "files": 8
+            "occurrences": 9,
+            "files": 9
           }
         },
         "samples": [
@@ -7349,16 +7349,16 @@
             "files": 5
           },
           "classic-rebirth": {
-            "occurrences": 8,
-            "files": 8
+            "occurrences": 9,
+            "files": 9
           },
           "classic-advanced-2.0": {
-            "occurrences": 8,
-            "files": 8
+            "occurrences": 9,
+            "files": 9
           },
           "classic-advanced-2.5": {
-            "occurrences": 8,
-            "files": 8
+            "occurrences": 9,
+            "files": 9
           }
         },
         "samples": [
@@ -7401,16 +7401,16 @@
             "files": 5
           },
           "classic-rebirth": {
-            "occurrences": 8,
-            "files": 8
+            "occurrences": 9,
+            "files": 9
           },
           "classic-advanced-2.0": {
-            "occurrences": 8,
-            "files": 8
+            "occurrences": 9,
+            "files": 9
           },
           "classic-advanced-2.5": {
-            "occurrences": 8,
-            "files": 8
+            "occurrences": 9,
+            "files": 9
           }
         },
         "samples": [
@@ -7453,16 +7453,16 @@
             "files": 5
           },
           "classic-rebirth": {
-            "occurrences": 8,
-            "files": 8
+            "occurrences": 9,
+            "files": 9
           },
           "classic-advanced-2.0": {
-            "occurrences": 8,
-            "files": 8
+            "occurrences": 9,
+            "files": 9
           },
           "classic-advanced-2.5": {
-            "occurrences": 8,
-            "files": 8
+            "occurrences": 9,
+            "files": 9
           }
         },
         "samples": [
@@ -7505,16 +7505,16 @@
             "files": 5
           },
           "classic-rebirth": {
-            "occurrences": 8,
-            "files": 8
+            "occurrences": 9,
+            "files": 9
           },
           "classic-advanced-2.0": {
-            "occurrences": 8,
-            "files": 8
+            "occurrences": 9,
+            "files": 9
           },
           "classic-advanced-2.5": {
-            "occurrences": 8,
-            "files": 8
+            "occurrences": 9,
+            "files": 9
           }
         },
         "samples": [
@@ -7557,16 +7557,16 @@
             "files": 5
           },
           "classic-rebirth": {
-            "occurrences": 8,
-            "files": 8
+            "occurrences": 9,
+            "files": 9
           },
           "classic-advanced-2.0": {
-            "occurrences": 8,
-            "files": 8
+            "occurrences": 9,
+            "files": 9
           },
           "classic-advanced-2.5": {
-            "occurrences": 8,
-            "files": 8
+            "occurrences": 9,
+            "files": 9
           }
         },
         "samples": [
@@ -7765,16 +7765,16 @@
             "files": 5
           },
           "classic-rebirth": {
-            "occurrences": 8,
-            "files": 8
+            "occurrences": 9,
+            "files": 9
           },
           "classic-advanced-2.0": {
-            "occurrences": 8,
-            "files": 8
+            "occurrences": 9,
+            "files": 9
           },
           "classic-advanced-2.5": {
-            "occurrences": 8,
-            "files": 8
+            "occurrences": 9,
+            "files": 9
           }
         },
         "samples": [
@@ -8241,20 +8241,20 @@
         "files": 22,
         "profiles": {
           "classic-core": {
-            "occurrences": 11,
-            "files": 11
+            "occurrences": 12,
+            "files": 12
           },
           "classic-rebirth": {
-            "occurrences": 11,
-            "files": 11
+            "occurrences": 12,
+            "files": 12
           },
           "classic-advanced-2.0": {
-            "occurrences": 11,
-            "files": 11
+            "occurrences": 12,
+            "files": 12
           },
           "classic-advanced-2.5": {
-            "occurrences": 11,
-            "files": 11
+            "occurrences": 12,
+            "files": 12
           }
         },
         "samples": [
@@ -8293,20 +8293,20 @@
         "files": 749,
         "profiles": {
           "classic-core": {
-            "occurrences": 93,
-            "files": 93
+            "occurrences": 96,
+            "files": 96
           },
           "classic-rebirth": {
-            "occurrences": 104,
-            "files": 104
+            "occurrences": 111,
+            "files": 111
           },
           "classic-advanced-2.0": {
-            "occurrences": 104,
-            "files": 104
+            "occurrences": 111,
+            "files": 111
           },
           "classic-advanced-2.5": {
-            "occurrences": 104,
-            "files": 104
+            "occurrences": 111,
+            "files": 111
           }
         },
         "samples": [
@@ -8345,20 +8345,20 @@
         "files": 268,
         "profiles": {
           "classic-core": {
-            "occurrences": 27,
-            "files": 27
+            "occurrences": 31,
+            "files": 29
           },
           "classic-rebirth": {
-            "occurrences": 29,
-            "files": 29
+            "occurrences": 35,
+            "files": 33
           },
           "classic-advanced-2.0": {
-            "occurrences": 29,
-            "files": 29
+            "occurrences": 35,
+            "files": 33
           },
           "classic-advanced-2.5": {
-            "occurrences": 29,
-            "files": 29
+            "occurrences": 35,
+            "files": 33
           }
         },
         "samples": [
@@ -8397,20 +8397,20 @@
         "files": 728,
         "profiles": {
           "classic-core": {
-            "occurrences": 315,
-            "files": 78
+            "occurrences": 322,
+            "files": 80
           },
           "classic-rebirth": {
-            "occurrences": 370,
-            "files": 91
+            "occurrences": 397,
+            "files": 97
           },
           "classic-advanced-2.0": {
-            "occurrences": 370,
-            "files": 91
+            "occurrences": 397,
+            "files": 97
           },
           "classic-advanced-2.5": {
-            "occurrences": 370,
-            "files": 91
+            "occurrences": 397,
+            "files": 97
           }
         },
         "samples": [
@@ -8758,20 +8758,20 @@
         "files": 64,
         "profiles": {
           "classic-core": {
-            "occurrences": 28,
-            "files": 21
+            "occurrences": 29,
+            "files": 22
           },
           "classic-rebirth": {
-            "occurrences": 29,
-            "files": 22
+            "occurrences": 31,
+            "files": 24
           },
           "classic-advanced-2.0": {
-            "occurrences": 29,
-            "files": 22
+            "occurrences": 31,
+            "files": 24
           },
           "classic-advanced-2.5": {
-            "occurrences": 29,
-            "files": 22
+            "occurrences": 31,
+            "files": 24
           }
         },
         "samples": [
@@ -9118,16 +9118,16 @@
             "files": 13
           },
           "classic-rebirth": {
-            "occurrences": 15,
-            "files": 15
+            "occurrences": 16,
+            "files": 16
           },
           "classic-advanced-2.0": {
-            "occurrences": 15,
-            "files": 15
+            "occurrences": 16,
+            "files": 16
           },
           "classic-advanced-2.5": {
-            "occurrences": 15,
-            "files": 15
+            "occurrences": 16,
+            "files": 16
           }
         },
         "samples": [
@@ -9222,16 +9222,16 @@
             "files": 2
           },
           "classic-rebirth": {
-            "occurrences": 2,
-            "files": 2
+            "occurrences": 3,
+            "files": 3
           },
           "classic-advanced-2.0": {
-            "occurrences": 2,
-            "files": 2
+            "occurrences": 3,
+            "files": 3
           },
           "classic-advanced-2.5": {
-            "occurrences": 2,
-            "files": 2
+            "occurrences": 3,
+            "files": 3
           }
         },
         "samples": [
@@ -9354,20 +9354,20 @@
         "files": 347,
         "profiles": {
           "classic-core": {
-            "occurrences": 114,
-            "files": 114
+            "occurrences": 119,
+            "files": 119
           },
           "classic-rebirth": {
-            "occurrences": 114,
-            "files": 114
+            "occurrences": 120,
+            "files": 120
           },
           "classic-advanced-2.0": {
-            "occurrences": 114,
-            "files": 114
+            "occurrences": 120,
+            "files": 120
           },
           "classic-advanced-2.5": {
-            "occurrences": 114,
-            "files": 114
+            "occurrences": 120,
+            "files": 120
           }
         },
         "samples": [
@@ -9406,20 +9406,20 @@
         "files": 22,
         "profiles": {
           "classic-core": {
-            "occurrences": 11,
-            "files": 11
+            "occurrences": 12,
+            "files": 12
           },
           "classic-rebirth": {
-            "occurrences": 11,
-            "files": 11
+            "occurrences": 12,
+            "files": 12
           },
           "classic-advanced-2.0": {
-            "occurrences": 11,
-            "files": 11
+            "occurrences": 12,
+            "files": 12
           },
           "classic-advanced-2.5": {
-            "occurrences": 11,
-            "files": 11
+            "occurrences": 12,
+            "files": 12
           }
         },
         "samples": [
@@ -9598,16 +9598,16 @@
             "files": 14
           },
           "classic-rebirth": {
-            "occurrences": 18,
-            "files": 18
+            "occurrences": 19,
+            "files": 19
           },
           "classic-advanced-2.0": {
-            "occurrences": 18,
-            "files": 18
+            "occurrences": 19,
+            "files": 19
           },
           "classic-advanced-2.5": {
-            "occurrences": 18,
-            "files": 18
+            "occurrences": 19,
+            "files": 19
           }
         },
         "samples": [
@@ -9839,20 +9839,20 @@
         "files": 35,
         "profiles": {
           "classic-core": {
-            "occurrences": 15,
-            "files": 15
+            "occurrences": 16,
+            "files": 16
           },
           "classic-rebirth": {
-            "occurrences": 15,
-            "files": 15
+            "occurrences": 16,
+            "files": 16
           },
           "classic-advanced-2.0": {
-            "occurrences": 15,
-            "files": 15
+            "occurrences": 16,
+            "files": 16
           },
           "classic-advanced-2.5": {
-            "occurrences": 15,
-            "files": 15
+            "occurrences": 16,
+            "files": 16
           }
         },
         "samples": [
@@ -10658,20 +10658,20 @@
         "files": 378,
         "profiles": {
           "classic-core": {
-            "occurrences": 128,
-            "files": 128
+            "occurrences": 134,
+            "files": 134
           },
           "classic-rebirth": {
-            "occurrences": 128,
-            "files": 128
+            "occurrences": 135,
+            "files": 135
           },
           "classic-advanced-2.0": {
-            "occurrences": 128,
-            "files": 128
+            "occurrences": 135,
+            "files": 135
           },
           "classic-advanced-2.5": {
-            "occurrences": 128,
-            "files": 128
+            "occurrences": 135,
+            "files": 135
           }
         },
         "samples": [
@@ -10714,16 +10714,16 @@
             "files": 14
           },
           "classic-rebirth": {
-            "occurrences": 16,
-            "files": 16
+            "occurrences": 17,
+            "files": 17
           },
           "classic-advanced-2.0": {
-            "occurrences": 16,
-            "files": 16
+            "occurrences": 17,
+            "files": 17
           },
           "classic-advanced-2.5": {
-            "occurrences": 16,
-            "files": 16
+            "occurrences": 17,
+            "files": 17
           }
         },
         "samples": [
@@ -10836,20 +10836,20 @@
         "files": 157,
         "profiles": {
           "classic-core": {
-            "occurrences": 69,
-            "files": 45
+            "occurrences": 70,
+            "files": 46
           },
           "classic-rebirth": {
-            "occurrences": 75,
-            "files": 49
+            "occurrences": 78,
+            "files": 52
           },
           "classic-advanced-2.0": {
-            "occurrences": 75,
-            "files": 49
+            "occurrences": 78,
+            "files": 52
           },
           "classic-advanced-2.5": {
-            "occurrences": 75,
-            "files": 49
+            "occurrences": 78,
+            "files": 52
           }
         },
         "samples": [
@@ -10924,16 +10924,16 @@
             "files": 5
           },
           "classic-rebirth": {
-            "occurrences": 8,
-            "files": 8
+            "occurrences": 9,
+            "files": 9
           },
           "classic-advanced-2.0": {
-            "occurrences": 8,
-            "files": 8
+            "occurrences": 9,
+            "files": 9
           },
           "classic-advanced-2.5": {
-            "occurrences": 8,
-            "files": 8
+            "occurrences": 9,
+            "files": 9
           }
         },
         "samples": [
@@ -10976,16 +10976,16 @@
             "files": 5
           },
           "classic-rebirth": {
-            "occurrences": 8,
-            "files": 8
+            "occurrences": 9,
+            "files": 9
           },
           "classic-advanced-2.0": {
-            "occurrences": 8,
-            "files": 8
+            "occurrences": 9,
+            "files": 9
           },
           "classic-advanced-2.5": {
-            "occurrences": 8,
-            "files": 8
+            "occurrences": 9,
+            "files": 9
           }
         },
         "samples": [
@@ -11028,16 +11028,16 @@
             "files": 5
           },
           "classic-rebirth": {
-            "occurrences": 8,
-            "files": 8
+            "occurrences": 9,
+            "files": 9
           },
           "classic-advanced-2.0": {
-            "occurrences": 8,
-            "files": 8
+            "occurrences": 9,
+            "files": 9
           },
           "classic-advanced-2.5": {
-            "occurrences": 8,
-            "files": 8
+            "occurrences": 9,
+            "files": 9
           }
         },
         "samples": [
@@ -11308,20 +11308,20 @@
         "files": 344,
         "profiles": {
           "classic-core": {
-            "occurrences": 111,
-            "files": 111
+            "occurrences": 116,
+            "files": 116
           },
           "classic-rebirth": {
-            "occurrences": 111,
-            "files": 111
+            "occurrences": 117,
+            "files": 117
           },
           "classic-advanced-2.0": {
-            "occurrences": 111,
-            "files": 111
+            "occurrences": 117,
+            "files": 117
           },
           "classic-advanced-2.5": {
-            "occurrences": 111,
-            "files": 111
+            "occurrences": 117,
+            "files": 117
           }
         },
         "samples": [
@@ -11360,20 +11360,20 @@
         "files": 338,
         "profiles": {
           "classic-core": {
-            "occurrences": 111,
-            "files": 111
+            "occurrences": 116,
+            "files": 116
           },
           "classic-rebirth": {
-            "occurrences": 111,
-            "files": 111
+            "occurrences": 117,
+            "files": 117
           },
           "classic-advanced-2.0": {
-            "occurrences": 111,
-            "files": 111
+            "occurrences": 117,
+            "files": 117
           },
           "classic-advanced-2.5": {
-            "occurrences": 111,
-            "files": 111
+            "occurrences": 117,
+            "files": 117
           }
         },
         "samples": [
@@ -11412,20 +11412,20 @@
         "files": 348,
         "profiles": {
           "classic-core": {
-            "occurrences": 114,
-            "files": 114
+            "occurrences": 119,
+            "files": 119
           },
           "classic-rebirth": {
-            "occurrences": 114,
-            "files": 114
+            "occurrences": 120,
+            "files": 120
           },
           "classic-advanced-2.0": {
-            "occurrences": 114,
-            "files": 114
+            "occurrences": 120,
+            "files": 120
           },
           "classic-advanced-2.5": {
-            "occurrences": 114,
-            "files": 114
+            "occurrences": 120,
+            "files": 120
           }
         },
         "samples": [
@@ -11464,20 +11464,20 @@
         "files": 345,
         "profiles": {
           "classic-core": {
-            "occurrences": 113,
-            "files": 113
+            "occurrences": 118,
+            "files": 118
           },
           "classic-rebirth": {
-            "occurrences": 113,
-            "files": 113
+            "occurrences": 119,
+            "files": 119
           },
           "classic-advanced-2.0": {
-            "occurrences": 113,
-            "files": 113
+            "occurrences": 119,
+            "files": 119
           },
           "classic-advanced-2.5": {
-            "occurrences": 113,
-            "files": 113
+            "occurrences": 119,
+            "files": 119
           }
         },
         "samples": [
@@ -11773,20 +11773,20 @@
         "files": 45,
         "profiles": {
           "classic-core": {
-            "occurrences": 16,
-            "files": 16
+            "occurrences": 17,
+            "files": 17
           },
           "classic-rebirth": {
-            "occurrences": 18,
-            "files": 18
+            "occurrences": 19,
+            "files": 19
           },
           "classic-advanced-2.0": {
-            "occurrences": 18,
-            "files": 18
+            "occurrences": 19,
+            "files": 19
           },
           "classic-advanced-2.5": {
-            "occurrences": 18,
-            "files": 18
+            "occurrences": 19,
+            "files": 19
           }
         },
         "samples": [
@@ -11877,20 +11877,20 @@
         "files": 247,
         "profiles": {
           "classic-core": {
-            "occurrences": 101,
-            "files": 101
+            "occurrences": 105,
+            "files": 105
           },
           "classic-rebirth": {
-            "occurrences": 101,
-            "files": 101
+            "occurrences": 106,
+            "files": 106
           },
           "classic-advanced-2.0": {
-            "occurrences": 101,
-            "files": 101
+            "occurrences": 106,
+            "files": 106
           },
           "classic-advanced-2.5": {
-            "occurrences": 101,
-            "files": 101
+            "occurrences": 106,
+            "files": 106
           }
         },
         "samples": [
@@ -11929,20 +11929,20 @@
         "files": 16,
         "profiles": {
           "classic-core": {
-            "occurrences": 9,
-            "files": 9
+            "occurrences": 10,
+            "files": 10
           },
           "classic-rebirth": {
-            "occurrences": 9,
-            "files": 9
+            "occurrences": 10,
+            "files": 10
           },
           "classic-advanced-2.0": {
-            "occurrences": 9,
-            "files": 9
+            "occurrences": 10,
+            "files": 10
           },
           "classic-advanced-2.5": {
-            "occurrences": 9,
-            "files": 9
+            "occurrences": 10,
+            "files": 10
           }
         },
         "samples": [
@@ -11981,20 +11981,20 @@
         "files": 311,
         "profiles": {
           "classic-core": {
-            "occurrences": 122,
-            "files": 122
+            "occurrences": 128,
+            "files": 128
           },
           "classic-rebirth": {
-            "occurrences": 122,
-            "files": 122
+            "occurrences": 129,
+            "files": 129
           },
           "classic-advanced-2.0": {
-            "occurrences": 122,
-            "files": 122
+            "occurrences": 129,
+            "files": 129
           },
           "classic-advanced-2.5": {
-            "occurrences": 122,
-            "files": 122
+            "occurrences": 129,
+            "files": 129
           }
         },
         "samples": [
@@ -12275,20 +12275,20 @@
         "files": 348,
         "profiles": {
           "classic-core": {
-            "occurrences": 114,
-            "files": 114
+            "occurrences": 119,
+            "files": 119
           },
           "classic-rebirth": {
-            "occurrences": 114,
-            "files": 114
+            "occurrences": 120,
+            "files": 120
           },
           "classic-advanced-2.0": {
-            "occurrences": 114,
-            "files": 114
+            "occurrences": 120,
+            "files": 120
           },
           "classic-advanced-2.5": {
-            "occurrences": 114,
-            "files": 114
+            "occurrences": 120,
+            "files": 120
           }
         },
         "samples": [
@@ -12431,20 +12431,20 @@
         "files": 64,
         "profiles": {
           "classic-core": {
-            "occurrences": 28,
-            "files": 21
+            "occurrences": 29,
+            "files": 22
           },
           "classic-rebirth": {
-            "occurrences": 29,
-            "files": 22
+            "occurrences": 31,
+            "files": 24
           },
           "classic-advanced-2.0": {
-            "occurrences": 29,
-            "files": 22
+            "occurrences": 31,
+            "files": 24
           },
           "classic-advanced-2.5": {
-            "occurrences": 29,
-            "files": 22
+            "occurrences": 31,
+            "files": 24
           }
         },
         "samples": [
@@ -12676,20 +12676,20 @@
         "files": 24,
         "profiles": {
           "classic-core": {
-            "occurrences": 12,
-            "files": 12
+            "occurrences": 13,
+            "files": 13
           },
           "classic-rebirth": {
-            "occurrences": 12,
-            "files": 12
+            "occurrences": 13,
+            "files": 13
           },
           "classic-advanced-2.0": {
-            "occurrences": 12,
-            "files": 12
+            "occurrences": 13,
+            "files": 13
           },
           "classic-advanced-2.5": {
-            "occurrences": 12,
-            "files": 12
+            "occurrences": 13,
+            "files": 13
           }
         },
         "samples": [
@@ -12839,20 +12839,20 @@
         "files": 428,
         "profiles": {
           "classic-core": {
-            "occurrences": 254,
-            "files": 71
+            "occurrences": 258,
+            "files": 73
           },
           "classic-rebirth": {
-            "occurrences": 270,
-            "files": 78
+            "occurrences": 284,
+            "files": 84
           },
           "classic-advanced-2.0": {
-            "occurrences": 270,
-            "files": 78
+            "occurrences": 284,
+            "files": 84
           },
           "classic-advanced-2.5": {
-            "occurrences": 270,
-            "files": 78
+            "occurrences": 284,
+            "files": 84
           }
         },
         "samples": [
@@ -13195,20 +13195,20 @@
         "files": 867,
         "profiles": {
           "classic-core": {
-            "occurrences": 565,
-            "files": 101
+            "occurrences": 580,
+            "files": 104
           },
           "classic-rebirth": {
-            "occurrences": 632,
-            "files": 114
+            "occurrences": 673,
+            "files": 121
           },
           "classic-advanced-2.0": {
-            "occurrences": 632,
-            "files": 114
+            "occurrences": 673,
+            "files": 121
           },
           "classic-advanced-2.5": {
-            "occurrences": 632,
-            "files": 114
+            "occurrences": 673,
+            "files": 121
           }
         },
         "samples": [
@@ -13303,16 +13303,16 @@
             "files": 5
           },
           "classic-rebirth": {
-            "occurrences": 8,
-            "files": 8
+            "occurrences": 9,
+            "files": 9
           },
           "classic-advanced-2.0": {
-            "occurrences": 8,
-            "files": 8
+            "occurrences": 9,
+            "files": 9
           },
           "classic-advanced-2.5": {
-            "occurrences": 8,
-            "files": 8
+            "occurrences": 9,
+            "files": 9
           }
         },
         "samples": [
@@ -13355,16 +13355,16 @@
             "files": 25
           },
           "classic-rebirth": {
-            "occurrences": 36,
-            "files": 30
+            "occurrences": 41,
+            "files": 31
           },
           "classic-advanced-2.0": {
-            "occurrences": 36,
-            "files": 30
+            "occurrences": 41,
+            "files": 31
           },
           "classic-advanced-2.5": {
-            "occurrences": 36,
-            "files": 30
+            "occurrences": 41,
+            "files": 31
           }
         },
         "samples": [
@@ -13715,20 +13715,20 @@
         "files": 297,
         "profiles": {
           "classic-core": {
-            "occurrences": 103,
-            "files": 103
+            "occurrences": 107,
+            "files": 107
           },
           "classic-rebirth": {
-            "occurrences": 103,
-            "files": 103
+            "occurrences": 108,
+            "files": 108
           },
           "classic-advanced-2.0": {
-            "occurrences": 103,
-            "files": 103
+            "occurrences": 108,
+            "files": 108
           },
           "classic-advanced-2.5": {
-            "occurrences": 103,
-            "files": 103
+            "occurrences": 108,
+            "files": 108
           }
         },
         "samples": [

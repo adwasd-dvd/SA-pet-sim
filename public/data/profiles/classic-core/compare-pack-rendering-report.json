@@ -11,9 +11,9 @@
     "failOnDiff": true
   },
   "summary": {
-    "packsChecked": 90,
-    "checkedFrames": 8178,
-    "exactFrames": 8178,
+    "packsChecked": 93,
+    "checkedFrames": 8205,
+    "exactFrames": 8205,
     "mismatchedFrames": 0,
     "exactRatio": 1,
     "missingSourceFrames": 0,
@@ -38,15 +38,15 @@
     {
       "id": "npc-field-core",
       "status": "checked",
-      "framesChecked": 165,
-      "exactFrames": 165,
+      "framesChecked": 167,
+      "exactFrames": 167,
       "mismatchedFrames": 0
     },
     {
       "id": "pets-encounter-core",
       "status": "checked",
-      "framesChecked": 34,
-      "exactFrames": 34,
+      "framesChecked": 35,
+      "exactFrames": 35,
       "mismatchedFrames": 0
     },
     {
@@ -59,15 +59,15 @@
     {
       "id": "map-tiles-shared-core",
       "status": "checked",
-      "framesChecked": 56,
-      "exactFrames": 56,
+      "framesChecked": 54,
+      "exactFrames": 54,
       "mismatchedFrames": 0
     },
     {
       "id": "map-tiles-region-1000",
       "status": "checked",
-      "framesChecked": 438,
-      "exactFrames": 438,
+      "framesChecked": 440,
+      "exactFrames": 440,
       "mismatchedFrames": 0
     },
     {
@@ -80,29 +80,29 @@
     {
       "id": "map-tiles-region-3000",
       "status": "checked",
-      "framesChecked": 472,
-      "exactFrames": 472,
+      "framesChecked": 490,
+      "exactFrames": 490,
       "mismatchedFrames": 0
     },
     {
       "id": "map-tiles-region-4000",
       "status": "checked",
-      "framesChecked": 1,
-      "exactFrames": 1,
+      "framesChecked": 2,
+      "exactFrames": 2,
       "mismatchedFrames": 0
     },
     {
       "id": "map-tiles-region-10000",
       "status": "checked",
-      "framesChecked": 114,
-      "exactFrames": 114,
+      "framesChecked": 122,
+      "exactFrames": 122,
       "mismatchedFrames": 0
     },
     {
       "id": "floor-100-map-delta",
       "status": "checked",
-      "framesChecked": 1977,
-      "exactFrames": 1977,
+      "framesChecked": 1978,
+      "exactFrames": 1978,
       "mismatchedFrames": 0
     },
     {
@@ -339,8 +339,8 @@
     {
       "id": "floor-2000-map-delta",
       "status": "checked",
-      "framesChecked": 742,
-      "exactFrames": 742,
+      "framesChecked": 743,
+      "exactFrames": 743,
       "mismatchedFrames": 0
     },
     {
@@ -381,8 +381,8 @@
     {
       "id": "floor-2006-map-delta",
       "status": "checked",
-      "framesChecked": 14,
-      "exactFrames": 14,
+      "framesChecked": 15,
+      "exactFrames": 15,
       "mismatchedFrames": 0
     },
     {
@@ -402,8 +402,8 @@
     {
       "id": "floor-2009-map-delta",
       "status": "checked",
-      "framesChecked": 45,
-      "exactFrames": 45,
+      "framesChecked": 46,
+      "exactFrames": 46,
       "mismatchedFrames": 0
     },
     {
@@ -411,13 +411,6 @@
       "status": "checked",
       "framesChecked": 625,
       "exactFrames": 625,
-      "mismatchedFrames": 0
-    },
-    {
-      "id": "floor-3001-map-delta",
-      "status": "checked",
-      "framesChecked": 1,
-      "exactFrames": 1,
       "mismatchedFrames": 0
     },
     {
@@ -435,13 +428,6 @@
       "mismatchedFrames": 0
     },
     {
-      "id": "floor-3004-map-delta",
-      "status": "checked",
-      "framesChecked": 1,
-      "exactFrames": 1,
-      "mismatchedFrames": 0
-    },
-    {
       "id": "floor-3005-map-delta",
       "status": "checked",
       "framesChecked": 1,
@@ -451,22 +437,22 @@
     {
       "id": "floor-3006-map-delta",
       "status": "checked",
-      "framesChecked": 4,
-      "exactFrames": 4,
+      "framesChecked": 3,
+      "exactFrames": 3,
       "mismatchedFrames": 0
     },
     {
       "id": "floor-3009-map-delta",
       "status": "checked",
-      "framesChecked": 6,
-      "exactFrames": 6,
+      "framesChecked": 2,
+      "exactFrames": 2,
       "mismatchedFrames": 0
     },
     {
       "id": "floor-3022-map-delta",
       "status": "checked",
-      "framesChecked": 24,
-      "exactFrames": 24,
+      "framesChecked": 23,
+      "exactFrames": 23,
       "mismatchedFrames": 0
     },
     {
@@ -486,15 +472,15 @@
     {
       "id": "floor-3106-map-delta",
       "status": "checked",
-      "framesChecked": 5,
-      "exactFrames": 5,
+      "framesChecked": 2,
+      "exactFrames": 2,
       "mismatchedFrames": 0
     },
     {
       "id": "floor-3109-map-delta",
       "status": "checked",
-      "framesChecked": 22,
-      "exactFrames": 22,
+      "framesChecked": 18,
+      "exactFrames": 18,
       "mismatchedFrames": 0
     },
     {
@@ -507,29 +493,29 @@
     {
       "id": "floor-3203-map-delta",
       "status": "checked",
-      "framesChecked": 3,
-      "exactFrames": 3,
+      "framesChecked": 1,
+      "exactFrames": 1,
       "mismatchedFrames": 0
     },
     {
       "id": "floor-3205-map-delta",
       "status": "checked",
-      "framesChecked": 5,
-      "exactFrames": 5,
+      "framesChecked": 1,
+      "exactFrames": 1,
       "mismatchedFrames": 0
     },
     {
       "id": "floor-3206-map-delta",
       "status": "checked",
-      "framesChecked": 6,
-      "exactFrames": 6,
+      "framesChecked": 3,
+      "exactFrames": 3,
       "mismatchedFrames": 0
     },
     {
       "id": "floor-3209-map-delta",
       "status": "checked",
-      "framesChecked": 15,
-      "exactFrames": 15,
+      "framesChecked": 11,
+      "exactFrames": 11,
       "mismatchedFrames": 0
     },
     {
@@ -542,15 +528,15 @@
     {
       "id": "floor-3303-map-delta",
       "status": "checked",
-      "framesChecked": 2,
-      "exactFrames": 2,
+      "framesChecked": 1,
+      "exactFrames": 1,
       "mismatchedFrames": 0
     },
     {
       "id": "floor-3305-map-delta",
       "status": "checked",
-      "framesChecked": 2,
-      "exactFrames": 2,
+      "framesChecked": 1,
+      "exactFrames": 1,
       "mismatchedFrames": 0
     },
     {
@@ -572,6 +558,34 @@
       "status": "checked",
       "framesChecked": 75,
       "exactFrames": 75,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-3403-map-delta",
+      "status": "checked",
+      "framesChecked": 1,
+      "exactFrames": 1,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-3405-map-delta",
+      "status": "checked",
+      "framesChecked": 3,
+      "exactFrames": 3,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-3406-map-delta",
+      "status": "checked",
+      "framesChecked": 5,
+      "exactFrames": 5,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-3409-map-delta",
+      "status": "checked",
+      "framesChecked": 9,
+      "exactFrames": 9,
       "mismatchedFrames": 0
     },
     {
@@ -619,29 +633,36 @@
     {
       "id": "floor-4006-map-delta",
       "status": "checked",
-      "framesChecked": 16,
-      "exactFrames": 16,
+      "framesChecked": 17,
+      "exactFrames": 17,
+      "mismatchedFrames": 0
+    },
+    {
+      "id": "floor-10006-map-delta",
+      "status": "checked",
+      "framesChecked": 20,
+      "exactFrames": 20,
       "mismatchedFrames": 0
     },
     {
       "id": "floor-10007-map-delta",
       "status": "checked",
-      "framesChecked": 34,
-      "exactFrames": 34,
+      "framesChecked": 29,
+      "exactFrames": 29,
       "mismatchedFrames": 0
     },
     {
       "id": "floor-10202-map-delta",
       "status": "checked",
-      "framesChecked": 25,
-      "exactFrames": 25,
+      "framesChecked": 22,
+      "exactFrames": 22,
       "mismatchedFrames": 0
     },
     {
       "id": "floor-10203-map-delta",
       "status": "checked",
-      "framesChecked": 24,
-      "exactFrames": 24,
+      "framesChecked": 16,
+      "exactFrames": 16,
       "mismatchedFrames": 0
     },
     {

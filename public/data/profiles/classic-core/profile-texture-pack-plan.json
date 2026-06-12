@@ -6,7 +6,7 @@
     "profileId": "classic-core",
     "startFloor": 1000,
     "packWidth": 2048,
-    "sharedFloorThreshold": 19,
+    "sharedFloorThreshold": 20,
     "mapBucketSize": 1000,
     "regionFloorThreshold": 3
   },
@@ -20,37 +20,37 @@
     "Row-pack numbers are estimates for height-sorted packing; indexed PNG output should be smaller than RGBA pixel input."
   ],
   "summary": {
-    "floors": 93,
-    "packs": 90,
+    "floors": 99,
+    "packs": 93,
     "regionPacks": 5,
-    "floorDeltaPacks": 79,
-    "sharedMapTileIds": 56,
-    "sharedMapFrameArea": 464820,
-    "regionMapTileIds": 832,
-    "regionMapFrameArea": 6500504,
-    "allFrameArea": 57246480,
-    "keepPresentFrameArea": 40498732,
-    "maxFloorDeltaFrameArea": 19595364,
+    "floorDeltaPacks": 82,
+    "sharedMapTileIds": 54,
+    "sharedMapFrameArea": 454508,
+    "regionMapTileIds": 842,
+    "regionMapFrameArea": 6684148,
+    "allFrameArea": 65740708,
+    "keepPresentFrameArea": 40543420,
+    "maxFloorDeltaFrameArea": 19598372,
     "largestRegionPacks": [
       {
         "id": "map-tiles-region-3000",
         "region": "3000",
-        "ids": 472,
-        "frameArea": 3495324,
-        "rowPackArea": 4188160
+        "ids": 490,
+        "frameArea": 3822272,
+        "rowPackArea": 4487168
       },
       {
         "id": "map-tiles-region-1000",
         "region": "1000",
-        "ids": 438,
-        "frameArea": 3055508,
+        "ids": 440,
+        "frameArea": 3065820,
         "rowPackArea": 3452928
       },
       {
         "id": "map-tiles-region-10000",
         "region": "10000",
-        "ids": 114,
-        "frameArea": 810984,
+        "ids": 122,
+        "frameArea": 835048,
         "rowPackArea": 1171456
       },
       {
@@ -63,8 +63,8 @@
       {
         "id": "map-tiles-region-4000",
         "region": "4000",
-        "ids": 1,
-        "frameArea": 3008,
+        "ids": 2,
+        "frameArea": 6016,
         "rowPackArea": 96256
       }
     ],
@@ -72,8 +72,8 @@
       {
         "id": "floor-100-map-delta",
         "floor": 100,
-        "ids": 1977,
-        "frameArea": 19595364,
+        "ids": 1978,
+        "frameArea": 19598372,
         "rowPackArea": 21721088
       },
       {
@@ -86,8 +86,8 @@
       {
         "id": "floor-2000-map-delta",
         "floor": 2000,
-        "ids": 742,
-        "frameArea": 5012396,
+        "ids": 743,
+        "frameArea": 5015404,
         "rowPackArea": 5687296
       },
       {
@@ -167,9 +167,9 @@
       "map-tiles-region-1000",
       "floor-1000-map-delta"
     ],
-    "startupPresentIds": 1192,
-    "startupFrameArea": 9901548,
-    "startupFrameAreaRatioVsAll": 0.173,
+    "startupPresentIds": 1194,
+    "startupFrameArea": 9911084,
+    "startupFrameAreaRatioVsAll": 0.1508,
     "startupFrameAreaRatioVsKeep": 0.2445,
     "startupRowPackArea": 15183872,
     "missingKeepIds": []
@@ -625,8 +625,7 @@
         "packs": [
           "packs/map-tiles-shared-core.json",
           "packs/npc-field-core.json",
-          "packs/map-tiles-region-3000.json",
-          "packs/floor-3001-map-delta.json"
+          "packs/map-tiles-region-3000.json"
         ]
       },
       "3002": {
@@ -649,8 +648,7 @@
         "packs": [
           "packs/map-tiles-shared-core.json",
           "packs/npc-field-core.json",
-          "packs/map-tiles-region-3000.json",
-          "packs/floor-3004-map-delta.json"
+          "packs/map-tiles-region-3000.json"
         ]
       },
       "3005": {
@@ -837,12 +835,52 @@
           "packs/floor-3400-map-delta.json"
         ]
       },
+      "3403": {
+        "packs": [
+          "packs/map-tiles-shared-core.json",
+          "packs/npc-field-core.json",
+          "packs/map-tiles-region-3000.json",
+          "packs/floor-3403-map-delta.json"
+        ]
+      },
+      "3404": {
+        "packs": [
+          "packs/map-tiles-shared-core.json",
+          "packs/npc-field-core.json",
+          "packs/map-tiles-region-3000.json"
+        ]
+      },
+      "3405": {
+        "packs": [
+          "packs/map-tiles-shared-core.json",
+          "packs/npc-field-core.json",
+          "packs/map-tiles-region-3000.json",
+          "packs/floor-3405-map-delta.json"
+        ]
+      },
+      "3406": {
+        "packs": [
+          "packs/map-tiles-shared-core.json",
+          "packs/npc-field-core.json",
+          "packs/map-tiles-region-3000.json",
+          "packs/floor-3406-map-delta.json"
+        ]
+      },
+      "3409": {
+        "packs": [
+          "packs/map-tiles-shared-core.json",
+          "packs/npc-field-core.json",
+          "packs/map-tiles-region-3000.json",
+          "packs/floor-3409-map-delta.json"
+        ]
+      },
       "4000": {
         "packs": [
           "packs/map-tiles-shared-core.json",
           "packs/npc-field-core.json",
           "packs/map-tiles-region-4000.json",
-          "packs/floor-4000-map-delta.json"
+          "packs/floor-4000-map-delta.json",
+          "packs/pets-encounter-core.json"
         ]
       },
       "4001": {
@@ -893,32 +931,13 @@
           "packs/floor-4006-map-delta.json"
         ]
       },
-      "5000": {
+      "10006": {
         "packs": [
           "packs/map-tiles-shared-core.json",
           "packs/npc-field-core.json",
-          "packs/floor-5000-map-delta.json"
-        ]
-      },
-      "5001": {
-        "packs": [
-          "packs/map-tiles-shared-core.json",
-          "packs/npc-field-core.json",
-          "packs/floor-5001-map-delta.json"
-        ]
-      },
-      "5003": {
-        "packs": [
-          "packs/map-tiles-shared-core.json",
-          "packs/npc-field-core.json",
-          "packs/floor-5003-map-delta.json"
-        ]
-      },
-      "5005": {
-        "packs": [
-          "packs/map-tiles-shared-core.json",
-          "packs/npc-field-core.json",
-          "packs/floor-5005-map-delta.json"
+          "packs/map-tiles-region-10000.json",
+          "packs/floor-10006-map-delta.json",
+          "packs/pets-encounter-core.json"
         ]
       },
       "10007": {
@@ -1389,7 +1408,9 @@
         100295,
         100296,
         100297,
+        100323,
         100326,
+        100327,
         100335,
         100336,
         100339,
@@ -1556,7 +1577,9 @@
         100295,
         100296,
         100297,
+        100323,
         100326,
+        100327,
         100335,
         100336,
         100339,
@@ -1574,681 +1597,20 @@
         101178
       ],
       "missingIds": [],
-      "frames": 165,
-      "frameArea": 540552,
+      "frames": 167,
+      "frameArea": 550088,
       "rowPack": {
         "width": 2048,
-        "height": 378,
-        "area": 774144,
-        "maxRowWidth": 2044,
-        "fillRatio": 0.6983
-      },
-      "indexedPixelInputBytes": 540552,
-      "rgbaPixelInputBytes": 2162208,
-      "compactManifestBytes": 6939,
-      "compactManifestGzipBytes": 2142,
-      "compactManifestBrotliBytes": 1581
-    },
-    {
-      "id": "floor-5000-map-delta",
-      "domain": "map-tiles",
-      "load": "enter-floor",
-      "floor": 5000,
-      "region": "5000",
-      "image": "packs/floor-5000-map-delta.png",
-      "manifest": "packs/floor-5000-map-delta.json",
-      "ids": [
-        100,
-        101,
-        102,
-        103,
-        105,
-        106,
-        107,
-        108,
-        109,
-        110,
-        111,
-        112,
-        113,
-        114,
-        115,
-        116,
-        117,
-        193,
-        194,
-        195,
-        196,
-        4500,
-        4501,
-        4502,
-        4503,
-        4504,
-        4505,
-        4506,
-        4507,
-        4508,
-        4509,
-        4510,
-        4511,
-        4512,
-        4513,
-        4514,
-        4515,
-        4516,
-        4517,
-        4518,
-        4519,
-        4520,
-        4521,
-        4524,
-        4525,
-        4527,
-        4528,
-        4529,
-        4530,
-        4531,
-        4532,
-        4533,
-        4534,
-        4535,
-        4536,
-        4537,
-        4538,
-        4539,
-        4540,
-        4541,
-        4542,
-        4543,
-        4544,
-        4545,
-        4546,
-        4547,
-        4548,
-        4549,
-        4550,
-        4551,
-        4552,
-        4553,
-        4554,
-        4555,
-        4556,
-        4557,
-        4558,
-        4559,
-        4560,
-        4561,
-        4562,
-        4563,
-        4564,
-        4565,
-        4567,
-        4569,
-        4570,
-        4577,
-        4579,
-        4582,
-        4583,
-        4587,
-        4590,
-        4593,
-        4594,
-        4595,
-        4596,
-        4601,
-        10009,
-        10011,
-        10020,
-        10032,
-        10036,
-        10039,
-        10116,
-        10118,
-        10119,
-        10120,
-        10122,
-        10130,
-        10131,
-        10132,
-        10133,
-        10136,
-        10137,
-        10203,
-        10906,
-        10907,
-        10908,
-        10909,
-        10910,
-        10911,
-        10912,
-        11001,
-        11002,
-        11003,
-        11004,
-        11005,
-        11007,
-        11008,
-        11010,
-        11012,
-        11013,
-        11052,
-        11062,
-        11065,
-        11122,
-        11204,
-        11911,
-        11918,
-        11922,
-        12401,
-        12402,
-        12422,
-        12909,
-        13400,
-        13401,
-        13402,
-        13403,
-        13404,
-        13405,
-        13406,
-        13407,
-        13408,
-        13409,
-        13410,
-        13411,
-        13412,
-        13430,
-        13431,
-        13433,
-        13434,
-        13436,
-        13438,
-        13441,
-        13442,
-        13443,
-        13445,
-        13447,
-        13448,
-        13454,
-        13478,
-        13580,
-        13581,
-        13582,
-        13583,
-        13584,
-        13586,
-        13587,
-        13588,
-        13589,
-        13590,
-        13591,
-        13601,
-        13602,
-        13603,
-        13604,
-        13605,
-        13606,
-        13607,
-        13608,
-        13609
-      ],
-      "presentIds": [
-        100,
-        101,
-        102,
-        103,
-        105,
-        106,
-        107,
-        108,
-        109,
-        110,
-        111,
-        112,
-        113,
-        114,
-        115,
-        116,
-        117,
-        193,
-        194,
-        195,
-        196,
-        4500,
-        4501,
-        4502,
-        4503,
-        4504,
-        4505,
-        4506,
-        4507,
-        4508,
-        4509,
-        4510,
-        4511,
-        4512,
-        4513,
-        4514,
-        4515,
-        4516,
-        4517,
-        4518,
-        4519,
-        4520,
-        4521,
-        4524,
-        4525,
-        4527,
-        4528,
-        4529,
-        4530,
-        4531,
-        4532,
-        4533,
-        4534,
-        4535,
-        4536,
-        4537,
-        4538,
-        4539,
-        4540,
-        4541,
-        4542,
-        4543,
-        4544,
-        4545,
-        4546,
-        4547,
-        4548,
-        4549,
-        4550,
-        4551,
-        4552,
-        4553,
-        4554,
-        4555,
-        4556,
-        4557,
-        4558,
-        4559,
-        4560,
-        4561,
-        4562,
-        4563,
-        4564,
-        4565,
-        4567,
-        4569,
-        4570,
-        4577,
-        4579,
-        4582,
-        4583,
-        4587,
-        4590,
-        4593,
-        4594,
-        4595,
-        4596,
-        4601,
-        10009,
-        10011,
-        10020,
-        10032,
-        10036,
-        10039,
-        10116,
-        10118,
-        10119,
-        10120,
-        10122,
-        10130,
-        10131,
-        10132,
-        10133,
-        10136,
-        10137,
-        10203,
-        10906,
-        10907,
-        10908,
-        10909,
-        10910,
-        10911,
-        10912,
-        11001,
-        11002,
-        11003,
-        11004,
-        11005,
-        11007,
-        11008,
-        11010,
-        11012,
-        11013,
-        11052,
-        11062,
-        11065,
-        11122,
-        11204,
-        11911,
-        11918,
-        11922,
-        12401,
-        12402,
-        12422,
-        12909,
-        13400,
-        13401,
-        13402,
-        13403,
-        13404,
-        13405,
-        13406,
-        13407,
-        13408,
-        13409,
-        13410,
-        13411,
-        13412,
-        13430,
-        13431,
-        13433,
-        13434,
-        13436,
-        13438,
-        13441,
-        13442,
-        13443,
-        13445,
-        13447,
-        13448,
-        13454,
-        13478,
-        13580,
-        13581,
-        13582,
-        13583,
-        13584,
-        13586,
-        13587,
-        13588,
-        13589,
-        13590,
-        13591,
-        13601,
-        13602,
-        13603,
-        13604,
-        13605,
-        13606,
-        13607,
-        13608,
-        13609
-      ],
-      "missingIds": [],
-      "frames": 192,
-      "frameArea": 2814784,
-      "rowPack": {
-        "width": 2048,
-        "height": 1668,
-        "area": 3416064,
+        "height": 379,
+        "area": 776192,
         "maxRowWidth": 2048,
-        "fillRatio": 0.824
+        "fillRatio": 0.7087
       },
-      "indexedPixelInputBytes": 2814784,
-      "rgbaPixelInputBytes": 11259136
-    },
-    {
-      "id": "floor-5005-map-delta",
-      "domain": "map-tiles",
-      "load": "enter-floor",
-      "floor": 5005,
-      "region": "5000",
-      "image": "packs/floor-5005-map-delta.png",
-      "manifest": "packs/floor-5005-map-delta.json",
-      "ids": [
-        4516,
-        4517,
-        4518,
-        4519,
-        4520,
-        4521,
-        4522,
-        4523,
-        4524,
-        4525,
-        4526,
-        4527,
-        4528,
-        4529,
-        4530,
-        4531,
-        12622,
-        12623,
-        12630,
-        12631,
-        12800,
-        12803,
-        12809,
-        12820,
-        12821,
-        12827,
-        12830,
-        12835,
-        12838
-      ],
-      "presentIds": [
-        4516,
-        4517,
-        4518,
-        4519,
-        4520,
-        4521,
-        4522,
-        4523,
-        4524,
-        4525,
-        4526,
-        4527,
-        4528,
-        4529,
-        4530,
-        4531,
-        12622,
-        12623,
-        12630,
-        12631,
-        12800,
-        12803,
-        12809,
-        12820,
-        12821,
-        12827,
-        12830,
-        12835,
-        12838
-      ],
-      "missingIds": [],
-      "frames": 29,
-      "frameArea": 226096,
-      "rowPack": {
-        "width": 2048,
-        "height": 225,
-        "area": 460800,
-        "maxRowWidth": 1992,
-        "fillRatio": 0.4907
-      },
-      "indexedPixelInputBytes": 226096,
-      "rgbaPixelInputBytes": 904384,
-      "compactManifestBytes": 1506,
-      "compactManifestGzipBytes": 579,
-      "compactManifestBrotliBytes": 446
-    },
-    {
-      "id": "floor-5003-map-delta",
-      "domain": "map-tiles",
-      "load": "enter-floor",
-      "floor": 5003,
-      "region": "5000",
-      "image": "packs/floor-5003-map-delta.png",
-      "manifest": "packs/floor-5003-map-delta.json",
-      "ids": [
-        4516,
-        4517,
-        4518,
-        4519,
-        4520,
-        4521,
-        4522,
-        4523,
-        4524,
-        4525,
-        4526,
-        4527,
-        4528,
-        4529,
-        4530,
-        4531,
-        10022,
-        12609,
-        12623,
-        12627,
-        12635,
-        12639,
-        12662,
-        12663,
-        12803,
-        12810,
-        12822,
-        12827,
-        12846
-      ],
-      "presentIds": [
-        4516,
-        4517,
-        4518,
-        4519,
-        4520,
-        4521,
-        4522,
-        4523,
-        4524,
-        4525,
-        4526,
-        4527,
-        4528,
-        4529,
-        4530,
-        4531,
-        10022,
-        12609,
-        12623,
-        12627,
-        12635,
-        12639,
-        12662,
-        12663,
-        12803,
-        12810,
-        12822,
-        12827,
-        12846
-      ],
-      "missingIds": [],
-      "frames": 29,
-      "frameArea": 225072,
-      "rowPack": {
-        "width": 2048,
-        "height": 232,
-        "area": 475136,
-        "maxRowWidth": 1988,
-        "fillRatio": 0.4737
-      },
-      "indexedPixelInputBytes": 225072,
-      "rgbaPixelInputBytes": 900288,
-      "compactManifestBytes": 1508,
-      "compactManifestGzipBytes": 578,
-      "compactManifestBrotliBytes": 463
-    },
-    {
-      "id": "floor-5001-map-delta",
-      "domain": "map-tiles",
-      "load": "enter-floor",
-      "floor": 5001,
-      "region": "5000",
-      "image": "packs/floor-5001-map-delta.png",
-      "manifest": "packs/floor-5001-map-delta.json",
-      "ids": [
-        4516,
-        4517,
-        4518,
-        4519,
-        4520,
-        4521,
-        4522,
-        4523,
-        4524,
-        4525,
-        4526,
-        4527,
-        4528,
-        4529,
-        4530,
-        4531,
-        12039,
-        12040,
-        12623,
-        12627,
-        12632,
-        12664,
-        12677,
-        12679,
-        12682,
-        12827
-      ],
-      "presentIds": [
-        4516,
-        4517,
-        4518,
-        4519,
-        4520,
-        4521,
-        4522,
-        4523,
-        4524,
-        4525,
-        4526,
-        4527,
-        4528,
-        4529,
-        4530,
-        4531,
-        12039,
-        12040,
-        12623,
-        12627,
-        12632,
-        12664,
-        12677,
-        12679,
-        12682,
-        12827
-      ],
-      "missingIds": [],
-      "frames": 26,
-      "frameArea": 248596,
-      "rowPack": {
-        "width": 2048,
-        "height": 268,
-        "area": 548864,
-        "maxRowWidth": 2020,
-        "fillRatio": 0.4529
-      },
-      "indexedPixelInputBytes": 248596,
-      "rgbaPixelInputBytes": 994384,
-      "compactManifestBytes": 1368,
-      "compactManifestGzipBytes": 517,
-      "compactManifestBrotliBytes": 396
+      "indexedPixelInputBytes": 550088,
+      "rgbaPixelInputBytes": 2200352,
+      "compactManifestBytes": 7019,
+      "compactManifestGzipBytes": 2164,
+      "compactManifestBrotliBytes": 1588
     },
     {
       "id": "pets-encounter-core",
@@ -2292,6 +1654,7 @@
         100909,
         101178,
         101280,
+        101489,
         101530
       ],
       "presentIds": [
@@ -2328,23 +1691,24 @@
         100909,
         101178,
         101280,
+        101489,
         101530
       ],
       "missingIds": [],
-      "frames": 34,
-      "frameArea": 128404,
+      "frames": 35,
+      "frameArea": 133708,
       "rowPack": {
         "width": 2048,
         "height": 119,
         "area": 243712,
-        "maxRowWidth": 1840,
-        "fillRatio": 0.5269
+        "maxRowWidth": 1908,
+        "fillRatio": 0.5486
       },
-      "indexedPixelInputBytes": 128404,
-      "rgbaPixelInputBytes": 513616,
-      "compactManifestBytes": 1509,
-      "compactManifestGzipBytes": 565,
-      "compactManifestBrotliBytes": 443
+      "indexedPixelInputBytes": 133708,
+      "rgbaPixelInputBytes": 534832,
+      "compactManifestBytes": 1548,
+      "compactManifestGzipBytes": 583,
+      "compactManifestBrotliBytes": 457
     },
     {
       "id": "pets-static-all",
@@ -3604,7 +2968,6 @@
       "manifest": "packs/map-tiles-shared-core.json",
       "ids": [
         2,
-        145,
         401,
         403,
         5000,
@@ -3651,7 +3014,6 @@
         12626,
         12802,
         12804,
-        12832,
         12833,
         12834,
         12836,
@@ -3662,7 +3024,6 @@
       ],
       "presentIds": [
         2,
-        145,
         401,
         403,
         5000,
@@ -3709,7 +3070,6 @@
         12626,
         12802,
         12804,
-        12832,
         12833,
         12834,
         12836,
@@ -3719,20 +3079,20 @@
         12925
       ],
       "missingIds": [],
-      "frames": 56,
-      "frameArea": 464820,
+      "frames": 54,
+      "frameArea": 454508,
       "rowPack": {
         "width": 2048,
-        "height": 295,
-        "area": 604160,
-        "maxRowWidth": 2040,
-        "fillRatio": 0.7694
+        "height": 290,
+        "area": 593920,
+        "maxRowWidth": 2028,
+        "fillRatio": 0.7653
       },
-      "indexedPixelInputBytes": 464820,
-      "rgbaPixelInputBytes": 1859280,
-      "compactManifestBytes": 2419,
-      "compactManifestGzipBytes": 794,
-      "compactManifestBrotliBytes": 559
+      "indexedPixelInputBytes": 454508,
+      "rgbaPixelInputBytes": 1818032,
+      "compactManifestBytes": 2342,
+      "compactManifestGzipBytes": 767,
+      "compactManifestBrotliBytes": 539
     },
     {
       "id": "map-tiles-region-1000",
@@ -3765,6 +3125,7 @@
         115,
         116,
         117,
+        145,
         146,
         147,
         148,
@@ -4168,6 +3529,7 @@
         12827,
         12829,
         12830,
+        12832,
         12835,
         12838,
         12839,
@@ -4205,6 +3567,7 @@
         115,
         116,
         117,
+        145,
         146,
         147,
         148,
@@ -4608,6 +3971,7 @@
         12827,
         12829,
         12830,
+        12832,
         12835,
         12838,
         12839,
@@ -4623,20 +3987,20 @@
         13807
       ],
       "missingIds": [],
-      "frames": 438,
-      "frameArea": 3055508,
+      "frames": 440,
+      "frameArea": 3065820,
       "rowPack": {
         "width": 2048,
         "height": 1686,
         "area": 3452928,
         "maxRowWidth": 2048,
-        "fillRatio": 0.8849
+        "fillRatio": 0.8879
       },
-      "indexedPixelInputBytes": 3055508,
-      "rgbaPixelInputBytes": 12222032,
-      "compactManifestBytes": 16705,
-      "compactManifestGzipBytes": 4104,
-      "compactManifestBrotliBytes": 2162
+      "indexedPixelInputBytes": 3065820,
+      "rgbaPixelInputBytes": 12263280,
+      "compactManifestBytes": 16782,
+      "compactManifestGzipBytes": 4128,
+      "compactManifestBrotliBytes": 2163
     },
     {
       "id": "map-tiles-region-2000",
@@ -4688,6 +4052,7 @@
         20,
         27,
         41,
+        145,
         146,
         147,
         148,
@@ -4919,6 +4284,7 @@
         5014,
         5022,
         5023,
+        5024,
         5027,
         5028,
         5029,
@@ -5108,6 +4474,9 @@
         11918,
         11920,
         12006,
+        12012,
+        12013,
+        12014,
         12041,
         12042,
         12043,
@@ -5130,26 +4499,39 @@
         12610,
         12611,
         12613,
+        12616,
         12623,
         12630,
+        12631,
         12632,
         12635,
         12638,
         12639,
         12642,
         12651,
+        12652,
         12662,
         12663,
+        12664,
         12665,
+        12676,
+        12677,
         12678,
+        12679,
+        12680,
         12686,
         12687,
         12807,
+        12819,
         12825,
         12827,
         12829,
+        12830,
+        12832,
         12835,
         12838,
+        12839,
+        12840,
         12843,
         12846,
         12923,
@@ -5162,6 +4544,7 @@
         20,
         27,
         41,
+        145,
         146,
         147,
         148,
@@ -5393,6 +4776,7 @@
         5014,
         5022,
         5023,
+        5024,
         5027,
         5028,
         5029,
@@ -5582,6 +4966,9 @@
         11918,
         11920,
         12006,
+        12012,
+        12013,
+        12014,
         12041,
         12042,
         12043,
@@ -5604,26 +4991,39 @@
         12610,
         12611,
         12613,
+        12616,
         12623,
         12630,
+        12631,
         12632,
         12635,
         12638,
         12639,
         12642,
         12651,
+        12652,
         12662,
         12663,
+        12664,
         12665,
+        12676,
+        12677,
         12678,
+        12679,
+        12680,
         12686,
         12687,
         12807,
+        12819,
         12825,
         12827,
         12829,
+        12830,
+        12832,
         12835,
         12838,
+        12839,
+        12840,
         12843,
         12846,
         12923,
@@ -5633,20 +5033,20 @@
         13217
       ],
       "missingIds": [],
-      "frames": 472,
-      "frameArea": 3495324,
+      "frames": 490,
+      "frameArea": 3822272,
       "rowPack": {
         "width": 2048,
-        "height": 2045,
-        "area": 4188160,
+        "height": 2191,
+        "area": 4487168,
         "maxRowWidth": 2048,
-        "fillRatio": 0.8346
+        "fillRatio": 0.8518
       },
-      "indexedPixelInputBytes": 3495324,
-      "rgbaPixelInputBytes": 13981296,
-      "compactManifestBytes": 18392,
-      "compactManifestGzipBytes": 4500,
-      "compactManifestBrotliBytes": 2438
+      "indexedPixelInputBytes": 3822272,
+      "rgbaPixelInputBytes": 15289088,
+      "compactManifestBytes": 19167,
+      "compactManifestGzipBytes": 4733,
+      "compactManifestBrotliBytes": 2603
     },
     {
       "id": "map-tiles-region-4000",
@@ -5657,26 +5057,28 @@
       "image": "packs/map-tiles-region-4000.png",
       "manifest": "packs/map-tiles-region-4000.json",
       "ids": [
+        145,
         5024
       ],
       "presentIds": [
+        145,
         5024
       ],
       "missingIds": [],
-      "frames": 1,
-      "frameArea": 3008,
+      "frames": 2,
+      "frameArea": 6016,
       "rowPack": {
         "width": 2048,
         "height": 47,
         "area": 96256,
-        "maxRowWidth": 64,
-        "fillRatio": 0.0313
+        "maxRowWidth": 128,
+        "fillRatio": 0.0625
       },
-      "indexedPixelInputBytes": 3008,
-      "rgbaPixelInputBytes": 12032,
-      "compactManifestBytes": 183,
-      "compactManifestGzipBytes": 156,
-      "compactManifestBrotliBytes": 137
+      "indexedPixelInputBytes": 6016,
+      "rgbaPixelInputBytes": 24064,
+      "compactManifestBytes": 219,
+      "compactManifestGzipBytes": 167,
+      "compactManifestBrotliBytes": 152
     },
     {
       "id": "map-tiles-region-10000",
@@ -5760,8 +5162,10 @@
         4078,
         4079,
         4080,
+        4081,
         4082,
         4083,
+        4084,
         4085,
         4086,
         4087,
@@ -5769,21 +5173,27 @@
         4089,
         4090,
         4091,
+        4092,
         4093,
+        4094,
         4095,
         4096,
         4097,
         4099,
         4100,
         4101,
+        4102,
+        4103,
         4104,
         4106,
         4107,
         4108,
+        4109,
         4110,
         4111,
         4112,
         4113,
+        4117,
         4118,
         4119,
         4120,
@@ -5876,8 +5286,10 @@
         4078,
         4079,
         4080,
+        4081,
         4082,
         4083,
+        4084,
         4085,
         4086,
         4087,
@@ -5885,21 +5297,27 @@
         4089,
         4090,
         4091,
+        4092,
         4093,
+        4094,
         4095,
         4096,
         4097,
         4099,
         4100,
         4101,
+        4102,
+        4103,
         4104,
         4106,
         4107,
         4108,
+        4109,
         4110,
         4111,
         4112,
         4113,
+        4117,
         4118,
         4119,
         4120,
@@ -5919,20 +5337,20 @@
         15219
       ],
       "missingIds": [],
-      "frames": 114,
-      "frameArea": 810984,
+      "frames": 122,
+      "frameArea": 835048,
       "rowPack": {
         "width": 2048,
         "height": 572,
         "area": 1171456,
         "maxRowWidth": 2048,
-        "fillRatio": 0.6923
+        "fillRatio": 0.7128
       },
-      "indexedPixelInputBytes": 810984,
-      "rgbaPixelInputBytes": 3243936,
-      "compactManifestBytes": 4648,
-      "compactManifestGzipBytes": 1071,
-      "compactManifestBrotliBytes": 656
+      "indexedPixelInputBytes": 835048,
+      "rgbaPixelInputBytes": 3340192,
+      "compactManifestBytes": 4960,
+      "compactManifestGzipBytes": 1122,
+      "compactManifestBrotliBytes": 678
     },
     {
       "id": "floor-100-map-delta",
@@ -5987,6 +5405,7 @@
         140,
         141,
         143,
+        145,
         146,
         147,
         148,
@@ -7966,6 +7385,7 @@
         140,
         141,
         143,
+        145,
         146,
         147,
         148,
@@ -9901,20 +9321,20 @@
         15999
       ],
       "missingIds": [],
-      "frames": 1977,
-      "frameArea": 19595364,
+      "frames": 1978,
+      "frameArea": 19598372,
       "rowPack": {
         "width": 2048,
         "height": 10606,
         "area": 21721088,
         "maxRowWidth": 2048,
-        "fillRatio": 0.9021
+        "fillRatio": 0.9023
       },
-      "indexedPixelInputBytes": 19595364,
-      "rgbaPixelInputBytes": 78381456,
-      "compactManifestBytes": 77174,
-      "compactManifestGzipBytes": 18964,
-      "compactManifestBrotliBytes": 9106
+      "indexedPixelInputBytes": 19598372,
+      "rgbaPixelInputBytes": 78393488,
+      "compactManifestBytes": 77210,
+      "compactManifestGzipBytes": 18972,
+      "compactManifestBrotliBytes": 9110
     },
     {
       "id": "floor-1000-map-delta",
@@ -13806,6 +13226,7 @@
         115,
         116,
         117,
+        145,
         146,
         147,
         148,
@@ -14550,6 +13971,7 @@
         115,
         116,
         117,
+        145,
         146,
         147,
         148,
@@ -15271,20 +14693,20 @@
         14013
       ],
       "missingIds": [],
-      "frames": 742,
-      "frameArea": 5012396,
+      "frames": 743,
+      "frameArea": 5015404,
       "rowPack": {
         "width": 2048,
         "height": 2777,
         "area": 5687296,
         "maxRowWidth": 2048,
-        "fillRatio": 0.8813
+        "fillRatio": 0.8819
       },
-      "indexedPixelInputBytes": 5012396,
-      "rgbaPixelInputBytes": 20049584,
-      "compactManifestBytes": 28595,
-      "compactManifestGzipBytes": 6700,
-      "compactManifestBrotliBytes": 3314
+      "indexedPixelInputBytes": 5015404,
+      "rgbaPixelInputBytes": 20061616,
+      "compactManifestBytes": 28631,
+      "compactManifestGzipBytes": 6709,
+      "compactManifestBrotliBytes": 3318
     },
     {
       "id": "floor-2001-map-delta",
@@ -15500,6 +14922,7 @@
         12814,
         12817,
         12825,
+        12832,
         12835,
         12838,
         12839
@@ -15516,25 +14939,26 @@
         12814,
         12817,
         12825,
+        12832,
         12835,
         12838,
         12839
       ],
       "missingIds": [],
-      "frames": 14,
-      "frameArea": 177324,
+      "frames": 15,
+      "frameArea": 184628,
       "rowPack": {
         "width": 2048,
         "height": 218,
         "area": 446464,
-        "maxRowWidth": 1420,
-        "fillRatio": 0.3972
+        "maxRowWidth": 1508,
+        "fillRatio": 0.4135
       },
-      "indexedPixelInputBytes": 177324,
-      "rgbaPixelInputBytes": 709296,
-      "compactManifestBytes": 727,
-      "compactManifestGzipBytes": 357,
-      "compactManifestBrotliBytes": 291
+      "indexedPixelInputBytes": 184628,
+      "rgbaPixelInputBytes": 738512,
+      "compactManifestBytes": 768,
+      "compactManifestGzipBytes": 372,
+      "compactManifestBrotliBytes": 307
     },
     {
       "id": "floor-2007-map-delta",
@@ -15954,6 +15378,7 @@
         12809,
         12823,
         12827,
+        12832,
         12835,
         12838,
         12841,
@@ -16001,26 +15426,27 @@
         12809,
         12823,
         12827,
+        12832,
         12835,
         12838,
         12841,
         12842
       ],
       "missingIds": [],
-      "frames": 45,
-      "frameArea": 557552,
+      "frames": 46,
+      "frameArea": 564856,
       "rowPack": {
         "width": 2048,
         "height": 437,
         "area": 894976,
-        "maxRowWidth": 2020,
-        "fillRatio": 0.623
+        "maxRowWidth": 2044,
+        "fillRatio": 0.6311
       },
-      "indexedPixelInputBytes": 557552,
-      "rgbaPixelInputBytes": 2230208,
-      "compactManifestBytes": 1992,
-      "compactManifestGzipBytes": 638,
-      "compactManifestBrotliBytes": 466
+      "indexedPixelInputBytes": 564856,
+      "rgbaPixelInputBytes": 2259424,
+      "compactManifestBytes": 2033,
+      "compactManifestGzipBytes": 655,
+      "compactManifestBrotliBytes": 479
     },
     {
       "id": "floor-3000-map-delta",
@@ -17301,36 +16727,6 @@
       "compactManifestBrotliBytes": 2509
     },
     {
-      "id": "floor-3001-map-delta",
-      "domain": "map-tiles",
-      "load": "enter-floor",
-      "floor": 3001,
-      "region": "3000",
-      "image": "packs/floor-3001-map-delta.png",
-      "manifest": "packs/floor-3001-map-delta.json",
-      "ids": [
-        12616
-      ],
-      "presentIds": [
-        12616
-      ],
-      "missingIds": [],
-      "frames": 1,
-      "frameArea": 22692,
-      "rowPack": {
-        "width": 2048,
-        "height": 183,
-        "area": 374784,
-        "maxRowWidth": 124,
-        "fillRatio": 0.0605
-      },
-      "indexedPixelInputBytes": 22692,
-      "rgbaPixelInputBytes": 90768,
-      "compactManifestBytes": 188,
-      "compactManifestGzipBytes": 159,
-      "compactManifestBrotliBytes": 142
-    },
-    {
       "id": "floor-3002-map-delta",
       "domain": "map-tiles",
       "load": "enter-floor",
@@ -17395,36 +16791,6 @@
       "compactManifestBrotliBytes": 160
     },
     {
-      "id": "floor-3004-map-delta",
-      "domain": "map-tiles",
-      "load": "enter-floor",
-      "floor": 3004,
-      "region": "3000",
-      "image": "packs/floor-3004-map-delta.png",
-      "manifest": "packs/floor-3004-map-delta.json",
-      "ids": [
-        12840
-      ],
-      "presentIds": [
-        12840
-      ],
-      "missingIds": [],
-      "frames": 1,
-      "frameArea": 11988,
-      "rowPack": {
-        "width": 2048,
-        "height": 111,
-        "area": 227328,
-        "maxRowWidth": 108,
-        "fillRatio": 0.0527
-      },
-      "indexedPixelInputBytes": 11988,
-      "rgbaPixelInputBytes": 47952,
-      "compactManifestBytes": 188,
-      "compactManifestGzipBytes": 158,
-      "compactManifestBrotliBytes": 141
-    },
-    {
       "id": "floor-3005-map-delta",
       "domain": "map-tiles",
       "load": "enter-floor",
@@ -17465,30 +16831,28 @@
       "ids": [
         40,
         12803,
-        12814,
-        12819
+        12814
       ],
       "presentIds": [
         40,
         12803,
-        12814,
-        12819
+        12814
       ],
       "missingIds": [],
-      "frames": 4,
-      "frameArea": 61572,
+      "frames": 3,
+      "frameArea": 35944,
       "rowPack": {
         "width": 2048,
         "height": 200,
         "area": 409600,
-        "maxRowWidth": 404,
-        "fillRatio": 0.1503
+        "maxRowWidth": 232,
+        "fillRatio": 0.0878
       },
-      "indexedPixelInputBytes": 61572,
-      "rgbaPixelInputBytes": 246288,
-      "compactManifestBytes": 310,
-      "compactManifestGzipBytes": 210,
-      "compactManifestBrotliBytes": 190
+      "indexedPixelInputBytes": 35944,
+      "rgbaPixelInputBytes": 143776,
+      "compactManifestBytes": 265,
+      "compactManifestGzipBytes": 193,
+      "compactManifestBrotliBytes": 179
     },
     {
       "id": "floor-3009-map-delta",
@@ -17499,36 +16863,28 @@
       "image": "packs/floor-3009-map-delta.png",
       "manifest": "packs/floor-3009-map-delta.json",
       "ids": [
-        5024,
         12063,
-        12664,
-        12676,
-        12680,
         12683
       ],
       "presentIds": [
-        5024,
         12063,
-        12664,
-        12676,
-        12680,
         12683
       ],
       "missingIds": [],
-      "frames": 6,
-      "frameArea": 128788,
+      "frames": 2,
+      "frameArea": 48824,
       "rowPack": {
         "width": 2048,
         "height": 209,
         "area": 428032,
-        "maxRowWidth": 752,
-        "fillRatio": 0.3009
+        "maxRowWidth": 256,
+        "fillRatio": 0.1141
       },
-      "indexedPixelInputBytes": 128788,
-      "rgbaPixelInputBytes": 515152,
-      "compactManifestBytes": 403,
-      "compactManifestGzipBytes": 245,
-      "compactManifestBrotliBytes": 210
+      "indexedPixelInputBytes": 48824,
+      "rgbaPixelInputBytes": 195296,
+      "compactManifestBytes": 232,
+      "compactManifestGzipBytes": 179,
+      "compactManifestBrotliBytes": 158
     },
     {
       "id": "floor-3022-map-delta",
@@ -17558,7 +16914,6 @@
         12065,
         12068,
         12650,
-        12652,
         12655,
         12666,
         12667,
@@ -17584,27 +16939,26 @@
         12065,
         12068,
         12650,
-        12652,
         12655,
         12666,
         12667,
         12668
       ],
       "missingIds": [],
-      "frames": 24,
-      "frameArea": 151528,
+      "frames": 23,
+      "frameArea": 144208,
       "rowPack": {
         "width": 2048,
         "height": 218,
         "area": 446464,
-        "maxRowWidth": 1636,
-        "fillRatio": 0.3394
+        "maxRowWidth": 1576,
+        "fillRatio": 0.323
       },
-      "indexedPixelInputBytes": 151528,
-      "rgbaPixelInputBytes": 606112,
-      "compactManifestBytes": 1114,
-      "compactManifestGzipBytes": 391,
-      "compactManifestBrotliBytes": 294
+      "indexedPixelInputBytes": 144208,
+      "rgbaPixelInputBytes": 576832,
+      "compactManifestBytes": 1071,
+      "compactManifestGzipBytes": 377,
+      "compactManifestBrotliBytes": 288
     },
     {
       "id": "floor-3100-map-delta",
@@ -17995,34 +17349,28 @@
       "image": "packs/floor-3106-map-delta.png",
       "manifest": "packs/floor-3106-map-delta.json",
       "ids": [
-        5024,
         12800,
-        12819,
-        12839,
         12842
       ],
       "presentIds": [
-        5024,
         12800,
-        12819,
-        12839,
         12842
       ],
       "missingIds": [],
-      "frames": 5,
-      "frameArea": 51532,
+      "frames": 2,
+      "frameArea": 9120,
       "rowPack": {
         "width": 2048,
-        "height": 149,
-        "area": 305152,
-        "maxRowWidth": 480,
-        "fillRatio": 0.1689
+        "height": 80,
+        "area": 163840,
+        "maxRowWidth": 132,
+        "fillRatio": 0.0557
       },
-      "indexedPixelInputBytes": 51532,
-      "rgbaPixelInputBytes": 206128,
-      "compactManifestBytes": 354,
-      "compactManifestGzipBytes": 230,
-      "compactManifestBrotliBytes": 202
+      "indexedPixelInputBytes": 9120,
+      "rgbaPixelInputBytes": 36480,
+      "compactManifestBytes": 225,
+      "compactManifestGzipBytes": 176,
+      "compactManifestBrotliBytes": 157
     },
     {
       "id": "floor-3109-map-delta",
@@ -18039,11 +17387,7 @@
         12061,
         12612,
         12615,
-        12616,
         12622,
-        12677,
-        12679,
-        12680,
         12681,
         12682,
         12683,
@@ -18063,11 +17407,7 @@
         12061,
         12612,
         12615,
-        12616,
         12622,
-        12677,
-        12679,
-        12680,
         12681,
         12682,
         12683,
@@ -18081,20 +17421,20 @@
         12929
       ],
       "missingIds": [],
-      "frames": 22,
-      "frameArea": 418076,
+      "frames": 18,
+      "frameArea": 313172,
       "rowPack": {
         "width": 2048,
-        "height": 377,
-        "area": 772096,
-        "maxRowWidth": 2004,
-        "fillRatio": 0.5415
+        "height": 244,
+        "area": 499712,
+        "maxRowWidth": 1896,
+        "fillRatio": 0.6267
       },
-      "indexedPixelInputBytes": 418076,
-      "rgbaPixelInputBytes": 1672304,
-      "compactManifestBytes": 1091,
-      "compactManifestGzipBytes": 439,
-      "compactManifestBrotliBytes": 336
+      "indexedPixelInputBytes": 313172,
+      "rgbaPixelInputBytes": 1252688,
+      "compactManifestBytes": 915,
+      "compactManifestGzipBytes": 399,
+      "compactManifestBrotliBytes": 313
     },
     {
       "id": "floor-3200-map-delta",
@@ -18545,30 +17885,26 @@
       "image": "packs/floor-3203-map-delta.png",
       "manifest": "packs/floor-3203-map-delta.json",
       "ids": [
-        12012,
-        12631,
         12641
       ],
       "presentIds": [
-        12012,
-        12631,
         12641
       ],
       "missingIds": [],
-      "frames": 3,
-      "frameArea": 45840,
+      "frames": 1,
+      "frameArea": 12012,
       "rowPack": {
         "width": 2048,
-        "height": 220,
-        "area": 450560,
-        "maxRowWidth": 352,
-        "fillRatio": 0.1017
+        "height": 77,
+        "area": 157696,
+        "maxRowWidth": 156,
+        "fillRatio": 0.0762
       },
-      "indexedPixelInputBytes": 45840,
-      "rgbaPixelInputBytes": 183360,
-      "compactManifestBytes": 275,
-      "compactManifestGzipBytes": 196,
-      "compactManifestBrotliBytes": 178
+      "indexedPixelInputBytes": 12012,
+      "rgbaPixelInputBytes": 48048,
+      "compactManifestBytes": 187,
+      "compactManifestGzipBytes": 156,
+      "compactManifestBrotliBytes": 140
     },
     {
       "id": "floor-3205-map-delta",
@@ -18579,34 +17915,26 @@
       "image": "packs/floor-3205-map-delta.png",
       "manifest": "packs/floor-3205-map-delta.json",
       "ids": [
-        12012,
-        12013,
-        12014,
-        12801,
-        12830
+        12801
       ],
       "presentIds": [
-        12012,
-        12013,
-        12014,
-        12801,
-        12830
+        12801
       ],
       "missingIds": [],
-      "frames": 5,
-      "frameArea": 93188,
+      "frames": 1,
+      "frameArea": 3780,
       "rowPack": {
         "width": 2048,
-        "height": 220,
-        "area": 450560,
-        "maxRowWidth": 532,
-        "fillRatio": 0.2068
+        "height": 63,
+        "area": 129024,
+        "maxRowWidth": 60,
+        "fillRatio": 0.0293
       },
-      "indexedPixelInputBytes": 93188,
-      "rgbaPixelInputBytes": 372752,
-      "compactManifestBytes": 361,
-      "compactManifestGzipBytes": 227,
-      "compactManifestBrotliBytes": 196
+      "indexedPixelInputBytes": 3780,
+      "rgbaPixelInputBytes": 15120,
+      "compactManifestBytes": 184,
+      "compactManifestGzipBytes": 156,
+      "compactManifestBrotliBytes": 135
     },
     {
       "id": "floor-3206-map-delta",
@@ -18619,34 +17947,28 @@
       "ids": [
         12017,
         12811,
-        12821,
-        12830,
-        12839,
-        12840
+        12821
       ],
       "presentIds": [
         12017,
         12811,
-        12821,
-        12830,
-        12839,
-        12840
+        12821
       ],
       "missingIds": [],
-      "frames": 6,
-      "frameArea": 103732,
+      "frames": 3,
+      "frameArea": 59824,
       "rowPack": {
         "width": 2048,
         "height": 215,
         "area": 440320,
-        "maxRowWidth": 732,
-        "fillRatio": 0.2356
+        "maxRowWidth": 368,
+        "fillRatio": 0.1359
       },
-      "indexedPixelInputBytes": 103732,
-      "rgbaPixelInputBytes": 414928,
-      "compactManifestBytes": 407,
-      "compactManifestGzipBytes": 248,
-      "compactManifestBrotliBytes": 212
+      "indexedPixelInputBytes": 59824,
+      "rgbaPixelInputBytes": 239296,
+      "compactManifestBytes": 275,
+      "compactManifestGzipBytes": 195,
+      "compactManifestBrotliBytes": 180
     },
     {
       "id": "floor-3209-map-delta",
@@ -18665,10 +17987,6 @@
         12607,
         12614,
         12615,
-        12664,
-        12676,
-        12677,
-        12679,
         12850,
         12926,
         12929
@@ -18682,29 +18000,25 @@
         12607,
         12614,
         12615,
-        12664,
-        12676,
-        12677,
-        12679,
         12850,
         12926,
         12929
       ],
       "missingIds": [],
-      "frames": 15,
-      "frameArea": 296168,
+      "frames": 11,
+      "frameArea": 191600,
       "rowPack": {
         "width": 2048,
         "height": 213,
         "area": 436224,
-        "maxRowWidth": 1696,
-        "fillRatio": 0.6789
+        "maxRowWidth": 1108,
+        "fillRatio": 0.4392
       },
-      "indexedPixelInputBytes": 296168,
-      "rgbaPixelInputBytes": 1184672,
-      "compactManifestBytes": 791,
-      "compactManifestGzipBytes": 336,
-      "compactManifestBrotliBytes": 273
+      "indexedPixelInputBytes": 191600,
+      "rgbaPixelInputBytes": 766400,
+      "compactManifestBytes": 615,
+      "compactManifestGzipBytes": 301,
+      "compactManifestBrotliBytes": 252
     },
     {
       "id": "floor-3300-map-delta",
@@ -18765,28 +18079,26 @@
       "image": "packs/floor-3303-map-delta.png",
       "manifest": "packs/floor-3303-map-delta.json",
       "ids": [
-        10907,
-        12631
+        10907
       ],
       "presentIds": [
-        10907,
-        12631
+        10907
       ],
       "missingIds": [],
-      "frames": 2,
-      "frameArea": 12004,
+      "frames": 1,
+      "frameArea": 1056,
       "rowPack": {
         "width": 2048,
-        "height": 119,
-        "area": 243712,
-        "maxRowWidth": 124,
-        "fillRatio": 0.0493
+        "height": 33,
+        "area": 67584,
+        "maxRowWidth": 32,
+        "fillRatio": 0.0156
       },
-      "indexedPixelInputBytes": 12004,
-      "rgbaPixelInputBytes": 48016,
-      "compactManifestBytes": 228,
-      "compactManifestGzipBytes": 179,
-      "compactManifestBrotliBytes": 161
+      "indexedPixelInputBytes": 1056,
+      "rgbaPixelInputBytes": 4224,
+      "compactManifestBytes": 184,
+      "compactManifestGzipBytes": 156,
+      "compactManifestBrotliBytes": 135
     },
     {
       "id": "floor-3305-map-delta",
@@ -18797,28 +18109,26 @@
       "image": "packs/floor-3305-map-delta.png",
       "manifest": "packs/floor-3305-map-delta.json",
       "ids": [
-        12652,
         12928
       ],
       "presentIds": [
-        12652,
         12928
       ],
       "missingIds": [],
-      "frames": 2,
-      "frameArea": 10752,
+      "frames": 1,
+      "frameArea": 3432,
       "rowPack": {
         "width": 2048,
-        "height": 122,
-        "area": 249856,
-        "maxRowWidth": 112,
-        "fillRatio": 0.043
+        "height": 66,
+        "area": 135168,
+        "maxRowWidth": 52,
+        "fillRatio": 0.0254
       },
-      "indexedPixelInputBytes": 10752,
-      "rgbaPixelInputBytes": 43008,
-      "compactManifestBytes": 228,
-      "compactManifestGzipBytes": 177,
-      "compactManifestBrotliBytes": 160
+      "indexedPixelInputBytes": 3432,
+      "rgbaPixelInputBytes": 13728,
+      "compactManifestBytes": 184,
+      "compactManifestGzipBytes": 157,
+      "compactManifestBrotliBytes": 139
     },
     {
       "id": "floor-3306-map-delta",
@@ -19057,6 +18367,154 @@
       "compactManifestBytes": 3129,
       "compactManifestGzipBytes": 789,
       "compactManifestBrotliBytes": 548
+    },
+    {
+      "id": "floor-3403-map-delta",
+      "domain": "map-tiles",
+      "load": "enter-floor",
+      "floor": 3403,
+      "region": "3000",
+      "image": "packs/floor-3403-map-delta.png",
+      "manifest": "packs/floor-3403-map-delta.json",
+      "ids": [
+        12017
+      ],
+      "presentIds": [
+        12017
+      ],
+      "missingIds": [],
+      "frames": 1,
+      "frameArea": 24080,
+      "rowPack": {
+        "width": 2048,
+        "height": 215,
+        "area": 440320,
+        "maxRowWidth": 112,
+        "fillRatio": 0.0547
+      },
+      "indexedPixelInputBytes": 24080,
+      "rgbaPixelInputBytes": 96320,
+      "compactManifestBytes": 188,
+      "compactManifestGzipBytes": 158,
+      "compactManifestBrotliBytes": 141
+    },
+    {
+      "id": "floor-3405-map-delta",
+      "domain": "map-tiles",
+      "load": "enter-floor",
+      "floor": 3405,
+      "region": "3000",
+      "image": "packs/floor-3405-map-delta.png",
+      "manifest": "packs/floor-3405-map-delta.json",
+      "ids": [
+        12009,
+        12810,
+        12922
+      ],
+      "presentIds": [
+        12009,
+        12810,
+        12922
+      ],
+      "missingIds": [],
+      "frames": 3,
+      "frameArea": 30104,
+      "rowPack": {
+        "width": 2048,
+        "height": 218,
+        "area": 446464,
+        "maxRowWidth": 228,
+        "fillRatio": 0.0674
+      },
+      "indexedPixelInputBytes": 30104,
+      "rgbaPixelInputBytes": 120416,
+      "compactManifestBytes": 270,
+      "compactManifestGzipBytes": 195,
+      "compactManifestBrotliBytes": 174
+    },
+    {
+      "id": "floor-3406-map-delta",
+      "domain": "map-tiles",
+      "load": "enter-floor",
+      "floor": 3406,
+      "region": "3000",
+      "image": "packs/floor-3406-map-delta.png",
+      "manifest": "packs/floor-3406-map-delta.json",
+      "ids": [
+        10214,
+        12009,
+        12800,
+        12841,
+        12842
+      ],
+      "presentIds": [
+        10214,
+        12009,
+        12800,
+        12841,
+        12842
+      ],
+      "missingIds": [],
+      "frames": 5,
+      "frameArea": 39232,
+      "rowPack": {
+        "width": 2048,
+        "height": 218,
+        "area": 446464,
+        "maxRowWidth": 368,
+        "fillRatio": 0.0879
+      },
+      "indexedPixelInputBytes": 39232,
+      "rgbaPixelInputBytes": 156928,
+      "compactManifestBytes": 349,
+      "compactManifestGzipBytes": 225,
+      "compactManifestBrotliBytes": 194
+    },
+    {
+      "id": "floor-3409-map-delta",
+      "domain": "map-tiles",
+      "load": "enter-floor",
+      "floor": 3409,
+      "region": "3000",
+      "image": "packs/floor-3409-map-delta.png",
+      "manifest": "packs/floor-3409-map-delta.json",
+      "ids": [
+        12606,
+        12612,
+        12614,
+        12622,
+        12629,
+        12633,
+        12681,
+        12682,
+        12821
+      ],
+      "presentIds": [
+        12606,
+        12612,
+        12614,
+        12622,
+        12629,
+        12633,
+        12681,
+        12682,
+        12821
+      ],
+      "missingIds": [],
+      "frames": 9,
+      "frameArea": 167688,
+      "rowPack": {
+        "width": 2048,
+        "height": 185,
+        "area": 378880,
+        "maxRowWidth": 1076,
+        "fillRatio": 0.4426
+      },
+      "indexedPixelInputBytes": 167688,
+      "rgbaPixelInputBytes": 670752,
+      "compactManifestBytes": 536,
+      "compactManifestGzipBytes": 282,
+      "compactManifestBrotliBytes": 232
     },
     {
       "id": "floor-4000-map-delta",
@@ -20173,6 +19631,7 @@
         12819,
         12820,
         12830,
+        12832,
         12835,
         12838,
         12840,
@@ -20191,26 +19650,95 @@
         12819,
         12820,
         12830,
+        12832,
         12835,
         12838,
         12840,
         12844
       ],
       "missingIds": [],
-      "frames": 16,
-      "frameArea": 239944,
+      "frames": 17,
+      "frameArea": 247248,
       "rowPack": {
         "width": 2048,
         "height": 221,
         "area": 452608,
-        "maxRowWidth": 1648,
-        "fillRatio": 0.5301
+        "maxRowWidth": 1736,
+        "fillRatio": 0.5463
       },
-      "indexedPixelInputBytes": 239944,
-      "rgbaPixelInputBytes": 959776,
-      "compactManifestBytes": 822,
-      "compactManifestGzipBytes": 391,
-      "compactManifestBrotliBytes": 312
+      "indexedPixelInputBytes": 247248,
+      "rgbaPixelInputBytes": 988992,
+      "compactManifestBytes": 863,
+      "compactManifestGzipBytes": 407,
+      "compactManifestBrotliBytes": 322
+    },
+    {
+      "id": "floor-10006-map-delta",
+      "domain": "map-tiles",
+      "load": "enter-floor",
+      "floor": 10006,
+      "region": "10000",
+      "image": "packs/floor-10006-map-delta.png",
+      "manifest": "packs/floor-10006-map-delta.json",
+      "ids": [
+        43,
+        63,
+        4105,
+        4114,
+        4115,
+        4116,
+        15000,
+        15001,
+        15002,
+        15003,
+        15004,
+        15005,
+        15006,
+        15007,
+        15008,
+        15009,
+        15010,
+        15011,
+        15014,
+        15015
+      ],
+      "presentIds": [
+        43,
+        63,
+        4105,
+        4114,
+        4115,
+        4116,
+        15000,
+        15001,
+        15002,
+        15003,
+        15004,
+        15005,
+        15006,
+        15007,
+        15008,
+        15009,
+        15010,
+        15011,
+        15014,
+        15015
+      ],
+      "missingIds": [],
+      "frames": 20,
+      "frameArea": 597524,
+      "rowPack": {
+        "width": 2048,
+        "height": 437,
+        "area": 894976,
+        "maxRowWidth": 1924,
+        "fillRatio": 0.6676
+      },
+      "indexedPixelInputBytes": 597524,
+      "rgbaPixelInputBytes": 2390096,
+      "compactManifestBytes": 986,
+      "compactManifestGzipBytes": 383,
+      "compactManifestBrotliBytes": 309
     },
     {
       "id": "floor-10007-map-delta",
@@ -20223,12 +19751,7 @@
       "ids": [
         43,
         63,
-        4081,
-        4092,
-        4094,
-        4102,
         4105,
-        4117,
         4121,
         10121,
         12623,
@@ -20259,12 +19782,7 @@
       "presentIds": [
         43,
         63,
-        4081,
-        4092,
-        4094,
-        4102,
         4105,
-        4117,
         4121,
         10121,
         12623,
@@ -20293,20 +19811,20 @@
         15014
       ],
       "missingIds": [],
-      "frames": 34,
-      "frameArea": 718020,
+      "frames": 29,
+      "frameArea": 702980,
       "rowPack": {
         "width": 2048,
-        "height": 487,
-        "area": 997376,
-        "maxRowWidth": 2048,
-        "fillRatio": 0.7199
+        "height": 440,
+        "area": 901120,
+        "maxRowWidth": 1940,
+        "fillRatio": 0.7801
       },
-      "indexedPixelInputBytes": 718020,
-      "rgbaPixelInputBytes": 2872080,
-      "compactManifestBytes": 1565,
-      "compactManifestGzipBytes": 588,
-      "compactManifestBrotliBytes": 469
+      "indexedPixelInputBytes": 702980,
+      "rgbaPixelInputBytes": 2811920,
+      "compactManifestBytes": 1370,
+      "compactManifestGzipBytes": 552,
+      "compactManifestBrotliBytes": 446
     },
     {
       "id": "floor-10202-map-delta",
@@ -20322,9 +19840,6 @@
         4016,
         4017,
         4018,
-        4084,
-        4103,
-        4109,
         4114,
         12421,
         12600,
@@ -20349,9 +19864,6 @@
         4016,
         4017,
         4018,
-        4084,
-        4103,
-        4109,
         4114,
         12421,
         12600,
@@ -20371,20 +19883,20 @@
         15217
       ],
       "missingIds": [],
-      "frames": 25,
-      "frameArea": 294240,
+      "frames": 22,
+      "frameArea": 285216,
       "rowPack": {
         "width": 2048,
         "height": 281,
         "area": 575488,
         "maxRowWidth": 2044,
-        "fillRatio": 0.5113
+        "fillRatio": 0.4956
       },
-      "indexedPixelInputBytes": 294240,
-      "rgbaPixelInputBytes": 1176960,
-      "compactManifestBytes": 1179,
-      "compactManifestGzipBytes": 479,
-      "compactManifestBrotliBytes": 387
+      "indexedPixelInputBytes": 285216,
+      "rgbaPixelInputBytes": 1140864,
+      "compactManifestBytes": 1062,
+      "compactManifestGzipBytes": 461,
+      "compactManifestBrotliBytes": 370
     },
     {
       "id": "floor-10203-map-delta",
@@ -20401,17 +19913,9 @@
         4015,
         4016,
         4017,
-        4081,
-        4084,
-        4092,
-        4094,
         4098,
-        4102,
-        4103,
-        4109,
         4115,
         4116,
-        4117,
         4121,
         4122,
         14606,
@@ -20427,17 +19931,9 @@
         4015,
         4016,
         4017,
-        4081,
-        4084,
-        4092,
-        4094,
         4098,
-        4102,
-        4103,
-        4109,
         4115,
         4116,
-        4117,
         4121,
         4122,
         14606,
@@ -20447,20 +19943,20 @@
         15217
       ],
       "missingIds": [],
-      "frames": 24,
-      "frameArea": 203440,
+      "frames": 16,
+      "frameArea": 179376,
       "rowPack": {
         "width": 2048,
         "height": 234,
         "area": 479232,
-        "maxRowWidth": 1976,
-        "fillRatio": 0.4245
+        "maxRowWidth": 1464,
+        "fillRatio": 0.3743
       },
-      "indexedPixelInputBytes": 203440,
-      "rgbaPixelInputBytes": 813760,
-      "compactManifestBytes": 1103,
-      "compactManifestGzipBytes": 375,
-      "compactManifestBrotliBytes": 295
+      "indexedPixelInputBytes": 179376,
+      "rgbaPixelInputBytes": 717504,
+      "compactManifestBytes": 791,
+      "compactManifestGzipBytes": 318,
+      "compactManifestBrotliBytes": 265
     },
     {
       "id": "floor-10204-map-delta",
@@ -20506,7 +20002,7 @@
         "pets-encounter-core"
       ],
       "mapTileIds": 1986,
-      "mapDeltaIds": 1977,
+      "mapDeltaIds": 1978,
       "npcGraphicIds": 27,
       "encounterImageNos": 26,
       "missingIds": []
@@ -21069,9 +20565,9 @@
         "pets-encounter-core"
       ],
       "mapTileIds": 751,
-      "mapDeltaIds": 742,
+      "mapDeltaIds": 743,
       "npcGraphicIds": 41,
-      "encounterImageNos": 1,
+      "encounterImageNos": 3,
       "missingIds": []
     },
     "2001": {
@@ -21147,7 +20643,7 @@
         "floor-2006-map-delta"
       ],
       "mapTileIds": 49,
-      "mapDeltaIds": 14,
+      "mapDeltaIds": 15,
       "npcGraphicIds": 8,
       "encounterImageNos": 0,
       "missingIds": []
@@ -21186,7 +20682,7 @@
         "floor-2009-map-delta"
       ],
       "mapTileIds": 85,
-      "mapDeltaIds": 45,
+      "mapDeltaIds": 46,
       "npcGraphicIds": 12,
       "encounterImageNos": 0,
       "missingIds": []
@@ -21209,11 +20705,10 @@
       "packs": [
         "map-tiles-shared-core",
         "npc-field-core",
-        "map-tiles-region-3000",
-        "floor-3001-map-delta"
+        "map-tiles-region-3000"
       ],
       "mapTileIds": 51,
-      "mapDeltaIds": 1,
+      "mapDeltaIds": 0,
       "npcGraphicIds": 3,
       "encounterImageNos": 0,
       "missingIds": []
@@ -21248,11 +20743,10 @@
       "packs": [
         "map-tiles-shared-core",
         "npc-field-core",
-        "map-tiles-region-3000",
-        "floor-3004-map-delta"
+        "map-tiles-region-3000"
       ],
       "mapTileIds": 46,
-      "mapDeltaIds": 1,
+      "mapDeltaIds": 0,
       "npcGraphicIds": 1,
       "encounterImageNos": 0,
       "missingIds": []
@@ -21279,7 +20773,7 @@
         "pets-encounter-core"
       ],
       "mapTileIds": 58,
-      "mapDeltaIds": 4,
+      "mapDeltaIds": 3,
       "npcGraphicIds": 8,
       "encounterImageNos": 1,
       "missingIds": []
@@ -21293,7 +20787,7 @@
         "pets-encounter-core"
       ],
       "mapTileIds": 95,
-      "mapDeltaIds": 6,
+      "mapDeltaIds": 2,
       "npcGraphicIds": 10,
       "encounterImageNos": 1,
       "missingIds": []
@@ -21306,7 +20800,7 @@
         "floor-3022-map-delta"
       ],
       "mapTileIds": 29,
-      "mapDeltaIds": 24,
+      "mapDeltaIds": 23,
       "npcGraphicIds": 2,
       "encounterImageNos": 0,
       "missingIds": []
@@ -21369,7 +20863,7 @@
         "floor-3106-map-delta"
       ],
       "mapTileIds": 58,
-      "mapDeltaIds": 5,
+      "mapDeltaIds": 2,
       "npcGraphicIds": 1,
       "encounterImageNos": 0,
       "missingIds": []
@@ -21382,7 +20876,7 @@
         "floor-3109-map-delta"
       ],
       "mapTileIds": 98,
-      "mapDeltaIds": 22,
+      "mapDeltaIds": 18,
       "npcGraphicIds": 5,
       "encounterImageNos": 0,
       "missingIds": []
@@ -21408,7 +20902,7 @@
         "floor-3203-map-delta"
       ],
       "mapTileIds": 47,
-      "mapDeltaIds": 3,
+      "mapDeltaIds": 1,
       "npcGraphicIds": 4,
       "encounterImageNos": 0,
       "missingIds": []
@@ -21433,7 +20927,7 @@
         "floor-3205-map-delta"
       ],
       "mapTileIds": 49,
-      "mapDeltaIds": 5,
+      "mapDeltaIds": 1,
       "npcGraphicIds": 3,
       "encounterImageNos": 0,
       "missingIds": []
@@ -21446,7 +20940,7 @@
         "floor-3206-map-delta"
       ],
       "mapTileIds": 55,
-      "mapDeltaIds": 6,
+      "mapDeltaIds": 3,
       "npcGraphicIds": 4,
       "encounterImageNos": 0,
       "missingIds": []
@@ -21459,7 +20953,7 @@
         "floor-3209-map-delta"
       ],
       "mapTileIds": 80,
-      "mapDeltaIds": 15,
+      "mapDeltaIds": 11,
       "npcGraphicIds": 5,
       "encounterImageNos": 0,
       "missingIds": []
@@ -21486,7 +20980,7 @@
         "floor-3303-map-delta"
       ],
       "mapTileIds": 45,
-      "mapDeltaIds": 2,
+      "mapDeltaIds": 1,
       "npcGraphicIds": 4,
       "encounterImageNos": 0,
       "missingIds": []
@@ -21512,7 +21006,7 @@
         "floor-3305-map-delta"
       ],
       "mapTileIds": 52,
-      "mapDeltaIds": 2,
+      "mapDeltaIds": 1,
       "npcGraphicIds": 6,
       "encounterImageNos": 0,
       "missingIds": []
@@ -21556,17 +21050,82 @@
       "encounterImageNos": 0,
       "missingIds": []
     },
+    "3403": {
+      "packs": [
+        "map-tiles-shared-core",
+        "npc-field-core",
+        "map-tiles-region-3000",
+        "floor-3403-map-delta"
+      ],
+      "mapTileIds": 46,
+      "mapDeltaIds": 1,
+      "npcGraphicIds": 4,
+      "encounterImageNos": 0,
+      "missingIds": []
+    },
+    "3404": {
+      "packs": [
+        "map-tiles-shared-core",
+        "npc-field-core",
+        "map-tiles-region-3000"
+      ],
+      "mapTileIds": 45,
+      "mapDeltaIds": 0,
+      "npcGraphicIds": 1,
+      "encounterImageNos": 0,
+      "missingIds": []
+    },
+    "3405": {
+      "packs": [
+        "map-tiles-shared-core",
+        "npc-field-core",
+        "map-tiles-region-3000",
+        "floor-3405-map-delta"
+      ],
+      "mapTileIds": 54,
+      "mapDeltaIds": 3,
+      "npcGraphicIds": 3,
+      "encounterImageNos": 0,
+      "missingIds": []
+    },
+    "3406": {
+      "packs": [
+        "map-tiles-shared-core",
+        "npc-field-core",
+        "map-tiles-region-3000",
+        "floor-3406-map-delta"
+      ],
+      "mapTileIds": 63,
+      "mapDeltaIds": 5,
+      "npcGraphicIds": 5,
+      "encounterImageNos": 0,
+      "missingIds": []
+    },
+    "3409": {
+      "packs": [
+        "map-tiles-shared-core",
+        "npc-field-core",
+        "map-tiles-region-3000",
+        "floor-3409-map-delta"
+      ],
+      "mapTileIds": 87,
+      "mapDeltaIds": 9,
+      "npcGraphicIds": 3,
+      "encounterImageNos": 0,
+      "missingIds": []
+    },
     "4000": {
       "packs": [
         "map-tiles-shared-core",
         "npc-field-core",
         "map-tiles-region-4000",
-        "floor-4000-map-delta"
+        "floor-4000-map-delta",
+        "pets-encounter-core"
       ],
       "mapTileIds": 435,
       "mapDeltaIds": 429,
       "npcGraphicIds": 36,
-      "encounterImageNos": 0,
+      "encounterImageNos": 2,
       "missingIds": []
     },
     "4001": {
@@ -21642,57 +21201,23 @@
         "floor-4006-map-delta"
       ],
       "mapTileIds": 50,
-      "mapDeltaIds": 16,
+      "mapDeltaIds": 17,
       "npcGraphicIds": 8,
       "encounterImageNos": 0,
       "missingIds": []
     },
-    "5000": {
+    "10006": {
       "packs": [
         "map-tiles-shared-core",
         "npc-field-core",
-        "floor-5000-map-delta"
+        "map-tiles-region-10000",
+        "floor-10006-map-delta",
+        "pets-encounter-core"
       ],
-      "mapTileIds": 192,
-      "mapDeltaIds": 192,
-      "npcGraphicIds": 7,
-      "encounterImageNos": 0,
-      "missingIds": []
-    },
-    "5001": {
-      "packs": [
-        "map-tiles-shared-core",
-        "npc-field-core",
-        "floor-5001-map-delta"
-      ],
-      "mapTileIds": 38,
-      "mapDeltaIds": 26,
-      "npcGraphicIds": 0,
-      "encounterImageNos": 0,
-      "missingIds": []
-    },
-    "5003": {
-      "packs": [
-        "map-tiles-shared-core",
-        "npc-field-core",
-        "floor-5003-map-delta"
-      ],
-      "mapTileIds": 44,
-      "mapDeltaIds": 29,
-      "npcGraphicIds": 0,
-      "encounterImageNos": 0,
-      "missingIds": []
-    },
-    "5005": {
-      "packs": [
-        "map-tiles-shared-core",
-        "npc-field-core",
-        "floor-5005-map-delta"
-      ],
-      "mapTileIds": 46,
-      "mapDeltaIds": 29,
-      "npcGraphicIds": 0,
-      "encounterImageNos": 0,
+      "mapTileIds": 121,
+      "mapDeltaIds": 20,
+      "npcGraphicIds": 4,
+      "encounterImageNos": 2,
       "missingIds": []
     },
     "10007": {
@@ -21703,7 +21228,7 @@
         "floor-10007-map-delta"
       ],
       "mapTileIds": 131,
-      "mapDeltaIds": 34,
+      "mapDeltaIds": 29,
       "npcGraphicIds": 12,
       "encounterImageNos": 0,
       "missingIds": []
@@ -21717,7 +21242,7 @@
         "pets-encounter-core"
       ],
       "mapTileIds": 145,
-      "mapDeltaIds": 25,
+      "mapDeltaIds": 22,
       "npcGraphicIds": 3,
       "encounterImageNos": 3,
       "missingIds": []
@@ -21731,7 +21256,7 @@
         "pets-encounter-core"
       ],
       "mapTileIds": 139,
-      "mapDeltaIds": 24,
+      "mapDeltaIds": 16,
       "npcGraphicIds": 0,
       "encounterImageNos": 3,
       "missingIds": []

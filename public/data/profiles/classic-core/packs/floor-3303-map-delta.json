@@ -1,1 +1,1 @@
-{"v":1,"image":"floor-3303-map-delta.png","w":2048,"h":119,"fields":["id","x","y","w","h","xo","yo","hit","prio","bitmap","graphic"],"frames":[[12631,0,0,92,119,-15,-198,1,0,5212,12631],[10907,92,0,32,33,-11,-21,0,0,4809,10907]]}
+{"v":1,"image":"floor-3303-map-delta.png","w":2048,"h":33,"fields":["id","x","y","w","h","xo","yo","hit","prio","bitmap","graphic"],"frames":[[10907,0,0,32,33,-11,-21,0,0,4809,10907]]}

@@ -1,6 +1,6 @@
 # NPC Script Coverage Report
 
-Generated: 2026-05-27T20:56:29.300Z
+Generated: 2026-06-12T05:56:09.628Z
 
 This report is generated from local NPC source files and generated world data. It is the planning gate for loading more source NPC tasks without sending raw scripts to the client.
 
@@ -21,10 +21,10 @@ This report is generated from local NPC source files and generated world data. I
 
 | Profile | Floors | Source files | World NPCs | Script NPCs | Script events |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| classic-core | 93 | 641 | 681 | 114 | 589 |
-| classic-rebirth | 95 | 692 | 737 | 127 | 656 |
-| classic-advanced-2.0 | 95 | 692 | 737 | 127 | 656 |
-| classic-advanced-2.5 | 95 | 692 | 737 | 127 | 656 |
+| classic-core | 99 | 656 | 701 | 117 | 604 |
+| classic-rebirth | 103 | 726 | 772 | 135 | 703 |
+| classic-advanced-2.0 | 103 | 726 | 772 | 135 | 703 |
+| classic-advanced-2.5 | 103 | 726 | 772 | 135 | 703 |
 
 ## Parsed Runtime Actions
 
@@ -35,20 +35,20 @@ This report is generated from local NPC source files and generated world data. I
 | AddExps | 24 | 0 | 0 | 0 | 0 |
 | Charm | 2 | 2 | 2 | 2 | 2 |
 | CleanFlg | 26 | 8 | 8 | 8 | 8 |
-| condition | 1724 | 589 | 656 | 656 | 656 |
-| DelItem | 426 | 225 | 236 | 236 | 236 |
+| condition | 1724 | 604 | 703 | 703 | 703 |
+| DelItem | 426 | 229 | 243 | 243 | 243 |
 | DelItemEVDEL | 6 | 0 | 0 | 0 | 0 |
 | DelPet | 64 | 22 | 22 | 22 | 22 |
 | NewDelPet | 1 | 0 | 0 | 0 | 0 |
 | DelStone | 15 | 7 | 8 | 8 | 8 |
-| EndSetFlg | 56 | 33 | 34 | 34 | 34 |
-| GetItem | 345 | 167 | 186 | 186 | 186 |
+| EndSetFlg | 56 | 34 | 37 | 37 | 37 |
+| GetItem | 345 | 171 | 194 | 194 | 194 |
 | AddPet | 49 | 0 | 0 | 0 | 0 |
 | GetPet | 65 | 11 | 11 | 11 | 11 |
 | GetRandItem | 56 | 30 | 30 | 30 | 30 |
 | GetStone | 119 | 63 | 63 | 63 | 63 |
-| KeyWord | 60 | 19 | 25 | 25 | 25 |
-| MessagePages | 217 | 72 | 83 | 83 | 83 |
+| KeyWord | 60 | 20 | 26 | 26 | 26 |
+| MessagePages | 217 | 72 | 88 | 88 | 88 |
 | MISSIONCLEAN | 0 | 0 | 0 | 0 | 0 |
 | MISSIONOVER | 0 | 0 | 0 | 0 | 0 |
 | NotDel | 6 | 0 | 0 | 0 | 0 |
@@ -57,7 +57,7 @@ This report is generated from local NPC source files and generated world data. I
 | NpcPoint | 15 | 4 | 4 | 4 | 4 |
 | Pet_Name | 2 | 0 | 0 | 0 | 0 |
 | SetLastTalkelder | 0 | 0 | 0 | 0 | 0 |
-| StopMsg | 46 | 27 | 28 | 28 | 28 |
+| StopMsg | 46 | 28 | 30 | 30 | 30 |
 
 ## Top Unsupported Action Candidates
 

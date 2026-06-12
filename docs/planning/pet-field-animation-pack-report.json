@@ -1,6 +1,6 @@
 {
   "v": 1,
-  "generatedAt": "2026-05-19T10:16:03.887Z",
+  "generatedAt": "2026-06-12T05:53:38.161Z",
   "sourceReport": "docs/planning/pet-animation-coverage-report.json",
   "output": {
     "animationManifest": "public/data/profiles/classic-core/pet-field-animations.json",
