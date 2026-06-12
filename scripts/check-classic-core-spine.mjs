@@ -43,6 +43,17 @@ expect(classicCoreProfile, "classic-core closure manifest must contain the class
 expect((classicCoreProfile?.sourceOnlyFloors || []).length === 0, "classic-core profile must not retain source-only floors");
 expect(classicCoreProfile?.validation?.status !== "needs-world-generation", "classic-core profile must not require world generation");
 
+const requiredClassicCoreLines = (manifest.lines || []).filter((line) =>
+  line.profile === "classic-core" && line.required === true
+);
+expect(requiredClassicCoreLines.length > 0, "classic-core profile must keep required playable lines");
+for (const line of requiredClassicCoreLines) {
+  expect((line.maps?.generatedFloors || []).length > 0, `required classic-core line ${line.id} must have generated WORLD floors`);
+  expect((line.maps?.sourceOnlyFloors || []).length === 0, `required classic-core line ${line.id} must not retain source-only floors`);
+  expect((line.maps?.missingSeedFloors || []).length === 0, `required classic-core line ${line.id} must not have missing seed floors`);
+  expect(line.validation?.status !== "needs-world-generation", `required classic-core line ${line.id} must not need world generation`);
+}
+
 const villageStartLine = (manifest.lines || []).find((line) => line.id === "classic-village-start");
 expect(villageStartLine, "classic-core closure manifest must contain classic-village-start");
 expect(villageStartLine?.profile === "classic-core", "Classic Village Start must remain in classic-core profile");
