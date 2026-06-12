@@ -9,6 +9,7 @@ const failures = [];
 const pkg = readJson(path.join(appRoot, "package.json"));
 const manifest = readJson(path.join(appRoot, "docs/planning/classic-core-closure-manifest.json"));
 const profilePackPlan = readJson(path.join(appRoot, "public/data/profiles/classic-core/profile-texture-pack-plan.json"));
+const sourceMapWarps = parseSourceMapWarps(path.join(appRoot, "external/sources/ref___data/map/mapwarp.txt"));
 
 expect(
   pkg.scripts?.["check:classic-core-spine"] === "node scripts/check-classic-core-spine.mjs",
@@ -50,7 +51,11 @@ expect((villageStartLine?.maps?.sourceOnlyFloors || []).length === 0, "Classic V
 const koCaveFloors = [10301, 10302, 10303, 10304, 10305, 10306, 10307, 10308];
 for (const floor of koCaveFloors) {
   expect(hasFloor(villageStartLine?.maps?.generatedFloors, floor), `Classic Village Start must generate Ko cave floor ${floor}`);
-  expect(WORLD.maps[String(floor)] || WORLD.maps[floor], `WORLD must include Ko cave floor ${floor}`);
+  const map = getWorldMap(floor);
+  expect(map, `WORLD must include Ko cave floor ${floor}`);
+  expect(String(map?.name || "").startsWith("柯奥的洞窟"), `Ko cave floor ${floor} must keep its original cave name`);
+  expect(JSON.stringify(map?.size || []) === JSON.stringify([50, 50]), `Ko cave floor ${floor} must keep its original 50x50 map size`);
+  expect(map?.mapFile === `/data/maps/${floor}.ls2map`, `Ko cave floor ${floor} must load its generated LS2MAP file`);
   const floorPacks = profilePackPlan.runtimeManifestSketch?.floors?.[String(floor)]?.packs || [];
   expect(floorPacks.length > 0, `classic-core profile runtime manifest must cover Ko cave floor ${floor}`);
   for (const packRef of floorPacks) {
@@ -60,6 +65,32 @@ for (const floor of koCaveFloors) {
     );
   }
 }
+
+const koCaveAdjacentPairs = [
+  [10301, 10302],
+  [10302, 10303],
+  [10303, 10304],
+  [10304, 10305],
+  [10305, 10306],
+  [10306, 10307],
+  [10307, 10308]
+];
+
+for (const [from, to] of koCaveAdjacentPairs) {
+  expect(sourceHasWarp(from, to), `source mapwarp.txt must include Ko cave warp ${from} -> ${to}`);
+  expect(sourceHasWarp(to, from), `source mapwarp.txt must include Ko cave warp ${to} -> ${from}`);
+  expect(worldHasExit(from, to), `WORLD must include Ko cave exit ${from} -> ${to}`);
+  expect(worldHasExit(to, from), `WORLD must include Ko cave exit ${to} -> ${from}`);
+}
+
+expect(
+  worldReachableWithin(10301, 10308, koCaveFloors),
+  "Ko cave generated WORLD exits must keep 10301 -> 10308 reachable inside the eight-floor source cave chain"
+);
+expect(
+  worldReachableWithin(10308, 10301, koCaveFloors),
+  "Ko cave generated WORLD exits must keep 10308 -> 10301 reachable inside the eight-floor source cave chain"
+);
 
 expect(
   adultLine?.npcs?.some((npc) =>
@@ -186,6 +217,49 @@ function expect(condition, message) {
 
 function readJson(filePath) {
   return JSON.parse(readFileSync(filePath, "utf8"));
+}
+
+function parseSourceMapWarps(filePath) {
+  const warps = new Map();
+  for (const line of readFileSync(filePath, "utf8").split(/\r?\n/)) {
+    const parts = line.trim().split(":");
+    if (parts.length < 4) continue;
+    const from = parts[2].split(",").map(Number);
+    const to = parts[3].split(",").map(Number);
+    if (from.length < 3 || to.length < 3 || from.some(Number.isNaN) || to.some(Number.isNaN)) continue;
+    if (!warps.has(from[0])) warps.set(from[0], []);
+    warps.get(from[0]).push({ floor: from[0], x: from[1], y: from[2], toFloor: to[0], toX: to[1], toY: to[2] });
+  }
+  return warps;
+}
+
+function getWorldMap(floor) {
+  return WORLD.maps[String(floor)] || WORLD.maps[floor];
+}
+
+function sourceHasWarp(from, to) {
+  return (sourceMapWarps.get(Number(from)) || []).some((warp) => Number(warp.toFloor) === Number(to));
+}
+
+function worldHasExit(from, to) {
+  return (getWorldMap(from)?.exits || []).some((exit) => Number(exit.to) === Number(to));
+}
+
+function worldReachableWithin(start, goal, allowedFloors) {
+  const allowed = new Set((allowedFloors || []).map(Number));
+  const queue = [Number(start)];
+  const seen = new Set(queue);
+  while (queue.length) {
+    const floor = queue.shift();
+    if (floor === Number(goal)) return true;
+    for (const exit of getWorldMap(floor)?.exits || []) {
+      const next = Number(exit.to);
+      if (!allowed.has(next) || seen.has(next)) continue;
+      seen.add(next);
+      queue.push(next);
+    }
+  }
+  return false;
 }
 
 function hasFloor(entries, floor) {
