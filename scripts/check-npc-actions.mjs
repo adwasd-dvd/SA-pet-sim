@@ -22,6 +22,8 @@ const env = {
 const workerSource = readFileSync(path.join(appRoot, "src/worker.js"), "utf8");
 const supportedPetSkillSetSource = workerSource.match(/const BATTLE_PET_SKILL_FUNCS = new Set\(\[([\s\S]*?)\]\);/)?.[1] || "";
 const supportedPetSkillFuncs = new Set([...supportedPetSkillSetSource.matchAll(/"([^"]+)"/g)].map((match) => match[1]));
+const petSkill2Source = readFileSync(path.join(publicRoot, "data", "petskill2.txt"), "utf8");
+const petSkill2Funcs = new Set(petSkill2Source.split(/\r?\n/).map((line) => line.split(",")[2]).filter((func) => /^PETSKILL_/.test(func)));
 [
   "PETSKILL_Guardian",
   "PETSKILL_ChargeAttack",
@@ -55,6 +57,17 @@ const supportedPetSkillFuncs = new Set([...supportedPetSkillSetSource.matchAll(/
   "PETSKILL_Vary"
 ].forEach((func) => {
   assert(supportedPetSkillFuncs.has(func), `${func} battle profile must stay in BattleSupported whitelist`);
+});
+[
+  "PETSKILL_Awaken",
+  "PETSKILL_Temptation",
+  "PETSKILL_Merge",
+  "PETSKILL_Fixitem",
+  "PETSKILL_Inslay"
+].forEach((func) => {
+  assert(petSkill2Funcs.has(func), `${func} must remain grounded in local petskill2 data before it can be classified`);
+  assert(!supportedPetSkillFuncs.has(func), `${func} must not enter the battle whitelist without a verified source battle command`);
+  assert(workerSource.includes(func) && workerSource.includes("source-boundary"), `${func} unsupported source boundary must stay explicit`);
 });
 
 const apiWithEnv = async (customEnv, pathName, body) => {
@@ -5813,6 +5826,68 @@ try {
   unsupportedCombinedError = error.message || String(error);
 }
 assert(unsupportedCombinedError.includes("还没有接入战斗结算"), "Combined high magic id 470 remains unsupported without a local source magic definition");
+const unsupportedPetSkillBoundaryCases = [
+  {
+    id: 642,
+    name: "觉醒",
+    func: "PETSKILL_Awaken",
+    option: "攻%5 防%5 敏%5 命%30 回%30",
+    expected: "no registered executable battle function"
+  },
+  {
+    id: 643,
+    name: "蛊惑",
+    func: "PETSKILL_Temptation",
+    option: "40",
+    expected: "no PETSKILL_Temptation registration"
+  },
+  {
+    id: 200,
+    name: "加工",
+    func: "PETSKILL_Merge",
+    option: "",
+    expected: "source field/craft pet skill"
+  },
+  {
+    id: 540,
+    name: "修复",
+    func: "PETSKILL_Fixitem",
+    option: "",
+    expected: "source field/craft pet skill"
+  },
+  {
+    id: 572,
+    name: "镶宝石",
+    func: "PETSKILL_Inslay",
+    option: "",
+    expected: "source field/craft pet skill"
+  }
+];
+for (const boundarySkill of unsupportedPetSkillBoundaryCases) {
+  let boundaryGame = await api("/api/game/new", { name: `pet-boundary-${boundarySkill.func}` });
+  boundaryGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
+  boundaryGame = await api("/api/game/dialog", { game: boundaryGame, npcId: battleNpc.npc.id, message: "宠物" });
+  boundaryGame.pets[0].PetSkillIds = [boundarySkill.id];
+  boundaryGame.pets[0].PetSkills = [{
+    Id: boundarySkill.id,
+    Name: boundarySkill.name,
+    Des: "source boundary regression fixture",
+    FuncName: boundarySkill.func,
+    Option: boundarySkill.option,
+    Field: 1,
+    Target: 1,
+    UseType: 2,
+    Source: "public/data/petskill2.txt"
+  }];
+  let boundaryError = "";
+  try {
+    await api("/api/game/battle", { game: boundaryGame, action: "skill:0" });
+  } catch (error) {
+    boundaryError = error.message || String(error);
+  }
+  assert(boundaryError.includes("source-boundary"), `${boundarySkill.func} battle attempt reports source boundary`);
+  assert(boundaryError.includes(boundarySkill.expected), `${boundarySkill.func} battle attempt reports the expected unsupported reason`);
+}
 let combinedStatusChangeGame = await api("/api/game/new", { name: "pet-combined-status-change-test" });
 combinedStatusChangeGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
 combinedStatusChangeGame = await api("/api/game/dialog", { game: combinedStatusChangeGame, npcId: battleNpc.npc.id, message: "宠物" });

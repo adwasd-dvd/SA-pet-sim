@@ -5279,7 +5279,7 @@ function performPetSkillAction(game, move) {
   const skill = activePet.PetSkills?.[skillSlot] || null;
   if (!skill?.Id) throw new Error("这个技能槽没有可用的宠物技能");
   const profile = petSkillBattleProfile(skill);
-  if (!profile.supported) throw new Error(`${skill.Name || "这个宠物技能"} 还没有接入战斗结算`);
+  if (!profile.supported) throw new Error(`${skill.Name || "这个宠物技能"} 还没有接入战斗结算${profile.reason ? `：${profile.reason}` : ""}`);
   if (profile.kind === "charge") {
     return performPetChargeStart(game, move, skill, profile);
   }
@@ -6716,6 +6716,30 @@ function petSkillBattleProfile(skill = {}) {
       multiplier: 0,
       refresh,
       reason: refresh ? "" : `unsupported refresh option ${skill.Option || ""}`
+    };
+  }
+  if (func === "PETSKILL_Awaken") {
+    return {
+      supported: false,
+      kind: "unsupported",
+      sourceCommand: "",
+      reason: "source-boundary: petskill2 has PETSKILL_Awaken, but local gmsv pet_skill.c has no registered executable battle function"
+    };
+  }
+  if (func === "PETSKILL_Temptation") {
+    return {
+      supported: false,
+      kind: "unsupported",
+      sourceCommand: "",
+      reason: "source-boundary: local gmsv has BATTLE_S_Temptation event code, but no PETSKILL_Temptation registration/command entry is present in pet_skill.c"
+    };
+  }
+  if (["PETSKILL_Merge", "PETSKILL_Fixitem", "PETSKILL_Inslay"].includes(func)) {
+    return {
+      supported: false,
+      kind: "field-skill",
+      sourceCommand: "",
+      reason: "source-boundary: source field/craft pet skill, not a battle settlement command"
     };
   }
   return { supported: false, kind: "unsupported", sourceCommand: "", reason: `unsupported ${func || "unknown"}` };
