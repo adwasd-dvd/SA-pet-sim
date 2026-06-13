@@ -1748,6 +1748,38 @@ assert(game.flags.bits[`now:${stableFlag(`${healer.npc.id}:healer`)}`], "healer 
 assert(game.characterFields.events.recentBits.includes(`now:${stableFlag(`${healer.npc.id}:healer`)}`), "character fields summarize recent event bits after NPC VM mutation");
 assert(game.save.json.characterFields.events.recentBits.includes(`now:${stableFlag(`${healer.npc.id}:healer`)}`), "save json character fields keep event bits for AI/NPC context");
 
+const samugiruNurse = WORLD.maps["1005"]?.npcs?.find((npc) => npc.id === "1005-17-13-5702");
+if (!samugiruNurse) throw new Error("missing Samugiru hospital nurse fixture");
+assertEqual(samugiruNurse.name, "萨姆吉尔的护士", "Samugiru hospital nurse keeps source name");
+let samugiruNurseGame = await api("/api/game/new", { name: "samugiru-hospital-nurse-runtime-test" });
+samugiruNurseGame.location = { mapId: "1005", x: samugiruNurse.x + 1, y: samugiruNurse.y };
+samugiruNurseGame.player.hp = 5;
+samugiruNurseGame.pets[0].Hp = 2;
+samugiruNurseGame.player.stone = 10000;
+const samugiruNurseStoneBefore = samugiruNurseGame.player.stone;
+samugiruNurseGame = await api("/api/game/dialog", { game: samugiruNurseGame, npcId: samugiruNurse.id, message: "治疗" });
+assertEqual(samugiruNurseGame.player.hp, samugiruNurseGame.player.maxHp, "Samugiru hospital nurse restores player hp");
+assertEqual(samugiruNurseGame.pets[0].Hp, samugiruNurseGame.pets[0].WorkMaxHp, "Samugiru hospital nurse restores active pet hp");
+assert(samugiruNurseGame.player.stone < samugiruNurseStoneBefore, "Samugiru hospital nurse charges source healing fee");
+assertEqual(samugiruNurseGame.dialog.debug.source, samugiruNurse.source, "Samugiru hospital nurse dialog records source");
+assertEqual(samugiruNurseGame.dialog.debug.template, samugiruNurse.template, "Samugiru hospital nurse dialog records template");
+assert(samugiruNurseGame.dialog.debug.actions.includes("heal"), "Samugiru hospital nurse advertises heal action");
+assert(samugiruNurseGame.dialog.debug.vmTrace.some((event) => event.action === "take" && event.detail?.reason === "heal" && event.detail?.executor === "npc-action-vm"), "Samugiru hospital nurse healing fee runs through NPC VM");
+assert(samugiruNurseGame.dialog.debug.vmTrace.some((event) => event.action === "heal" && event.status === "ok"), "Samugiru hospital nurse records heal VM trace");
+assert(samugiruNurseGame.dialog.debug.vmTrace.some((event) => event.action === "setFlag" && event.detail?.reason === "healer"), "Samugiru hospital nurse records healer flag through NPC VM");
+
+const samugiruDoctor = WORLD.maps["1005"]?.npcs?.find((npc) => npc.id === "1005-11-13-5239");
+if (!samugiruDoctor) throw new Error("missing Samugiru hospital doctor fixture");
+assertEqual(samugiruDoctor.name, "萨姆吉尔的医生", "Samugiru doctor keeps source name");
+let samugiruDoctorGame = await api("/api/game/new", { name: "samugiru-hospital-doctor-runtime-test" });
+samugiruDoctorGame.location = { mapId: "1005", x: samugiruDoctor.x + 1, y: samugiruDoctor.y };
+samugiruDoctorGame = await api("/api/game/dialog", { game: samugiruDoctorGame, npcId: samugiruDoctor.id });
+assert(samugiruDoctorGame.dialog.messages.some((message) => message.speaker === "npc" && /爱困草/.test(message.text)), "Samugiru doctor explains missing source herb requirement");
+assertEqual(samugiruDoctorGame.dialog.debug.source, samugiruDoctor.source, "Samugiru doctor dialog records source");
+assertEqual(samugiruDoctorGame.dialog.debug.template, samugiruDoctor.template, "Samugiru doctor dialog records template");
+assert(samugiruDoctorGame.dialog.debug.actions.includes("quest"), "Samugiru doctor advertises source quest action");
+assert(samugiruDoctorGame.dialog.debug.vmTrace.some((event) => event.action === "quest" && event.status === "blocked" && event.detail?.reason === "source-changeevent-no-ready-branch"), "Samugiru doctor missing source herb stays on changeevent block path");
+
 const caveNurse = WORLD.maps["100"].npcs.find((npc) => npc.name === "洞窟前的护士");
 if (!caveNurse) throw new Error("missing cave nurse fixture");
 let nurseAidGame = await api("/api/game/new", { name: "npc-ai-healer-aid-test" });
@@ -2678,6 +2710,55 @@ assertEqual(inventoryQty(game, shopItem.id), shopQtyBefore, "shop sell removes o
 assert(game.dialog.debug.vmTrace.some((event) => event.action === "shop" && event.detail?.action === "sell"), "shop sell records shop VM event");
 assert(game.dialog.debug.vmTrace.some((event) => event.action === "take" && event.detail?.reason === "sell" && event.detail?.executor === "npc-action-vm" && event.detail?.mutated === true), "shop sell runs item take through NPC VM executor");
 assert(game.dialog.debug.vmTrace.some((event) => event.action === "give" && event.detail?.reason === "sell" && event.detail?.stone === sellPrice && event.detail?.executor === "npc-action-vm" && event.detail?.mutated === true), "shop sell runs stone give through NPC VM executor");
+
+const samugiruServiceShops = [
+  { mapId: "1001", npcId: "1001-17-13-5693", name: "萨姆吉尔的武器店", itemId: 4 },
+  { mapId: "1001", npcId: "1001-17-15-5694", name: "萨姆吉尔的防具店", itemId: 800 },
+  { mapId: "1002", npcId: "1002-18-15-5695", name: "萨姆吉尔的道具店", itemId: 1250 },
+  { mapId: "1004", npcId: "1004-17-13-5701", name: "萨姆吉尔的肉店", itemId: 2344 },
+  { mapId: "1005", npcId: "1005-14-14-5703", name: "萨姆吉尔的药剂师", itemId: 1500 }
+];
+for (const spec of samugiruServiceShops) {
+  const map = WORLD.maps[spec.mapId];
+  const npc = map?.npcs?.find((entry) => entry.id === spec.npcId);
+  if (!npc) throw new Error(`missing Samugiru service shop fixture ${spec.npcId}`);
+  assertEqual(npc.name, spec.name, `${spec.name} keeps source NPC name`);
+  const item = npc.trade?.items?.find((entry) => Number(entry.id) === Number(spec.itemId));
+  if (!item) throw new Error(`missing Samugiru service shop item ${spec.itemId}`);
+  const price = Number(item.price || item.cost || 0);
+  assert(price > 0, `${spec.name} source item has a positive price`);
+
+  let samugiruShopGame = await api("/api/game/new", { name: `samugiru-service-shop-${spec.itemId}-runtime-test` });
+  samugiruShopGame.location = { mapId: spec.mapId, x: npc.x + 1, y: npc.y };
+  samugiruShopGame.player.stone = price + 1000;
+  samugiruShopGame = await api("/api/game/talk", { game: samugiruShopGame, npcId: npc.id });
+  const dialogItem = samugiruShopGame.dialog.trade?.items?.find((entry) => Number(entry.id) === Number(spec.itemId));
+  assert(dialogItem, `${spec.name} exposes source trade item ${item.name}`);
+  assertEqual(dialogItem.sourcePrice, price, `${spec.name} exposes source price for ${item.name}`);
+  assertEqual(samugiruShopGame.dialog.debug.source, npc.source, `${spec.name} dialog records source`);
+  assertEqual(samugiruShopGame.dialog.debug.template, npc.template, `${spec.name} dialog records template`);
+  assert(samugiruShopGame.dialog.debug.actions.includes("shop"), `${spec.name} dialog advertises shop action`);
+
+  const shopStoneBeforeBuy = samugiruShopGame.player.stone;
+  samugiruShopGame = await api("/api/game/buy", { game: samugiruShopGame, npcId: npc.id, itemId: item.id });
+  assertEqual(samugiruShopGame.player.stone, shopStoneBeforeBuy - price, `${spec.name} buy charges source stone price`);
+  assertEqual(inventoryQty(samugiruShopGame, item.id), 1, `${spec.name} buy gives source item ${item.name}`);
+  assert(samugiruShopGame.dialog.debug.vmTrace.some((event) => event.action === "shop" && event.detail?.action === "buy"), `${spec.name} buy records shop VM event`);
+  assert(samugiruShopGame.dialog.debug.vmTrace.some((event) => event.action === "take" && event.detail?.reason === "buy" && event.detail?.executor === "npc-action-vm"), `${spec.name} buy runs stone take through NPC VM`);
+  assert(samugiruShopGame.dialog.debug.vmTrace.some((event) => event.action === "give" && event.detail?.reason === "buy" && event.detail?.executor === "npc-action-vm"), `${spec.name} buy runs item give through NPC VM`);
+
+  const sellEntry = samugiruShopGame.dialog.trade?.sellItems?.find((entry) => Number(entry.id) === Number(item.id));
+  assert(sellEntry?.sellable, `${spec.name} exposes bought source item as sellable`);
+  const shopSellPrice = Number(sellEntry.sellPrice || 0);
+  assert(shopSellPrice > 0, `${spec.name} exposes source sell price for ${item.name}`);
+  const shopStoneBeforeSell = samugiruShopGame.player.stone;
+  samugiruShopGame = await api("/api/game/sell", { game: samugiruShopGame, npcId: npc.id, itemId: item.id });
+  assertEqual(samugiruShopGame.player.stone, shopStoneBeforeSell + shopSellPrice, `${spec.name} sell pays source sell rate`);
+  assertEqual(inventoryQty(samugiruShopGame, item.id), 0, `${spec.name} sell removes source item ${item.name}`);
+  assert(samugiruShopGame.dialog.debug.vmTrace.some((event) => event.action === "shop" && event.detail?.action === "sell"), `${spec.name} sell records shop VM event`);
+  assert(samugiruShopGame.dialog.debug.vmTrace.some((event) => event.action === "take" && event.detail?.reason === "sell" && event.detail?.executor === "npc-action-vm"), `${spec.name} sell runs item take through NPC VM`);
+  assert(samugiruShopGame.dialog.debug.vmTrace.some((event) => event.action === "give" && event.detail?.reason === "sell" && event.detail?.stone === shopSellPrice && event.detail?.executor === "npc-action-vm"), `${spec.name} sell runs stone give through NPC VM`);
+}
 
 const pkStoneOnlyShop = Object.values(WORLD.maps)
   .flatMap((map) => map.npcs.map((npc) => ({ map, npc })))
