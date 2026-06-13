@@ -779,13 +779,16 @@ assert(jankenGame.dialog?.janken?.entryItems?.some((item) => Number(item.id) ===
 assert(jankenGame.dialog?.debug?.actions?.includes("janken"), "Janken dialog debug exposes janken action");
 assert(jankenGame.dialog?.debug?.vmTrace?.some((event) => event.action === "window" && event.detail?.reason === "source-janken-start"), "Janken prompt records source window VM trace");
 const jankenChoices = ["石头", "剪刀", "布", "石头", "剪刀", "布"];
-for (const choice of jankenChoices) {
+jankenGame = await api("/api/game/dialog", { game: jankenGame, npcId: jankenTestNpc.id, message: jankenChoices[0] });
+assertEqual(inventoryQty(jankenGame, 2347), 0, "Janken entry item is charged exactly once when the first round starts");
+assert(jankenGame.dialog?.debug?.vmTrace?.some((event) => event.action === "take" && event.detail?.reason === "source-janken-entry"), "Janken entry charge runs through NPC VM take");
+for (const choice of jankenChoices.slice(1)) {
+  if (!jankenGame.flags?.pendingJanken) break;
   jankenGame = await api("/api/game/dialog", { game: jankenGame, npcId: jankenTestNpc.id, message: choice });
   if (!jankenGame.flags?.pendingJanken) break;
 }
 assert(!jankenGame.flags?.pendingJanken, "Janken source runtime eventually resolves win/lose and clears pending state");
 assertEqual(inventoryQty(jankenGame, 2347), 0, "Janken entry item is charged exactly once even if the first round ties");
-assert(jankenGame.dialog?.debug?.vmTrace?.some((event) => event.action === "take" && event.detail?.reason === "source-janken-entry"), "Janken entry charge runs through NPC VM take");
 assert(jankenGame.dialog?.debug?.vmTrace?.some((event) => event.action === "janken" && event.detail?.reason === "source-janken-round"), "Janken round records deterministic VM telemetry");
 assert(jankenGame.dialog?.debug?.vmTrace?.some((event) => event.action === "warp" && /^source-janken-/.test(String(event.detail?.reason || ""))), "Janken win/lose warp runs through NPC VM warp");
 
@@ -7767,18 +7770,44 @@ assert(commissionGame.dialog.debug.vmTrace.some((event) => event.action === "giv
 const ticketNpc = WORLD.maps["1000"]?.npcs.find((npc) => npc.name === "门票贩卖员" && npc.scriptEvents?.some((event) => event.delStones?.some((stone) => stone.expr === "LV*3")));
 if (!ticketNpc) throw new Error("missing source DelStone ticket fixture");
 assert(ticketNpc.scriptEvents?.some((event) => event.delStones?.some((stone) => stone.expr === "LV*3")), "ticket seller parses source DelStone LV* multiplier");
+const ticketOldTicketIds = [2521, 2522, 2523, 2524, 2598, 2599, 2600, 2601, 2602];
+let freeTicketGame = await api("/api/game/new", { name: "source-script-free-ticket-test" });
+freeTicketGame.location = { mapId: "1000", x: ticketNpc.x + 1, y: ticketNpc.y };
+freeTicketGame.player.level = 5;
+freeTicketGame.player.stone = 100;
+freeTicketGame.inventory = [
+  { id: "stone", name: "石币", qty: 100 },
+  ...ticketOldTicketIds.map((id) => ({ id, name: `旧票${id}`, qty: 1 }))
+];
+freeTicketGame = await api("/api/game/dialog", { game: freeTicketGame, npcId: ticketNpc.id });
+assertEqual(freeTicketGame.player.stone, 100, "ticket seller low-level branch does not charge stone");
+assertEqual(inventoryQty(freeTicketGame, 2597), 1, "ticket seller low-level branch gives source arena ticket");
+for (const id of ticketOldTicketIds) {
+  assertEqual(inventoryQty(freeTicketGame, id), 0, `ticket seller low-level branch collects old ticket ${id}`);
+}
+assert(freeTicketGame.dialog.debug.vmTrace.some((event) => event.action === "quest" && event.detail?.eventType === "ACCEPT" && event.detail?.condition === "LV<11,DR<11,DR=77,DR=777" && event.status === "ok"), "ticket seller low-level source ACCEPT branch is selected by VM");
+assert(freeTicketGame.dialog.debug.vmTrace.some((event) => event.action === "give" && Number(event.detail?.itemId) === 2597 && event.detail?.reason === "source-changeevent-getitem"), "ticket seller low-level ticket grant runs through NPC VM");
+assert(!freeTicketGame.dialog.debug.vmTrace.some((event) => event.action === "take" && event.detail?.reason === "source-changeevent-delstone"), "ticket seller low-level branch avoids source DelStone charge");
 let ticketGame = await api("/api/game/new", { name: "source-script-stone-cost-test" });
 ticketGame.location = { mapId: "1000", x: ticketNpc.x + 1, y: ticketNpc.y };
 ticketGame.player.level = 12;
 ticketGame.player.stone = 100;
 ticketGame.inventory = [
   { id: "stone", name: "石币", qty: 100 },
-  ...[2521, 2522, 2523, 2524, 2598, 2599, 2600, 2601, 2602].map((id) => ({ id, name: `旧票${id}`, qty: 1 }))
+  ...ticketOldTicketIds.map((id) => ({ id, name: `旧票${id}`, qty: 1 }))
 ];
 ticketGame = await api("/api/game/dialog", { game: ticketGame, npcId: ticketNpc.id });
 assertEqual(ticketGame.player.stone, 64, "source DelStone LV*3 charges player level times multiplier");
 assertEqual(inventoryQty(ticketGame, 2597), 1, "ticket seller gives source arena ticket after DelStone payment");
+for (const id of ticketOldTicketIds) {
+  assertEqual(inventoryQty(ticketGame, id), 0, `ticket seller paid branch collects old ticket ${id}`);
+}
 assert(ticketGame.dialog.debug.vmTrace.some((event) => event.action === "take" && event.detail?.reason === "source-changeevent-delstone" && event.detail?.qty === 36), "source DelStone records NPC VM stone take");
+ticketGame = await api("/api/game/dialog", { game: ticketGame, npcId: ticketNpc.id });
+assertEqual(ticketGame.player.stone, 64, "ticket seller repeat ITEM=2597 branch does not charge again");
+assertEqual(inventoryQty(ticketGame, 2597), 1, "ticket seller repeat ITEM=2597 branch does not duplicate the arena ticket");
+assert(ticketGame.dialog.messages.some((message) => message.speaker === "npc" && /已经有票了喔/.test(message.text || "")), "ticket seller repeat ITEM=2597 branch uses source already-have-ticket text");
+assert(ticketGame.dialog.debug.vmTrace.some((event) => event.action === "window" && event.detail?.eventType === "MESSAGE" && event.detail?.condition === "ITEM=2597" && event.status === "ok"), "ticket seller repeat source MESSAGE branch is selected by VM");
 
 const petEventWarp = Object.values(WORLD.maps)
   .flatMap((map) => map.exits.map((exit) => ({ map, exit })))
