@@ -1826,6 +1826,50 @@ if (saveNpc.npc.savePoint?.born) {
   assertEqual(game.returnPoint.kind, "savepoint", "return point reports source savepoint after NPC record");
 }
 
+const firstPetSaveNpc = WORLD.maps["1000"]?.npcs?.find((npc) => npc.id === "1000-94-99-6117");
+if (!firstPetSaveNpc) throw new Error("missing first-pet Samugiru savepoint fixture");
+assertEqual(firstPetSaveNpc.name, "萨姆吉尔的储存点", "first-pet savepoint keeps source NPC name");
+assertEqual(firstPetSaveNpc.savePoint?.id, 4, "first-pet savepoint keeps source save id");
+assertEqual(firstPetSaveNpc.savePoint?.born?.mapId, "1000", "first-pet savepoint keeps source Born map");
+assertEqual(firstPetSaveNpc.savePoint?.born?.x, 92, "first-pet savepoint keeps source Born x");
+assertEqual(firstPetSaveNpc.savePoint?.born?.y, 99, "first-pet savepoint keeps source Born y");
+const firstPetSaveReqIds = new Set((firstPetSaveNpc.savePoint?.requiredAlternatives || []).flat().map((item) => Number(item.id)).filter(Boolean));
+const firstPetSaveRequirement = firstPetSaveNpc.savePoint?.requiredAlternatives?.[0] || [];
+const firstPetSaveItem = firstPetSaveRequirement[0];
+assertEqual(Number(firstPetSaveItem?.id || 0), 1930, "first-pet savepoint uses source meat requirement");
+
+let firstPetSaveGame = await api("/api/game/new", { name: "first-pet-samugiru-savepoint-runtime-test" });
+firstPetSaveGame.location = { mapId: "1000", x: firstPetSaveNpc.x + 1, y: firstPetSaveNpc.y };
+firstPetSaveGame.inventory = (firstPetSaveGame.inventory || []).filter((item) => !firstPetSaveReqIds.has(Number(item.id)));
+firstPetSaveGame = await api("/api/game/dialog", { game: firstPetSaveGame, npcId: firstPetSaveNpc.id, message: "记录" });
+assert(firstPetSaveGame.savePoint?.npcId !== firstPetSaveNpc.id, "first-pet savepoint does not record without source meat");
+assert(firstPetSaveGame.dialog.messages.some((message) => message.speaker === "npc" && /凯比特的肉|需要|来源|原脚本/.test(message.text)), "first-pet savepoint missing meat explains source requirement");
+assert(firstPetSaveGame.dialog.debug.vmTrace.some((event) => event.action === "save" && event.status === "blocked" && event.detail?.reason === "source-savepoint-missing-item"), "first-pet savepoint missing meat stays on source block path");
+
+firstPetSaveGame.inventory.push({ ...firstPetSaveItem, qty: 1 });
+firstPetSaveGame = await api("/api/game/dialog", { game: firstPetSaveGame, npcId: firstPetSaveNpc.id, message: "记录" });
+assert(firstPetSaveGame.flags.pendingSavePoint?.npcId === firstPetSaveNpc.id, "first-pet savepoint asks for confirmation before consuming source meat");
+assert(firstPetSaveGame.dialog.debug.vmTrace.some((event) => event.action === "window" && event.detail?.reason === "source-savepoint-confirm"), "first-pet savepoint confirmation runs through window VM trace");
+firstPetSaveGame = await api("/api/game/dialog", { game: firstPetSaveGame, npcId: firstPetSaveNpc.id, message: "确认记录" });
+assertEqual(inventoryQty(firstPetSaveGame, firstPetSaveItem.id), 0, "first-pet savepoint consumes source meat only after confirmation");
+assertEqual(firstPetSaveGame.savePoint.npcId, firstPetSaveNpc.id, "first-pet savepoint records source NPC id");
+assertEqual(firstPetSaveGame.savePoint.sourceId, 4, "first-pet savepoint records source save id");
+assertEqual(firstPetSaveGame.savePoint.born.mapId, "1000", "first-pet savepoint records source Born map");
+assertEqual(firstPetSaveGame.savePoint.born.x, 92, "first-pet savepoint records source Born x");
+assertEqual(firstPetSaveGame.savePoint.born.y, 99, "first-pet savepoint records source Born y");
+assertEqual(firstPetSaveGame.save.json.savePoint.npcId, firstPetSaveNpc.id, "first-pet save json records source savepoint");
+assert(firstPetSaveGame.save.info.includes("LAST_SAVEPOINT="), "first-pet save info includes last savepoint");
+assert(firstPetSaveGame.dialog.debug.vmTrace.some((event) => event.action === "take" && event.detail?.reason === "source-savepoint-getitem"), "first-pet savepoint meat consumption runs through NPC VM");
+assert(firstPetSaveGame.dialog.debug.vmTrace.some((event) => event.action === "save" && event.status === "ok"), "first-pet savepoint records through save VM trace");
+assert(firstPetSaveGame.dialog.debug.vmTrace.some((event) => event.action === "setFlag" && event.detail?.reason === "savepoint"), "first-pet savepoint records setFlag VM trace");
+assert(firstPetSaveGame.flags.bits[`end:${stableFlag(`${firstPetSaveNpc.id}:savepoint`)}`], "first-pet savepoint end flag set");
+firstPetSaveGame.location = { mapId: "300", x: 274, y: 403, dir: 4 };
+firstPetSaveGame = await api("/api/game/return-savepoint", { game: firstPetSaveGame });
+assertEqual(firstPetSaveGame.location.mapId, "1000", "first-pet return point uses source Born map after NPC record");
+assertEqual(firstPetSaveGame.location.x, 92, "first-pet return point uses source Born x after NPC record");
+assertEqual(firstPetSaveGame.location.y, 99, "first-pet return point uses source Born y after NPC record");
+assertEqual(firstPetSaveGame.returnPoint.kind, "savepoint", "first-pet return point reports source savepoint after NPC record");
+
 const allSavePointReqIds = new Set((saveNpc.npc.savePoint?.requiredAlternatives || []).flat().map((item) => Number(item.id)).filter(Boolean));
 let savePointNoAiGame = await api("/api/game/new", { name: "savepoint-no-ai-flex-block-test" });
 savePointNoAiGame.location = { mapId: saveNpc.map.id, x: saveNpc.npc.x + 1, y: saveNpc.npc.y };
