@@ -599,6 +599,36 @@ assertEqual(petShopGame.pets.length, petShopPetCountBefore, "pet shop withdraw r
 assertEqual(petShopGame.petPoolState.used, 0, "pet shop withdraw clears the source-style pool slot");
 assert(petShopGame.save.info.includes("POOLPETCOUNT=0"), "saac-like save info records pool pet count");
 
+const firstPetShopMap = WORLD.maps["1003"];
+const firstPetPoolNpc = firstPetShopMap?.npcs?.find((npc) => npc.id === "1003-12-13-5696");
+assert(firstPetPoolNpc?.petShop?.poolEnabled, "first-pet core keeps Samugiru source pet shop pool NPC");
+assertEqual(firstPetPoolNpc.petShop.poolCost, 200, "first-pet core pet shop keeps source pool cost");
+let firstPetPoolGame = await api("/api/game/new", { name: "first-pet-core-pool-runtime-test" });
+firstPetPoolGame.player.stone = 1000;
+firstPetPoolGame.location = { mapId: firstPetShopMap.id, x: firstPetPoolNpc.x, y: firstPetPoolNpc.y - 1, dir: 4 };
+firstPetPoolGame.pets.push({
+  ...firstPetPoolGame.pets[0],
+  Name: "核心线寄放乌力",
+  PetId: Number(firstPetPoolGame.pets[0].PetId || 100) + 11,
+  Lv: 3,
+  PetGetLv: 1,
+  Hp: 55,
+  WorkMaxHp: 55,
+  Loyalty: 72,
+  Rare: 0
+});
+const firstPetPoolStoneBefore = Number(firstPetPoolGame.player.stone || 0);
+firstPetPoolGame = await api("/api/game/talk", { game: firstPetPoolGame, npcId: firstPetPoolNpc.id });
+assert(firstPetPoolGame.dialog?.petShop?.poolEnabled, "first-pet core pet shop dialog exposes source pool metadata");
+firstPetPoolGame = await api("/api/game/pool-pet", { game: firstPetPoolGame, npcId: firstPetPoolNpc.id, action: "deposit", petIndex: 1 });
+assertEqual(firstPetPoolGame.pets.length, 1, "first-pet core pet shop deposit moves a carried pet into pool");
+assertEqual(firstPetPoolGame.petPoolState.used, 1, "first-pet core pet shop deposit fills one pool slot");
+assert(Number(firstPetPoolGame.player.stone || 0) < firstPetPoolStoneBefore, "first-pet core pet shop deposit charges source-style stone cost");
+assert(firstPetPoolGame.dialog.debug.vmTrace.some((event) => event.action === "petShop" && event.detail?.action === "deposit"), "first-pet core pet shop deposit records VM trace");
+firstPetPoolGame = await api("/api/game/pool-pet", { game: firstPetPoolGame, npcId: firstPetPoolNpc.id, action: "withdraw", poolIndex: 0 });
+assertEqual(firstPetPoolGame.pets.length, 2, "first-pet core pet shop withdraw restores carried pet");
+assertEqual(firstPetPoolGame.petPoolState.used, 0, "first-pet core pet shop withdraw clears pool slot");
+
 const passShopEntry = {
   map: WORLD.maps["1100"],
   npc: WORLD.maps["1100"].npcs.find((npc) => npc.trade?.source === "gmsv-data/npc/genout/ss_1100_86_107")
@@ -2808,6 +2838,29 @@ assertEqual(petSkillGame.player.stone, stoneBeforePetSkill - Number(learnableSki
 assert(petSkillGame.dialog.petSkillShop.skills.some((skill) => Number(skill.id) === Number(learnableSkill.id) && skill.alreadyKnown), "pet skill shop refreshes known-skill state after teaching");
 assert(petSkillGame.dialog.debug.vmTrace.some((event) => event.action === "take" && event.detail?.reason === "pet-skill"), "pet skill shop deducts stone through NPC VM");
 assert(petSkillGame.dialog.debug.vmTrace.some((event) => event.action === "petSkillShop" && event.detail?.skillId === learnableSkill.id), "pet skill shop records teach VM event");
+const firstPetSkillNpc = WORLD.maps["1003"]?.npcs?.find((npc) => npc.id === "1003-18-13-5699");
+assert(firstPetSkillNpc?.petSkillShop?.skillIds?.length, "first-pet core keeps Samugiru source pet skill trainer");
+assert(firstPetSkillNpc.petSkillShop.skillIds.includes(10), "first-pet core trainer keeps source skill id 10");
+let firstPetSkillGame = await api("/api/game/new", { name: "first-pet-core-skill-runtime-test" });
+firstPetSkillGame.location = { mapId: "1003", x: firstPetSkillNpc.x + 1, y: firstPetSkillNpc.y };
+firstPetSkillGame.player.stone = 100000;
+firstPetSkillGame = await api("/api/game/dialog", { game: firstPetSkillGame, npcId: firstPetSkillNpc.id });
+assert(firstPetSkillGame.dialog.petSkillShop?.skills?.some((skill) => Number(skill.id) === 10), "first-pet core trainer dialog exposes source skill id 10");
+const firstPetLearnableSkill = firstPetSkillGame.dialog.petSkillShop.skills.find((skill) => !skill.alreadyKnown && Number(skill.cost || 0) > 0);
+if (!firstPetLearnableSkill) throw new Error("missing first-pet core learnable skill fixture");
+const firstPetLearnSlot = firstPetSkillGame.dialog.petSkillShop.slots.find((slot) => slot.empty)?.index ?? 4;
+const firstPetSkillStoneBefore = firstPetSkillGame.player.stone;
+firstPetSkillGame = await api("/api/game/learn-pet-skill", {
+  game: firstPetSkillGame,
+  npcId: firstPetSkillNpc.id,
+  skillId: firstPetLearnableSkill.id,
+  petIndex: 0,
+  slotIndex: firstPetLearnSlot
+});
+assertEqual(Number(firstPetSkillGame.pets[0].PetSkillIds[firstPetLearnSlot]), Number(firstPetLearnableSkill.id), "first-pet core trainer writes selected skill id to pet skill slot");
+assertEqual(firstPetSkillGame.pets[0].PetSkills[firstPetLearnSlot]?.Name, firstPetLearnableSkill.name, "first-pet core trainer stores compact skill metadata");
+assertEqual(firstPetSkillGame.player.stone, firstPetSkillStoneBefore - Number(firstPetLearnableSkill.cost || 0), "first-pet core trainer charges source skill cost");
+assert(firstPetSkillGame.dialog.debug.vmTrace.some((event) => event.action === "petSkillShop" && event.detail?.skillId === firstPetLearnableSkill.id), "first-pet core trainer records teach VM event");
 let brokePetSkillGame = await api("/api/game/new", { name: "pet-skill-shop-broke-test" });
 brokePetSkillGame.location = { mapId: petSkillNpc.map.id, x: petSkillNpc.npc.x + 1, y: petSkillNpc.npc.y };
 brokePetSkillGame.player.stone = 0;
