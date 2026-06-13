@@ -1771,6 +1771,11 @@ assert(samugiruNurseGame.dialog.debug.vmTrace.some((event) => event.action === "
 const samugiruDoctor = WORLD.maps["1005"]?.npcs?.find((npc) => npc.id === "1005-11-13-5239");
 if (!samugiruDoctor) throw new Error("missing Samugiru hospital doctor fixture");
 assertEqual(samugiruDoctor.name, "萨姆吉尔的医生", "Samugiru doctor keeps source name");
+const samugiruDoctorRequest = samugiruDoctor.scriptEvents?.find((event) => event.type === "REQUEST" && event.condition === "LV>0&ITEM=1982");
+const samugiruDoctorMessage = samugiruDoctor.scriptEvents?.find((event) => event.type === "MESSAGE" && event.condition === "LV>0&ITEM=1983");
+assert(samugiruDoctorRequest, "Samugiru doctor keeps source REQUEST branch for item 1982");
+assert(samugiruDoctorMessage, "Samugiru doctor keeps source MESSAGE branch for item 1983");
+assert(samugiruDoctorRequest.getItems?.some((item) => Number(item.id) === 1983 && item.name === "爱困草"), "Samugiru doctor source REQUEST grants item 1983 爱困草");
 let samugiruDoctorGame = await api("/api/game/new", { name: "samugiru-hospital-doctor-runtime-test" });
 samugiruDoctorGame.location = { mapId: "1005", x: samugiruDoctor.x + 1, y: samugiruDoctor.y };
 samugiruDoctorGame = await api("/api/game/dialog", { game: samugiruDoctorGame, npcId: samugiruDoctor.id });
@@ -1779,6 +1784,19 @@ assertEqual(samugiruDoctorGame.dialog.debug.source, samugiruDoctor.source, "Samu
 assertEqual(samugiruDoctorGame.dialog.debug.template, samugiruDoctor.template, "Samugiru doctor dialog records template");
 assert(samugiruDoctorGame.dialog.debug.actions.includes("quest"), "Samugiru doctor advertises source quest action");
 assert(samugiruDoctorGame.dialog.debug.vmTrace.some((event) => event.action === "quest" && event.status === "blocked" && event.detail?.reason === "source-changeevent-no-ready-branch"), "Samugiru doctor missing source herb stays on changeevent block path");
+samugiruDoctorGame.inventory.push({ id: 1982, name: "安眠药的药粉", qty: 1 });
+samugiruDoctorGame = await api("/api/game/dialog", { game: samugiruDoctorGame, npcId: samugiruDoctor.id });
+assertEqual(inventoryQty(samugiruDoctorGame, 1983), 1, "Samugiru doctor source REQUEST gives item 1983 爱困草");
+assertEqual(inventoryQty(samugiruDoctorGame, 1982), 1, "Samugiru doctor source REQUEST does not consume item 1982 without a source DelItem branch");
+assert(samugiruDoctorGame.dialog.messages.some((message) => message.speaker === "npc" && /那爱困草你就拿去吧/.test(message.text)), "Samugiru doctor uses source thanks text after giving herb");
+assert(samugiruDoctorGame.dialog.messages.some((message) => /获得：爱困草 x1/.test(message.text || "")), "Samugiru doctor reports source herb reward");
+assert(samugiruDoctorGame.dialog.debug.vmTrace.some((event) => event.action === "window" && event.detail?.eventType === "REQUEST" && event.detail?.condition === "LV>0&ITEM=1982" && event.status === "ok"), "Samugiru doctor source REQUEST condition is selected by VM");
+assert(samugiruDoctorGame.dialog.debug.vmTrace.some((event) => event.action === "give" && Number(event.detail?.itemId) === 1983 && event.detail?.reason === "source-changeevent-request-getitem"), "Samugiru doctor item 1983 grant runs through source changeevent VM");
+assert(samugiruDoctorGame.dialog.debug.vmTrace.some((event) => event.action === "quest" && event.status === "ok" && event.detail?.phase === "request"), "Samugiru doctor records source REQUEST quest phase");
+samugiruDoctorGame = await api("/api/game/dialog", { game: samugiruDoctorGame, npcId: samugiruDoctor.id });
+assert(samugiruDoctorGame.dialog.messages.some((message) => message.speaker === "npc" && /身上有药之后就快点出发吧|昨天是不是喝多了/.test(message.text || "")), "Samugiru doctor follows source MESSAGE branch after item 1983 is present");
+assert(samugiruDoctorGame.dialog.debug.vmTrace.some((event) => event.action === "window" && event.detail?.eventType === "MESSAGE" && event.detail?.condition === "LV>0&ITEM=1983" && event.status === "ok"), "Samugiru doctor source MESSAGE condition is selected by VM");
+assert(samugiruDoctorGame.dialog.debug.vmTrace.some((event) => event.action === "say" && event.detail?.phase === "message"), "Samugiru doctor MESSAGE branch emits source say VM trace");
 
 const caveNurse = WORLD.maps["100"].npcs.find((npc) => npc.name === "洞窟前的护士");
 if (!caveNurse) throw new Error("missing cave nurse fixture");
