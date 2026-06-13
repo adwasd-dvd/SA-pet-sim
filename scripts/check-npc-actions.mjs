@@ -2861,6 +2861,31 @@ assertEqual(Number(firstPetSkillGame.pets[0].PetSkillIds[firstPetLearnSlot]), Nu
 assertEqual(firstPetSkillGame.pets[0].PetSkills[firstPetLearnSlot]?.Name, firstPetLearnableSkill.name, "first-pet core trainer stores compact skill metadata");
 assertEqual(firstPetSkillGame.player.stone, firstPetSkillStoneBefore - Number(firstPetLearnableSkill.cost || 0), "first-pet core trainer charges source skill cost");
 assert(firstPetSkillGame.dialog.debug.vmTrace.some((event) => event.action === "petSkillShop" && event.detail?.skillId === firstPetLearnableSkill.id), "first-pet core trainer records teach VM event");
+
+const firstPetFreeSkillNpc = WORLD.maps["1003"]?.npcs?.find((npc) => npc.id === "1003-19-20-1484");
+assert(firstPetFreeSkillNpc?.petSkillShop?.skillIds?.length, "first-pet core keeps source snake trainer fixture");
+assertEqual(firstPetFreeSkillNpc.petSkillShop.kind, "free-pet-skill", "first-pet snake trainer keeps source free-pet-skill shop kind");
+assert(firstPetFreeSkillNpc.petSkillShop.skillIds.includes(575), "first-pet snake trainer keeps source weaken skill id 575");
+let firstPetFreeSkillGame = await api("/api/game/new", { name: "first-pet-core-free-skill-runtime-test" });
+firstPetFreeSkillGame.location = { mapId: "1003", x: firstPetFreeSkillNpc.x + 1, y: firstPetFreeSkillNpc.y };
+firstPetFreeSkillGame.player.stone = 100000;
+firstPetFreeSkillGame = await api("/api/game/dialog", { game: firstPetFreeSkillGame, npcId: firstPetFreeSkillNpc.id });
+assertEqual(firstPetFreeSkillGame.dialog.petSkillShop?.kind, "free-pet-skill", "first-pet snake trainer dialog exposes source shop kind");
+assert(firstPetFreeSkillGame.dialog.petSkillShop.skills.some((skill) => Number(skill.id) === 575 && Number(skill.cost || 0) > 0), "first-pet snake trainer dialog exposes source skill id 575 with source cost");
+const firstPetFreeSkill = firstPetFreeSkillGame.dialog.petSkillShop.skills.find((skill) => Number(skill.id) === 575);
+const firstPetFreeSkillSlot = firstPetFreeSkillGame.dialog.petSkillShop.slots.find((slot) => slot.empty)?.index ?? 4;
+const firstPetFreeSkillStoneBefore = firstPetFreeSkillGame.player.stone;
+firstPetFreeSkillGame = await api("/api/game/learn-pet-skill", {
+  game: firstPetFreeSkillGame,
+  npcId: firstPetFreeSkillNpc.id,
+  skillId: firstPetFreeSkill.id,
+  petIndex: 0,
+  slotIndex: firstPetFreeSkillSlot
+});
+assertEqual(Number(firstPetFreeSkillGame.pets[0].PetSkillIds[firstPetFreeSkillSlot]), Number(firstPetFreeSkill.id), "first-pet snake trainer writes selected source skill id to pet skill slot");
+assertEqual(firstPetFreeSkillGame.pets[0].PetSkills[firstPetFreeSkillSlot]?.Name, firstPetFreeSkill.name, "first-pet snake trainer stores compact skill metadata");
+assertEqual(firstPetFreeSkillGame.player.stone, firstPetFreeSkillStoneBefore - Number(firstPetFreeSkill.cost || 0), "first-pet snake trainer charges source skill cost");
+assert(firstPetFreeSkillGame.dialog.debug.vmTrace.some((event) => event.action === "petSkillShop" && event.detail?.skillId === firstPetFreeSkill.id && event.detail?.source?.includes("freeshop04.arg")), "first-pet snake trainer records freeshop VM teach event");
 let brokePetSkillGame = await api("/api/game/new", { name: "pet-skill-shop-broke-test" });
 brokePetSkillGame.location = { mapId: petSkillNpc.map.id, x: petSkillNpc.npc.x + 1, y: petSkillNpc.npc.y };
 brokePetSkillGame.player.stone = 0;
