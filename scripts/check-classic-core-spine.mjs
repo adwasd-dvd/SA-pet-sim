@@ -54,6 +54,68 @@ for (const line of requiredClassicCoreLines) {
   expect(line.validation?.status !== "needs-world-generation", `required classic-core line ${line.id} must not need world generation`);
 }
 
+const firstPetLine = (manifest.lines || []).find((line) => line.id === "first-pet-capture-training");
+expect(firstPetLine, "classic-core closure manifest must contain first-pet-capture-training");
+expect(firstPetLine?.profile === "classic-core", "first pet capture/training must remain in classic-core profile");
+expect(firstPetLine?.stage === "boot", "first pet capture/training must remain a boot milestone");
+expect(firstPetLine?.required === true, "first pet capture/training must remain required in classic-core");
+expect((firstPetLine?.maps?.sourceOnlyFloors || []).length === 0, "first pet capture/training must not have source-only floors");
+expect((firstPetLine?.maps?.missingSeedFloors || []).length === 0, "first pet capture/training must not have missing seed floors");
+expect((firstPetLine?.counts?.encounterAreaCount || 0) >= 40, "first pet capture/training must retain source encounter coverage");
+expect((firstPetLine?.counts?.petResourceCount || 0) >= 50, "first pet capture/training must retain source pet resource coverage");
+
+for (const evidenceName of ["宠物店", "乌力系", "布伊系", "加美系", "凯比系"]) {
+  const evidence = (firstPetLine?.sourceEvidence || []).find((entry) => entry.name === evidenceName);
+  expect(evidence?.status === "source-confirmed", `first pet evidence ${evidenceName} must stay source-confirmed`);
+  expect((evidence?.evidenceKinds || []).length > 0, `first pet evidence ${evidenceName} must retain local evidence kinds`);
+}
+
+const firstPetRequiredFloors = [
+  100, 1000, 1003, 1100, 1103, 1203, 1212, 1303, 1403, 2000,
+  2003, 3003, 3103, 3203, 3303, 3400, 3403, 4000, 4003, 10006
+];
+for (const floor of firstPetRequiredFloors) {
+  expect(hasFloor(firstPetLine?.maps?.requiredFloors, floor), `first pet capture/training must require floor ${floor}`);
+  expect(hasFloor(firstPetLine?.maps?.generatedFloors, floor), `first pet capture/training floor ${floor} must be generated in WORLD`);
+  expect(getWorldMap(floor), `WORLD must include first pet capture/training floor ${floor}`);
+}
+
+const firstPetShopFixtures = [
+  { floor: 1003, name: "宠物店", type: "PetShop", x: 12, y: 13, script: "file:genout/ps_1003_12_13" },
+  { floor: 1003, name: "超级饲育员", type: "PetSkillShop", x: 18, y: 13, script: "file:genout/psks_1003_18_13" },
+  { floor: 1003, name: "蛇的训练师", type: "NPC_FreePetSkill", x: 19, y: 20, script: "file:freeshop/freeshop04.arg" },
+  { floor: 1103, name: "柯奥的宠物店", type: "PetShop", x: 19, y: 17, script: "file:genout/ps_1103_19_17" },
+  { floor: 1103, name: "饲育员", type: "PetSkillShop", x: 14, y: 13, script: "file:genout/psks_1103_14_13" },
+  { floor: 2003, name: "宠物店", type: "PetShop", x: 18, y: 17, script: "file:genout/ps_2003_18_17" },
+  { floor: 2003, name: "饲育员", type: "PetSkillShop", x: 18, y: 14, script: "file:genout/psks_2003_18_14" },
+  { floor: 3003, name: "宠物店", type: "PetShop", x: 12, y: 13, script: "file:genout/ps_3003_12_13" },
+  { floor: 3003, name: "饲育员", type: "PetSkillShop", x: 16, y: 13, script: "file:genout/psks_3003_16_13" },
+  { floor: 3403, name: "奇喀喀的宠物店", type: "PetShop", x: 18, y: 18, script: "file:genout/ps_3403_18_18" },
+  { floor: 3403, name: "饲育员", type: "PetSkillShop", x: 18, y: 14, script: "file:genout/psks_3403_18_14" },
+  { floor: 4003, name: "宠物店", type: "PetShop", x: 13, y: 13, script: "file:genout/ps_4003_13_13" },
+  { floor: 4003, name: "饲育员", type: "PetSkillShop", x: 18, y: 15, script: "file:genout/psks_4003_18_15" }
+];
+for (const fixture of firstPetShopFixtures) {
+  expect(hasNpc(firstPetLine?.npcs, fixture), `first pet closure must retain source NPC ${fixture.name} on floor ${fixture.floor}`);
+  expect(hasWorldNpc(fixture), `WORLD must retain source NPC ${fixture.name} on floor ${fixture.floor}`);
+}
+
+const firstPetCorePets = [
+  { tempNo: 1, name: "乌力" },
+  { tempNo: 3, name: "乌力斯坦" },
+  { tempNo: 13, name: "布伊" },
+  { tempNo: 21, name: "加美" },
+  { tempNo: 112, name: "凯比" }
+];
+for (const pet of firstPetCorePets) {
+  expect(hasEnemy(firstPetLine?.enemies, pet), `first pet closure must retain source enemybase pet ${pet.name} (${pet.tempNo})`);
+  expect(hasPetResource(firstPetLine?.petResources, pet), `first pet closure must retain client pet resource ${pet.name} (${pet.tempNo})`);
+}
+expect(
+  (firstPetLine?.encounters || []).some((area) => area.enemyTempNos?.some((tempNo) => [1, 3, 13, 21, 112].includes(Number(tempNo)))),
+  "first pet capture/training must retain source encounter areas for core pet families"
+);
+
 const villageStartLine = (manifest.lines || []).find((line) => line.id === "classic-village-start");
 expect(villageStartLine, "classic-core closure manifest must contain classic-village-start");
 expect(villageStartLine?.profile === "classic-core", "Classic Village Start must remain in classic-core profile");
@@ -220,7 +282,7 @@ if (failures.length) {
   process.exit(1);
 }
 
-console.log("Classic core spine OK: adult ceremony remains source-routed, source-scripted, and packaged without custom shortcuts.");
+console.log("Classic core spine OK: adult ceremony, first-pet capture/training, and Ko cave route remain source-grounded and packaged without custom shortcuts.");
 
 function expect(condition, message) {
   if (!condition) failures.push(message);
@@ -279,4 +341,41 @@ function hasFloor(entries, floor) {
 
 function hasItem(entries, id, qty) {
   return (entries || []).some((entry) => Number(entry.id) === Number(id) && Number(entry.qty) === Number(qty));
+}
+
+function hasNpc(entries, fixture) {
+  return (entries || []).some((entry) =>
+    Number(entry.floor) === Number(fixture.floor) &&
+    entry.name === fixture.name &&
+    entry.type === fixture.type &&
+    Number(entry.x) === Number(fixture.x) &&
+    Number(entry.y) === Number(fixture.y) &&
+    entry.script === fixture.script
+  );
+}
+
+function hasWorldNpc(fixture) {
+  return (getWorldMap(fixture.floor)?.npcs || []).some((npc) =>
+    npc.name === fixture.name &&
+    npc.type === fixture.type &&
+    Number(npc.x) === Number(fixture.x) &&
+    Number(npc.y) === Number(fixture.y) &&
+    npc.script === fixture.script
+  );
+}
+
+function hasEnemy(entries, pet) {
+  return (entries || []).some((entry) =>
+    Number(entry.tempNo) === Number(pet.tempNo) &&
+    entry.name === pet.name &&
+    entry.hasClientFrame === true
+  );
+}
+
+function hasPetResource(entries, pet) {
+  return (entries || []).some((entry) =>
+    Number(entry.tempNo) === Number(pet.tempNo) &&
+    entry.name === pet.name &&
+    entry.hasClientFrame === true
+  );
 }
