@@ -7803,6 +7803,44 @@ assertEqual(inventoryQty(sotC1PassedGame, 2576), 1, "SOT C-1 already-passed bran
 assert(sotC1PassedGame.dialog.messages.some((message) => /你好像已经通过/.test(message.text || "") && /柯奥村/.test(message.text || "")), "SOT C-1 already-passed branch uses source follow-up text");
 assert(sotC1PassedGame.dialog.debug.vmTrace.some((event) => event.action === "window" && event.detail?.eventType === "MESSAGE" && /^LV>0&ITEM=2576&ENDEV=17/.test(event.detail?.condition || "") && event.status === "ok"), "SOT C-1 already-passed MESSAGE branch is selected by VM");
 
+const sotCounterNpc = WORLD.maps["1000"]?.npcs.find((npc) => npc.id === "1000-33-56-7677");
+if (!sotCounterNpc) throw new Error("missing Samugiru SOT counter fixture");
+assertEqual(sotCounterNpc.name, "ＳＯＴ柜台", "SOT counter keeps source NPC name");
+assert(sotCounterNpc.scriptEvents?.some((event) => event.type === "REQUEST" && event.condition === "LV>0&ENDEV=17" && event.getItems?.some((item) => Number(item.id) === 2575)), "SOT counter parses source C-route registration handout");
+assert(sotCounterNpc.scriptEvents?.some((event) => event.type === "ACCEPT" && event.condition === "LV>0&ITEM=2575" && event.delItems?.some((item) => Number(item.id) === 2575)), "SOT counter parses source starting-stone withdrawal branch");
+assert(sotCounterNpc.scriptEvents?.some((event) => event.type === "ACCEPT" && event.condition === "LV>0&ITEM=2576,LV>0&ITEM=2577,LV>0&ITEM=2578,LV>0&ITEM=2579" && event.delItems?.length === 4), "SOT counter parses source partial-checkpoint withdrawal branch");
+let sotCounterJoinGame = await api("/api/game/new", { name: "samugiru-sot-counter-join-runtime-test" });
+sotCounterJoinGame.location = { mapId: "1000", x: sotCounterNpc.x + 1, y: sotCounterNpc.y };
+setTestEventFlag(sotCounterJoinGame, 17, "end");
+sotCounterJoinGame = await api("/api/game/dialog", { game: sotCounterJoinGame, npcId: sotCounterNpc.id });
+assertEqual(inventoryQty(sotCounterJoinGame, 2575), 1, "SOT counter C-route registration gives starting check stone");
+assert(sotCounterJoinGame.dialog.messages.some((message) => /SOT环岛活动 是走C路线/.test(message.text || "")), "SOT counter C-route registration uses source route text");
+assert(sotCounterJoinGame.dialog.debug.vmTrace.some((event) => event.action === "window" && event.detail?.eventType === "REQUEST" && event.detail?.condition === "LV>0&ENDEV=17" && event.status === "ok"), "SOT counter C-route REQUEST branch is selected by VM");
+assert(sotCounterJoinGame.dialog.debug.vmTrace.some((event) => event.action === "give" && Number(event.detail?.itemId) === 2575 && event.detail?.reason === "source-changeevent-request-getitem"), "SOT counter registration gives item 2575 through NPC VM");
+let sotCounterQuitStartGame = await api("/api/game/new", { name: "samugiru-sot-counter-quit-start-runtime-test" });
+sotCounterQuitStartGame.location = { mapId: "1000", x: sotCounterNpc.x + 1, y: sotCounterNpc.y };
+sotCounterQuitStartGame.inventory.push({ id: 2575, name: "检查石", qty: 1 });
+sotCounterQuitStartGame = await api("/api/game/dialog", { game: sotCounterQuitStartGame, npcId: sotCounterNpc.id });
+assertEqual(inventoryQty(sotCounterQuitStartGame, 2575), 0, "SOT counter starting-stone withdrawal consumes item 2575");
+assert(sotCounterQuitStartGame.dialog.messages.some((message) => /一个都没收集到/.test(message.text || "") && /第一检查点/.test(message.text || "")), "SOT counter starting-stone withdrawal uses source no-checkpoint text");
+assert(sotCounterQuitStartGame.dialog.debug.vmTrace.some((event) => event.action === "window" && event.detail?.eventType === "ACCEPT" && event.detail?.condition === "LV>0&ITEM=2575" && event.status === "ok"), "SOT counter starting-stone ACCEPT branch is selected by VM");
+assert(sotCounterQuitStartGame.dialog.debug.vmTrace.some((event) => event.action === "take" && Number(event.detail?.itemId) === 2575 && event.detail?.reason === "source-changeevent-delitem"), "SOT counter starting-stone withdrawal takes item 2575 through NPC VM");
+let sotCounterQuitPartialGame = await api("/api/game/new", { name: "samugiru-sot-counter-quit-partial-runtime-test" });
+sotCounterQuitPartialGame.location = { mapId: "1000", x: sotCounterNpc.x + 1, y: sotCounterNpc.y };
+sotCounterQuitPartialGame.inventory.push(
+  { id: 2576, name: "检查石", qty: 1 },
+  { id: 2577, name: "检查石", qty: 1 },
+  { id: 2578, name: "检查石", qty: 1 },
+  { id: 2579, name: "检查石", qty: 1 }
+);
+sotCounterQuitPartialGame = await api("/api/game/dialog", { game: sotCounterQuitPartialGame, npcId: sotCounterNpc.id });
+for (const itemId of [2576, 2577, 2578, 2579]) {
+  assertEqual(inventoryQty(sotCounterQuitPartialGame, itemId), 0, `SOT counter partial withdrawal consumes item ${itemId}`);
+  assert(sotCounterQuitPartialGame.dialog.debug.vmTrace.some((event) => event.action === "take" && Number(event.detail?.itemId) === itemId && event.detail?.reason === "source-changeevent-delitem"), `SOT counter partial withdrawal takes item ${itemId} through NPC VM`);
+}
+assert(sotCounterQuitPartialGame.dialog.messages.some((message) => /看你的检查项目 你好像还没完成/.test(message.text || "")), "SOT counter partial withdrawal uses source unfinished text");
+assert(sotCounterQuitPartialGame.dialog.debug.vmTrace.some((event) => event.action === "window" && event.detail?.eventType === "ACCEPT" && event.detail?.condition === "LV>0&ITEM=2576,LV>0&ITEM=2577,LV>0&ITEM=2578,LV>0&ITEM=2579" && event.status === "ok"), "SOT counter partial-checkpoint ACCEPT branch is selected by VM");
+
 const alagiNpc = WORLD.maps["1000"]?.npcs.find((npc) => npc.id === "1000-117-101-7495");
 if (!alagiNpc) throw new Error("missing Samugiru Alagi fruit-wine fixture");
 assertEqual(alagiNpc.name, "阿喇吉", "Alagi keeps source NPC name");
