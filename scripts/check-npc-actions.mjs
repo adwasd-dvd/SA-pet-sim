@@ -7811,6 +7811,58 @@ assertEqual(inventoryQty(alagiLiquorGame, 11968), 1, "Alagi post-herb MESSAGE br
 assert(alagiLiquorGame.dialog.messages.some((message) => /村长一定会很高兴/.test(message.text || "")), "Alagi post-herb branch uses source completion text");
 assert(alagiLiquorGame.dialog.debug.vmTrace.some((event) => event.action === "window" && event.detail?.eventType === "MESSAGE" && event.detail?.condition === "LV>0&ITEM=11968" && event.status === "ok"), "Alagi post-herb MESSAGE branch is selected by VM");
 
+const kairasNpc = WORLD.maps["1000"]?.npcs.find((npc) => npc.id === "1000-31-69-7581");
+if (!kairasNpc) throw new Error("missing Samugiru Kairas treasure fixture");
+assertEqual(kairasNpc.name, "凯拉斯", "Kairas keeps source NPC name");
+assert(kairasNpc.scriptEvents?.some((event) => event.type === "ACCEPT" && event.condition === "LV>0&ENDEV=4&ITEM=1853&ITEM=1854&ITEM=1855&ITEM=1856&ITEM=1857" && event.delItems?.length === 5 && event.getRandItems?.some((rand) => rand.ids?.some((id) => [1858, 1859, 1860].includes(Number(id))))), "Kairas parses source five-treasure random reward exchange");
+for (const itemId of [1858, 1859, 1860]) {
+  assert(kairasNpc.scriptEvents?.some((event) => event.type === "MESSAGE" && event.condition === `LV>0&ITEM=${itemId}`), `Kairas parses post-reward MESSAGE for item ${itemId}`);
+}
+let kairasMissingGame = await api("/api/game/new", { name: "samugiru-kairas-missing-treasure-runtime-test" });
+kairasMissingGame.location = { mapId: "1000", x: kairasNpc.x + 1, y: kairasNpc.y };
+setTestEventFlag(kairasMissingGame, 4, "end");
+kairasMissingGame.inventory.push({ id: 1854, name: "古老的勾玉", qty: 1 });
+kairasMissingGame = await api("/api/game/dialog", { game: kairasMissingGame, npcId: kairasNpc.id });
+assertEqual(inventoryQty(kairasMissingGame, 1854), 1, "Kairas missing-treasure branch does not consume partial source treasure");
+assert(kairasMissingGame.dialog.messages.some((message) => /没有黄金图腾像/.test(message.text || "")), "Kairas missing-treasure branch names the first missing source treasure");
+assert(kairasMissingGame.dialog.debug.vmTrace.some((event) => event.action === "window" && event.detail?.eventType === "MESSAGE" && event.detail?.condition === "LV>0&ITEM!=1853" && event.status === "ok"), "Kairas missing-treasure MESSAGE branch is selected by VM");
+let kairasGame = await api("/api/game/new", { name: "samugiru-kairas-treasure-runtime-test" });
+kairasGame.location = { mapId: "1000", x: kairasNpc.x + 1, y: kairasNpc.y };
+setTestEventFlag(kairasGame, 4, "end");
+kairasGame.inventory.push(
+  { id: 1853, name: "黄金图腾像", qty: 1 },
+  { id: 1854, name: "古老的勾玉", qty: 1 },
+  { id: 1855, name: "传说的竖琴", qty: 1 },
+  { id: 1856, name: "金砂", qty: 1 },
+  { id: 1857, name: "透明的水晶", qty: 1 }
+);
+kairasGame = await api("/api/game/dialog", { game: kairasGame, npcId: kairasNpc.id });
+for (const itemId of [1853, 1854, 1855, 1856, 1857]) {
+  assertEqual(inventoryQty(kairasGame, itemId), 0, `Kairas source ACCEPT consumes treasure ${itemId}`);
+  assert(kairasGame.dialog.debug.vmTrace.some((event) => event.action === "take" && Number(event.detail?.itemId) === itemId && event.detail?.reason === "source-changeevent-delitem"), `Kairas source ACCEPT takes item ${itemId} through NPC VM`);
+}
+const kairasRewardIds = [1858, 1859, 1860];
+const kairasRewardId = kairasRewardIds.find((itemId) => inventoryQty(kairasGame, itemId) === 1);
+assert(kairasRewardId, "Kairas source ACCEPT gives one source random treasure reward");
+assert(kairasRewardIds.filter((itemId) => inventoryQty(kairasGame, itemId) > 0).length === 1, "Kairas source ACCEPT gives exactly one random reward item");
+assert(kairasGame.dialog.messages.some((message) => /获得：/.test(message.text || "") && kairasRewardIds.some((itemId) => inventoryQty(kairasGame, itemId) > 0)), "Kairas source ACCEPT reports a reward item");
+assert(kairasGame.dialog.debug.vmTrace.some((event) => event.action === "window" && event.detail?.eventType === "ACCEPT" && event.detail?.condition === "LV>0&ENDEV=4&ITEM=1853&ITEM=1854&ITEM=1855&ITEM=1856&ITEM=1857" && event.status === "ok"), "Kairas source ACCEPT branch is selected by VM");
+assert(kairasGame.dialog.debug.vmTrace.some((event) => event.action === "give" && kairasRewardIds.includes(Number(event.detail?.itemId)) && event.detail?.reason === "source-changeevent-getitem"), "Kairas random reward runs through NPC VM");
+assert(
+  kairasGame.dialog.debug.vmTrace.some((event) =>
+    event.action === "quest" &&
+    Array.isArray(event.detail?.getRandItems) &&
+    event.detail.getRandItems.some((group) =>
+      Array.isArray(group.ids) && group.ids.some((itemId) => kairasRewardIds.includes(Number(itemId)))
+    )
+  ),
+  "Kairas source ACCEPT records GetRandItem reward metadata"
+);
+kairasGame = await api("/api/game/dialog", { game: kairasGame, npcId: kairasNpc.id });
+assertEqual(inventoryQty(kairasGame, kairasRewardId), 1, "Kairas post-reward MESSAGE branch does not duplicate the random reward");
+assert(kairasGame.dialog.messages.some((message) => /我们不是已经交换宝物了吗/.test(message.text || "")), "Kairas post-reward branch uses source completion text");
+assert(kairasGame.dialog.debug.vmTrace.some((event) => event.action === "window" && event.detail?.eventType === "MESSAGE" && event.detail?.condition === `LV>0&ITEM=${kairasRewardId}` && event.status === "ok"), "Kairas post-reward MESSAGE branch is selected by VM");
+
 const lierNpc = WORLD.maps["1000"]?.npcs.find((npc) => npc.id === "1000-63-43-7530");
 if (!lierNpc) throw new Error("missing Samugiru Lier dance-task fixture");
 assertEqual(lierNpc.name, "莉儿", "Lier keeps source NPC name");
