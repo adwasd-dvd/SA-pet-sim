@@ -3603,7 +3603,8 @@ assertEqual(selfExplodeSkillGame.battleOutcome.playerAction?.petSkill?.selfExplo
 assertEqual(selfExplodeSkillGame.battleOutcome.playerAction?.petSkill?.selfExplode?.pvpSourceCommand, "BATTLE_COM_S_EXPLODE", "SelfExplodeAttack telemetry keeps the protected PvP source command");
 assertEqual(selfExplodeSkillGame.battleOutcome.playerAction?.petSkill?.multiplier, 1, "SelfExplodeAttack does not apply petskill2 display multiplier in non-PvP");
 assertEqual(selfExplodeSkillGame.battleOutcome.playerAction?.petSkill?.missChance, 0, "SelfExplodeAttack does not apply PvP explode option changes in non-PvP");
-assertEqual(selfExplodeSkillGame.pets[0].Hp, selfExplodePetHpBefore, "SelfExplodeAttack non-PvP fallback does not set attacker HP to 1");
+assert(Number(selfExplodeSkillGame.pets[0].Hp || 0) > 1, "SelfExplodeAttack non-PvP fallback does not set attacker HP to 1");
+assert(Number(selfExplodeSkillGame.pets[0].Hp || 0) >= selfExplodePetHpBefore - 1, "SelfExplodeAttack non-PvP fallback only allows ordinary enemy response damage in this fixture");
 assert(Number(selfExplodeSkillGame.encounter?.Hp || 0) < selfExplodeEnemyHpBefore, "SelfExplodeAttack non-PvP fallback damages the active battle target");
 let becomeFoxSkillGame = await api("/api/game/new", { name: "pet-becomefox-skill-test" });
 becomeFoxSkillGame.location = { mapId: battleNpc.map.id, x: battleNpc.npc.x + 1, y: battleNpc.npc.y };
@@ -7766,6 +7767,34 @@ assertEqual(inventoryQty(commissionGame, 20021), 0, "source commission consumes 
 assertEqual(inventoryQty(commissionGame, 12583), 0, "source commission consumes submitted food stack");
 assertEqual(commissionGame.player.stone, 450, "source GetStone reward adds stone through NPC VM");
 assert(commissionGame.dialog.debug.vmTrace.some((event) => event.action === "give" && event.detail?.reason === "source-changeevent-getstone" && event.detail?.stone === 350), "source GetStone records NPC VM stone give");
+
+const lierNpc = WORLD.maps["1000"]?.npcs.find((npc) => npc.id === "1000-63-43-7530");
+if (!lierNpc) throw new Error("missing Samugiru Lier dance-task fixture");
+assertEqual(lierNpc.name, "莉儿", "Lier keeps source NPC name");
+assert(lierNpc.scriptEvents?.some((event) => event.type === "ACCEPT" && event.condition === "LV>0&ITEM=2010&ITEM=2011&ITEM=2012" && event.getItems?.some((item) => Number(item.id) === 2013)), "Lier parses source fur turn-in reward");
+assert(lierNpc.scriptEvents?.some((event) => event.type === "MESSAGE" && event.condition === "LV>0&ITEM=2013"), "Lier parses source post-reward MESSAGE branch");
+let lierGame = await api("/api/game/new", { name: "samugiru-lier-dance-runtime-test" });
+lierGame.location = { mapId: "1000", x: lierNpc.x + 1, y: lierNpc.y };
+lierGame.inventory.push(
+  { id: 2010, name: "贝鲁卡的皮毛", qty: 1 },
+  { id: 2011, name: "贝鲁伊卡的皮毛", qty: 1 },
+  { id: 2012, name: "格鲁西斯的皮毛", qty: 1 }
+);
+lierGame = await api("/api/game/dialog", { game: lierGame, npcId: lierNpc.id });
+assertEqual(inventoryQty(lierGame, 2010), 0, "Lier source ACCEPT consumes Beluka fur");
+assertEqual(inventoryQty(lierGame, 2011), 0, "Lier source ACCEPT consumes Beluika fur");
+assertEqual(inventoryQty(lierGame, 2012), 0, "Lier source ACCEPT consumes Gelusis fur");
+assertEqual(inventoryQty(lierGame, 2013), 1, "Lier source ACCEPT gives source love candy");
+assert(lierGame.dialog.messages.some((message) => /获得：莉儿的爱心糖果 x1/.test(message.text || "")), "Lier dialog reports source candy reward");
+assert(lierGame.dialog.debug.vmTrace.some((event) => event.action === "window" && event.detail?.eventType === "ACCEPT" && event.detail?.condition === "LV>0&ITEM=2010&ITEM=2011&ITEM=2012" && event.status === "ok"), "Lier source ACCEPT branch is selected by VM");
+for (const itemId of [2010, 2011, 2012]) {
+  assert(lierGame.dialog.debug.vmTrace.some((event) => event.action === "take" && Number(event.detail?.itemId) === itemId && event.detail?.reason === "source-changeevent-delitem"), `Lier source ACCEPT takes item ${itemId} through NPC VM`);
+}
+assert(lierGame.dialog.debug.vmTrace.some((event) => event.action === "give" && Number(event.detail?.itemId) === 2013 && event.detail?.reason === "source-changeevent-getitem"), "Lier source ACCEPT gives item 2013 through NPC VM");
+lierGame = await api("/api/game/dialog", { game: lierGame, npcId: lierNpc.id });
+assertEqual(inventoryQty(lierGame, 2013), 1, "Lier source MESSAGE branch does not duplicate the candy");
+assert(lierGame.dialog.messages.some((message) => /谢谢你了！我有漂漂亮亮的舞衣可以穿了/.test(message.text || "")), "Lier source MESSAGE branch uses post-reward thanks text");
+assert(lierGame.dialog.debug.vmTrace.some((event) => event.action === "window" && event.detail?.eventType === "MESSAGE" && event.detail?.condition === "LV>0&ITEM=2013" && event.status === "ok"), "Lier source post-reward MESSAGE branch is selected by VM");
 
 const ticketNpc = WORLD.maps["1000"]?.npcs.find((npc) => npc.name === "门票贩卖员" && npc.scriptEvents?.some((event) => event.delStones?.some((stone) => stone.expr === "LV*3")));
 if (!ticketNpc) throw new Error("missing source DelStone ticket fixture");
