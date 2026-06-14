@@ -7863,6 +7863,62 @@ assertEqual(inventoryQty(kairasGame, kairasRewardId), 1, "Kairas post-reward MES
 assert(kairasGame.dialog.messages.some((message) => /我们不是已经交换宝物了吗/.test(message.text || "")), "Kairas post-reward branch uses source completion text");
 assert(kairasGame.dialog.debug.vmTrace.some((event) => event.action === "window" && event.detail?.eventType === "MESSAGE" && event.detail?.condition === `LV>0&ITEM=${kairasRewardId}` && event.status === "ok"), "Kairas post-reward MESSAGE branch is selected by VM");
 
+const meatNpc = WORLD.maps["1000"]?.npcs.find((npc) => npc.id === "1000-77-118-7537");
+if (!meatNpc) throw new Error("missing Samugiru Betsiana meat-contract fixture");
+assertEqual(meatNpc.name, "贝丝安娜", "Betsiana keeps source NPC name");
+assert(meatNpc.scriptEvents?.some((event) => event.type === "ACCEPT" && event.condition === "LV>0&ENDEV=4" && event.getItems?.some((item) => Number(item.id) === 1820)), "Betsiana parses source meat contract handout");
+assert(meatNpc.scriptEvents?.some((event) => event.type === "MESSAGE" && event.condition === "LV>0&ENDEV=4&ITEM=1820"), "Betsiana parses source contract reminder MESSAGE");
+assert(meatNpc.scriptEvents?.some((event) => event.type === "MESSAGE" && event.condition === "LV>0&ENDEV=4&ITEM!=12893&ITEM=1820"), "Betsiana parses source missing-meat MESSAGE branch");
+assert(meatNpc.scriptEvents?.some((event) => event.type === "ACCEPT" && event.condition === "LV>0&ENDEV=4&ITEM=1820&ITEM=12889&ITEM=12890&ITEM=12891&ITEM=12892&ITEM=12893" && event.delItems?.length === 6 && event.getItems?.some((item) => Number(item.id) === 1816)), "Betsiana parses source five-meat reward exchange");
+let meatContractGame = await api("/api/game/new", { name: "samugiru-betsiana-contract-runtime-test" });
+meatContractGame.location = { mapId: "1000", x: meatNpc.x + 1, y: meatNpc.y };
+setTestEventFlag(meatContractGame, 4, "end");
+meatContractGame = await api("/api/game/dialog", { game: meatContractGame, npcId: meatNpc.id });
+assertEqual(inventoryQty(meatContractGame, 1820), 1, "Betsiana source starter branch gives meat contract");
+assert(meatContractGame.dialog.messages.some((message) => /合约书/.test(message.text || "")), "Betsiana starter dialog mentions source contract");
+assert(meatContractGame.dialog.debug.vmTrace.some((event) => event.action === "window" && event.detail?.eventType === "ACCEPT" && event.detail?.condition === "LV>0&ENDEV=4" && event.status === "ok"), "Betsiana starter ACCEPT branch is selected by VM");
+assert(meatContractGame.dialog.debug.vmTrace.some((event) => event.action === "give" && Number(event.detail?.itemId) === 1820 && event.detail?.reason === "source-changeevent-getitem"), "Betsiana contract grant runs through NPC VM");
+meatContractGame = await api("/api/game/dialog", { game: meatContractGame, npcId: meatNpc.id });
+assertEqual(inventoryQty(meatContractGame, 1820), 1, "Betsiana contract reminder does not duplicate the contract");
+assert(meatContractGame.dialog.messages.some((message) => /根本没有收集完成/.test(message.text || "")), "Betsiana contract-only repeat uses source missing-meat priority text");
+assert(meatContractGame.dialog.debug.vmTrace.some((event) => event.action === "window" && event.detail?.eventType === "MESSAGE" && event.detail?.condition === "LV>0&ENDEV=4&ITEM!=12893&ITEM=1820" && event.status === "ok"), "Betsiana contract-only repeat selects the first source missing-meat MESSAGE branch");
+let meatMissingGame = await api("/api/game/new", { name: "samugiru-betsiana-missing-meat-runtime-test" });
+meatMissingGame.location = { mapId: "1000", x: meatNpc.x + 1, y: meatNpc.y };
+setTestEventFlag(meatMissingGame, 4, "end");
+meatMissingGame.inventory.push(
+  { id: 1820, name: "合约书", qty: 1 },
+  { id: 12889, name: "一口肉", qty: 1 },
+  { id: 12890, name: "小的肉", qty: 1 },
+  { id: 12891, name: "丸丸肉", qty: 1 },
+  { id: 12892, name: "大块的肉", qty: 1 }
+);
+meatMissingGame = await api("/api/game/dialog", { game: meatMissingGame, npcId: meatNpc.id });
+for (const itemId of [1820, 12889, 12890, 12891, 12892]) {
+  assertEqual(inventoryQty(meatMissingGame, itemId), 1, `Betsiana missing-meat branch does not consume partial item ${itemId}`);
+}
+assert(meatMissingGame.dialog.messages.some((message) => /根本没有收集完成/.test(message.text || "")), "Betsiana missing-meat branch uses source incomplete text");
+assert(meatMissingGame.dialog.debug.vmTrace.some((event) => event.action === "window" && event.detail?.eventType === "MESSAGE" && event.detail?.condition === "LV>0&ENDEV=4&ITEM!=12893&ITEM=1820" && event.status === "ok"), "Betsiana missing-meat MESSAGE branch is selected by VM");
+let meatRewardGame = await api("/api/game/new", { name: "samugiru-betsiana-five-meat-runtime-test" });
+meatRewardGame.location = { mapId: "1000", x: meatNpc.x + 1, y: meatNpc.y };
+setTestEventFlag(meatRewardGame, 4, "end");
+meatRewardGame.inventory.push(
+  { id: 1820, name: "合约书", qty: 1 },
+  { id: 12889, name: "一口肉", qty: 1 },
+  { id: 12890, name: "小的肉", qty: 1 },
+  { id: 12891, name: "丸丸肉", qty: 1 },
+  { id: 12892, name: "大块的肉", qty: 1 },
+  { id: 12893, name: "满腹肉", qty: 1 }
+);
+meatRewardGame = await api("/api/game/dialog", { game: meatRewardGame, npcId: meatNpc.id });
+for (const itemId of [1820, 12889, 12890, 12891, 12892, 12893]) {
+  assertEqual(inventoryQty(meatRewardGame, itemId), 0, `Betsiana source ACCEPT consumes item ${itemId}`);
+  assert(meatRewardGame.dialog.debug.vmTrace.some((event) => event.action === "take" && Number(event.detail?.itemId) === itemId && event.detail?.reason === "source-changeevent-delitem"), `Betsiana source ACCEPT takes item ${itemId} through NPC VM`);
+}
+assertEqual(inventoryQty(meatRewardGame, 1816), 1, "Betsiana source ACCEPT gives super nourishing meat");
+assert(meatRewardGame.dialog.messages.some((message) => /获得：超级补的肉 x1/.test(message.text || "")), "Betsiana source ACCEPT reports super nourishing meat reward");
+assert(meatRewardGame.dialog.debug.vmTrace.some((event) => event.action === "quest" && event.detail?.eventType === "ACCEPT" && event.detail?.condition === "LV>0&ENDEV=4&ITEM=1820&ITEM=12889&ITEM=12890&ITEM=12891&ITEM=12892&ITEM=12893" && event.status === "ok"), "Betsiana five-meat ACCEPT branch is selected by VM");
+assert(meatRewardGame.dialog.debug.vmTrace.some((event) => event.action === "give" && Number(event.detail?.itemId) === 1816 && event.detail?.reason === "source-changeevent-getitem"), "Betsiana reward item 1816 runs through NPC VM");
+
 const lierNpc = WORLD.maps["1000"]?.npcs.find((npc) => npc.id === "1000-63-43-7530");
 if (!lierNpc) throw new Error("missing Samugiru Lier dance-task fixture");
 assertEqual(lierNpc.name, "莉儿", "Lier keeps source NPC name");
