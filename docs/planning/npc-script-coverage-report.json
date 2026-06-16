@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-06-12T09:27:16.436Z",
+  "generatedAt": "2026-06-16T01:08:54.689Z",
   "sourcePolicy": "Local ref___data NPC files are the source of truth. External guides only influence profile candidates; this report ranks local source actions by current profile impact. Raw scripts are summarized here for developer planning and are not sent to normal client payloads.",
   "summary": {
     "rawFilesScanned": 3599,
-    "worldMaps": 308,
-    "worldNpcs": 1749,
-    "worldScriptNpcs": 394,
-    "worldScriptEvents": 1725,
+    "worldMaps": 311,
+    "worldNpcs": 1758,
+    "worldScriptNpcs": 395,
+    "worldScriptEvents": 1731,
     "parsedActionKinds": 25,
     "unsupportedCandidateKeys": 22,
     "candidateActionKeys": 5,
@@ -48,19 +48,19 @@
   },
   "parsedWorldActions": {
     "full": {
-      "maps": 308,
-      "npcs": 1749,
-      "scriptNpcs": 394,
-      "scriptEvents": 1725,
+      "maps": 311,
+      "npcs": 1758,
+      "scriptNpcs": 395,
+      "scriptEvents": 1731,
       "parsedActions": {
-        "condition": 1724,
-        "DelItem": 426,
-        "GetItem": 345,
+        "condition": 1730,
+        "DelItem": 427,
+        "GetItem": 346,
         "MessagePages": 217,
         "GetStone": 119,
         "GetPet": 65,
         "DelPet": 64,
-        "KeyWord": 60,
+        "KeyWord": 61,
         "NpcWarp": 57,
         "EndSetFlg": 56,
         "GetRandItem": 56,
@@ -80,7 +80,7 @@
         "NewDelPet": 1
       },
       "eventTypes": {
-        "MESSAGE": 1188,
+        "MESSAGE": 1194,
         "ACCEPT": 442,
         "REQUEST": 69,
         "CLEAN": 26

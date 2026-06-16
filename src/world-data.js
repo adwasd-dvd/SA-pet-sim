@@ -246611,6 +246611,718 @@ export const WORLD = {
             }
           ],
           "source": "gmsv-data/map/mapwarp.txt"
+        },
+        {
+          "id": "10914-1",
+          "label": "去 柯尔克的大坑道４楼",
+          "detail": "柯尔克的大坑道４楼 | floor 10914 | 目标 (17,53) | 入口 (35,31)",
+          "to": "10914",
+          "x": 35,
+          "y": 31,
+          "bounds": [
+            35,
+            31,
+            35,
+            31
+          ],
+          "target": [
+            17,
+            53
+          ],
+          "tiles": [
+            {
+              "x": 35,
+              "y": 31,
+              "target": [
+                17,
+                53
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        }
+      ]
+    },
+    "10914": {
+      "id": "10914",
+      "floorId": 10914,
+      "name": "柯尔克的大坑道４楼",
+      "mapFile": "/data/maps/10914.ls2map",
+      "clientMapFile": "/data/client-maps/10914.dat",
+      "clientMapSource": "公益石器时代/map/10914.dat",
+      "summary": "柯尔克的大坑道４楼 | floor=10914 | 40x60 | gmsv-data/map/sainasu/dungeon/dan_1-09-14",
+      "size": [
+        40,
+        60
+      ],
+      "spawn": [
+        17,
+        53
+      ],
+      "encounterPets": [
+        1
+      ],
+      "encounterAreas": [
+        {
+          "id": 286,
+          "floor": 10914,
+          "bounds": [
+            0,
+            0,
+            40,
+            60
+          ],
+          "encounterProbMin": 1,
+          "encounterProbMax": 5,
+          "enemyMax": 4,
+          "zorder": 1,
+          "groups": [
+            {
+              "groupId": 425,
+              "name": "SBC_14/15/16",
+              "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
+              "enemies": [
+                {
+                  "enemyId": 947,
+                  "weight": 2,
+                  "tempNo": 1,
+                  "lvMin": 1,
+                  "lvMax": 1,
+                  "createMin": 1,
+                  "createMax": 1
+                },
+                {
+                  "enemyId": 948,
+                  "weight": 1,
+                  "tempNo": 1,
+                  "lvMin": 1,
+                  "lvMax": 1,
+                  "createMin": 1,
+                  "createMax": 1
+                },
+                {
+                  "enemyId": 965,
+                  "weight": 1,
+                  "tempNo": 1,
+                  "lvMin": 1,
+                  "lvMax": 1,
+                  "createMin": 1,
+                  "createMax": 1
+                }
+              ],
+              "source": "gmsv-data/group1.txt"
+            }
+          ],
+          "source": "gmsv-data/encount.txt"
+        }
+      ],
+      "npcs": [
+        {
+          "id": "10914-15-25-1640",
+          "name": "ＳＢＣ的护士小姐",
+          "x": 15,
+          "y": 25,
+          "type": "WindowHealer",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/10900npc.create",
+          "script": "npcgen_winhealer",
+          "template": "npcgen_winhealer",
+          "graphic": "16058"
+        },
+        {
+          "id": "10914-36-35-1639",
+          "name": "武道家",
+          "x": 36,
+          "y": 35,
+          "type": "TownPeople",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_10914_36_35",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/10900npc.create",
+          "script": "file:genout/msg_10914_36_35",
+          "template": "npcgen_man",
+          "graphic": "16063",
+          "scriptHints": {
+            "actions": [],
+            "hints": [],
+            "source": "gmsv-data/npc/genout/msg_10914_36_35"
+          }
+        }
+      ],
+      "exits": [
+        {
+          "id": "10913-0",
+          "label": "去 柯尔克的大坑道３楼",
+          "detail": "柯尔克的大坑道３楼 | floor 10913 | 目标 (35,31) | 入口 (17,53)",
+          "to": "10913",
+          "x": 17,
+          "y": 53,
+          "bounds": [
+            17,
+            53,
+            17,
+            53
+          ],
+          "target": [
+            35,
+            31
+          ],
+          "tiles": [
+            {
+              "x": 17,
+              "y": 53,
+              "target": [
+                35,
+                31
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        },
+        {
+          "id": "10915-1",
+          "label": "去 柯尔克的大坑道５楼",
+          "detail": "柯尔克的大坑道５楼 | floor 10915 | 目标 (6,7) | 入口 (7,4)",
+          "to": "10915",
+          "x": 7,
+          "y": 4,
+          "bounds": [
+            7,
+            4,
+            7,
+            4
+          ],
+          "target": [
+            6,
+            7
+          ],
+          "tiles": [
+            {
+              "x": 7,
+              "y": 4,
+              "target": [
+                6,
+                7
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        }
+      ]
+    },
+    "10915": {
+      "id": "10915",
+      "floorId": 10915,
+      "name": "柯尔克的大坑道５楼",
+      "mapFile": "/data/maps/10915.ls2map",
+      "clientMapFile": "/data/client-maps/10915.dat",
+      "clientMapSource": "公益石器时代/map/10915.dat",
+      "summary": "柯尔克的大坑道５楼 | floor=10915 | 60x40 | gmsv-data/map/sainasu/dungeon/dan_1-09-15",
+      "size": [
+        60,
+        40
+      ],
+      "spawn": [
+        6,
+        7
+      ],
+      "encounterPets": [
+        1
+      ],
+      "encounterAreas": [
+        {
+          "id": 287,
+          "floor": 10915,
+          "bounds": [
+            0,
+            0,
+            60,
+            40
+          ],
+          "encounterProbMin": 1,
+          "encounterProbMax": 5,
+          "enemyMax": 4,
+          "zorder": 1,
+          "groups": [
+            {
+              "groupId": 425,
+              "name": "SBC_14/15/16",
+              "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
+              "enemies": [
+                {
+                  "enemyId": 947,
+                  "weight": 2,
+                  "tempNo": 1,
+                  "lvMin": 1,
+                  "lvMax": 1,
+                  "createMin": 1,
+                  "createMax": 1
+                },
+                {
+                  "enemyId": 948,
+                  "weight": 1,
+                  "tempNo": 1,
+                  "lvMin": 1,
+                  "lvMax": 1,
+                  "createMin": 1,
+                  "createMax": 1
+                },
+                {
+                  "enemyId": 965,
+                  "weight": 1,
+                  "tempNo": 1,
+                  "lvMin": 1,
+                  "lvMax": 1,
+                  "createMin": 1,
+                  "createMax": 1
+                }
+              ],
+              "source": "gmsv-data/group1.txt"
+            }
+          ],
+          "source": "gmsv-data/encount.txt"
+        }
+      ],
+      "npcs": [
+        {
+          "id": "10915-54-10-7684",
+          "name": "检查员(C-7)",
+          "x": 54,
+          "y": 10,
+          "type": "ExChangeMan",
+          "dialogue": "脚本入口：gmsv-data/npc/sainasu/event/oev_7c",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/sainasu/event/oev2.create",
+          "script": "file:sainasu/event/oev_7c",
+          "template": "changeevent",
+          "graphic": "16067",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_7c",
+              "messages": {
+                "normalMain": "你要不要也参加环岛活动啊？可以萨姆吉尔报名哦。",
+                "normal": "答对了！ 这样我会在检查石上 写上你已经通过第7检查点了。 来，请拿去。请继续加油哦。 下一个检查点是柯尔克村。",
+                "itemFull": "嗯？你身上东西太多了 好像装不下检查石哦。"
+              },
+              "getItems": [
+                {
+                  "id": 2582,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 80,
+                  "description": "第7检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2581,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 70,
+                  "description": "第6检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2581&ENDEV=17",
+              "keyword": "ＢＡＲ Ｓｉｌｋｙ ＣＬＵＢ"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_7c",
+              "messages": {
+                "normal": "你好像已经通过 这个检查点了 下一个是柯尔克村。 请继续加油哦。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2582&ENDEV=17,LV>0&ITEM=2583&ENDEV=17,LV>0&ITEM=2584&ENDEV=17,LV>0&ITEM=2585&ENDEV=17,LV>0&ITEM=2586&ENDEV=17,LV>0&ITEM=2587&ENDEV=17"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_7c",
+              "messages": {
+                "normal": "你现在到这个检查点 好像还太早了一点。 请按照顺序通过哦。 那请你继续加油吧。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2575&ENDEV=17,LV>0&ITEM=2576&ENDEV=17,LV>0&ITEM=2577&ENDEV=17,LV>0&ITEM=2578&ENDEV=17,LV>0&ITEM=2579&ENDEV=17,LV>0&ITEM=2580&ENDEV=17"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_7c",
+              "messages": {
+                "normal": "请说出旁边看板 上问题的答案 顺便提醒你一下，这个检查点 是C路线哦。 每个路线经过的地方都不一样。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2581&ENDEV=17"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_7c",
+              "messages": {
+                "normal": "你是“D路线”的参加者吧。 这里是“C路线”的检查点。 请加油回到你原来的路线！"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2575,LV>0&ITEM=2576,LV>0&ITEM=2577,LV>0&ITEM=2578,LV>0&ITEM=2579,LV>0&ITEM=2580,LV>0&ITEM=2581,LV>0&ITEM=2582,LV>0&ITEM=2583,LV>0&ITEM=2584,LV>0&ITEM=2585,LV>0&ITEM=2586,LV>0&ITEM=2587"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_7c",
+              "messages": {
+                "normal": "萨伊那斯环岛活动简称为SOT 这是环绕整个萨依那斯岛 的环岛活动哦。 你要不要也来参加啊？ 我是SOT的检查员。 报名的地方在萨尔吉姆。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
+          "scriptHints": {
+            "actions": [
+              "questLead"
+            ],
+            "hints": [
+              "EVENT:LV>0&ITEM=2581&ENDEV=17",
+              "DelItem:2581",
+              "GetItem:2582",
+              "EVENT:LV>0&ITEM=2582&ENDEV=17,LV>0&ITEM=2583&ENDEV=17,LV>0&ITEM=2584&ENDEV=17,LV>0&ITEM=2585&ENDEV=17,LV>0&ITEM=2586&ENDEV=17,LV>0&ITEM=2587&ENDEV=17",
+              "EVENT:LV>0&ITEM=2575&ENDEV=17,LV>0&ITEM=2576&ENDEV=17,LV>0&ITEM=2577&ENDEV=17,LV>0&ITEM=2578&ENDEV=17,LV>0&ITEM=2579&ENDEV=17,LV>0&ITEM=2580&ENDEV=17",
+              "EVENT:LV>0&ITEM=2575,LV>0&ITEM=2576,LV>0&ITEM=2577,LV>0&ITEM=2578,LV>0&ITEM=2579,LV>0&ITEM=2580,LV>0&ITEM=2581,LV>0&ITEM=2582,LV>0&ITEM=2583,LV>0&ITEM=2584,LV>0&ITEM=2585,LV>0&ITEM=2586,LV>0&ITEM=2587",
+              "EVENT:LV>0"
+            ],
+            "source": "gmsv-data/npc/sainasu/event/oev_7c"
+          },
+          "questLead": {
+            "title": "检查员(C-7) 的原脚本线索",
+            "summary": "EVENT:LV>0&ITEM=2581&ENDEV=17",
+            "source": "gmsv-data/npc/sainasu/event/oev_7c",
+            "status": "source-lead"
+          }
+        },
+        {
+          "id": "10915-55-11-5270",
+          "name": "看板",
+          "x": 55,
+          "y": 11,
+          "type": "SignBoard",
+          "dialogue": "第7检查点\n请正确回答出萨姆吉尔酒店的店名。",
+          "dialogueLines": [
+            "第7检查点",
+            "请正确回答出萨姆吉尔酒店的店名。"
+          ],
+          "source": "gmsv-data/npc/genout/oev2.create",
+          "script": "file:genout/signb_10915_55_11",
+          "template": "npcgen_signboard",
+          "graphic": "10062",
+          "scriptHints": {
+            "actions": [],
+            "hints": [],
+            "source": "gmsv-data/npc/genout/signb_10915_55_11"
+          }
+        },
+        {
+          "id": "10915-33-20-1642",
+          "name": "饲育员",
+          "x": 33,
+          "y": 20,
+          "type": "TownPeople",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_10915_33_20",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/10900npc.create",
+          "script": "file:genout/msg_10915_33_20",
+          "template": "npcgen_man",
+          "graphic": "16037",
+          "scriptHints": {
+            "actions": [],
+            "hints": [],
+            "source": "gmsv-data/npc/genout/msg_10915_33_20"
+          }
+        },
+        {
+          "id": "10915-33-21-1643",
+          "name": "查伊",
+          "x": 33,
+          "y": 21,
+          "type": "npcgen_mugon",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/10900npc.create",
+          "script": "npcgen_mugon",
+          "template": "npcgen_mugon",
+          "graphic": "100336"
+        },
+        {
+          "id": "10915-52-34-1641",
+          "name": "饲育员",
+          "x": 52,
+          "y": 34,
+          "type": "TownPeople",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_10915_52_34",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/10900npc.create",
+          "script": "file:genout/msg_10915_52_34",
+          "template": "npcgen_man",
+          "graphic": "16205",
+          "scriptHints": {
+            "actions": [],
+            "hints": [],
+            "source": "gmsv-data/npc/genout/msg_10915_52_34"
+          }
+        }
+      ],
+      "exits": [
+        {
+          "id": "10914-0",
+          "label": "去 柯尔克的大坑道４楼",
+          "detail": "柯尔克的大坑道４楼 | floor 10914 | 目标 (7,4) | 入口 (6,7)",
+          "to": "10914",
+          "x": 6,
+          "y": 7,
+          "bounds": [
+            6,
+            7,
+            6,
+            7
+          ],
+          "target": [
+            7,
+            4
+          ],
+          "tiles": [
+            {
+              "x": 6,
+              "y": 7,
+              "target": [
+                7,
+                4
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        },
+        {
+          "id": "10916-1",
+          "label": "去 柯尔克的大坑道６楼",
+          "detail": "柯尔克的大坑道６楼 | floor 10916 | 目标 (16,4) | 入口 (51,31)",
+          "to": "10916",
+          "x": 51,
+          "y": 31,
+          "bounds": [
+            51,
+            31,
+            51,
+            31
+          ],
+          "target": [
+            16,
+            4
+          ],
+          "tiles": [
+            {
+              "x": 51,
+              "y": 31,
+              "target": [
+                16,
+                4
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        }
+      ]
+    },
+    "10916": {
+      "id": "10916",
+      "floorId": 10916,
+      "name": "柯尔克的大坑道６楼",
+      "mapFile": "/data/maps/10916.ls2map",
+      "clientMapFile": "/data/client-maps/10916.dat",
+      "clientMapSource": "公益石器时代/map/10916.dat",
+      "summary": "柯尔克的大坑道６楼 | floor=10916 | 20x80 | gmsv-data/map/sainasu/dungeon/dan_1-09-16",
+      "size": [
+        20,
+        80
+      ],
+      "spawn": [
+        16,
+        4
+      ],
+      "encounterPets": [
+        1
+      ],
+      "encounterAreas": [
+        {
+          "id": 288,
+          "floor": 10916,
+          "bounds": [
+            0,
+            0,
+            20,
+            80
+          ],
+          "encounterProbMin": 1,
+          "encounterProbMax": 5,
+          "enemyMax": 4,
+          "zorder": 1,
+          "groups": [
+            {
+              "groupId": 425,
+              "name": "SBC_14/15/16",
+              "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
+              "enemies": [
+                {
+                  "enemyId": 947,
+                  "weight": 2,
+                  "tempNo": 1,
+                  "lvMin": 1,
+                  "lvMax": 1,
+                  "createMin": 1,
+                  "createMax": 1
+                },
+                {
+                  "enemyId": 948,
+                  "weight": 1,
+                  "tempNo": 1,
+                  "lvMin": 1,
+                  "lvMax": 1,
+                  "createMin": 1,
+                  "createMax": 1
+                },
+                {
+                  "enemyId": 965,
+                  "weight": 1,
+                  "tempNo": 1,
+                  "lvMin": 1,
+                  "lvMax": 1,
+                  "createMin": 1,
+                  "createMax": 1
+                }
+              ],
+              "source": "gmsv-data/group1.txt"
+            }
+          ],
+          "source": "gmsv-data/encount.txt"
+        }
+      ],
+      "npcs": [
+        {
+          "id": "10916-17-19-1644",
+          "name": "饲育员",
+          "x": 17,
+          "y": 19,
+          "type": "TownPeople",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_10916_17_19",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/10900npc.create",
+          "script": "file:genout/msg_10916_17_19",
+          "template": "npcgen_man",
+          "graphic": "16056",
+          "scriptHints": {
+            "actions": [],
+            "hints": [],
+            "source": "gmsv-data/npc/genout/msg_10916_17_19"
+          }
+        },
+        {
+          "id": "10916-5-34-1645",
+          "name": "饲育员",
+          "x": 5,
+          "y": 34,
+          "type": "TownPeople",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_10916_5_34",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/10900npc.create",
+          "script": "file:genout/msg_10916_5_34",
+          "template": "npcgen_man",
+          "graphic": "16048",
+          "scriptHints": {
+            "actions": [],
+            "hints": [],
+            "source": "gmsv-data/npc/genout/msg_10916_5_34"
+          }
+        }
+      ],
+      "exits": [
+        {
+          "id": "10915-0",
+          "label": "去 柯尔克的大坑道５楼",
+          "detail": "柯尔克的大坑道５楼 | floor 10915 | 目标 (51,31) | 入口 (16,4)",
+          "to": "10915",
+          "x": 16,
+          "y": 4,
+          "bounds": [
+            16,
+            4,
+            16,
+            4
+          ],
+          "target": [
+            51,
+            31
+          ],
+          "tiles": [
+            {
+              "x": 16,
+              "y": 4,
+              "target": [
+                51,
+                31
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
         }
       ]
     },
