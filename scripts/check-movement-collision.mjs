@@ -329,6 +329,10 @@ function assertFrontendMovementContract(appJs, indexHtml, serviceWorker) {
     "pressedMoveKeys.add(keyId)",
     "pressedMoveKeys.delete(keyId)",
     "pressedScreenDirection()",
+    "KEYBOARD_WALK_LEAD_MS",
+    "function scheduleKeyboardWalk",
+    "function pumpKeyboardWalk",
+    "walkPlayer(direction[0], direction[1], { source: \"keyboard\" })",
     "if (face && token === routeToken) return turnPlayer(face);"
   ]) {
     assert(appJs.includes(snippet), `frontend movement contract missing: ${snippet}`);

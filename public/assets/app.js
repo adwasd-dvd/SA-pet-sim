@@ -136,6 +136,8 @@ const BATTLE_ALLY_FACE_DIRECTION = 6;
 const PLAYER_WALK_FRAME_MS = 95;
 const PLAYER_WALK_ANIM_MS = 720;
 const PLAYER_WALK_MOVE_MS = 190;
+const KEYBOARD_WALK_LEAD_MS = 55;
+const KEYBOARD_BLOCKED_REPEAT_MS = 110;
 const WALK_REQUEST_STALE_MS = 15000;
 const PLAYER_STAND_FRAMES = Object.freeze({
   0: [10201, 10202, 10203, 10202],
@@ -207,6 +209,7 @@ let battleFxTimers = [];
 let automationTimer = 0;
 let automationInFlight = false;
 const pressedMoveKeys = new Set();
+let keyboardWalkTimer = 0;
 let aiRuntime = { provider: "unknown", model: "", actionAuthority: "worker-npc-vm", structured: false, fallback: "" };
 let npcSortMode = "source";
 let exitSortMode = "source";
@@ -1167,16 +1170,19 @@ function onGameKeyDown(event) {
   event.preventDefault();
   routeToken += 1;
   clearAssistRouteState(true);
-  walkPlayer(direction[0], direction[1]);
+  scheduleKeyboardWalk(0);
 }
 
 function onGameKeyUp(event) {
   const keyId = movementKeyId(event.key, event.code);
   if (keyId) pressedMoveKeys.delete(keyId);
+  if (pressedMoveKeys.size) scheduleKeyboardWalk(0);
+  else clearKeyboardWalkTimer();
 }
 
 function clearPressedMoveKeys() {
   pressedMoveKeys.clear();
+  clearKeyboardWalkTimer();
 }
 
 function screenDirectionForKey(key, code = "") {
@@ -1215,14 +1221,51 @@ function directionDelta(dir) {
   return delta ? [...delta] : null;
 }
 
+function shouldContinueKeyboardWalk() {
+  if (!game || els.game.hidden || document.hidden) return false;
+  if (!pressedMoveKeys.size || game.dialog?.open || isBattleOpen()) return false;
+  return Boolean(directionDelta(pressedScreenDirection()));
+}
+
+function scheduleKeyboardWalk(delayMs = 0) {
+  clearKeyboardWalkTimer();
+  if (!shouldContinueKeyboardWalk()) return;
+  keyboardWalkTimer = window.setTimeout(() => {
+    keyboardWalkTimer = 0;
+    pumpKeyboardWalk();
+  }, Math.max(0, Number(delayMs) || 0));
+}
+
+function clearKeyboardWalkTimer() {
+  if (!keyboardWalkTimer) return;
+  window.clearTimeout(keyboardWalkTimer);
+  keyboardWalkTimer = 0;
+}
+
+function pumpKeyboardWalk() {
+  if (!shouldContinueKeyboardWalk()) return;
+  releaseStuckWalkRequest();
+  if (walkInFlight) {
+    scheduleKeyboardWalk(16);
+    return;
+  }
+  const direction = directionDelta(pressedScreenDirection());
+  if (!direction) return;
+  walkPlayer(direction[0], direction[1], { source: "keyboard" }).catch((error) => {
+    addClientLog(error?.message || "移动失败，请稍后再试。");
+    clearKeyboardWalkTimer();
+  });
+}
+
 function normalizeDirection(dir) {
   const value = Number(dir);
   if (!Number.isFinite(value)) return DEFAULT_PLAYER_DIRECTION;
   return ((Math.trunc(value) % 8) + 8) % 8;
 }
 
-async function walkPlayer(dx, dy) {
+async function walkPlayer(dx, dy, options = {}) {
   if (walkInFlight) return false;
+  clearKeyboardWalkTimer();
   walkInFlight = true;
   const requestSeq = ++walkRequestSeq;
   activeWalkRequestSeq = requestSeq;
@@ -1234,11 +1277,12 @@ async function walkPlayer(dx, dy) {
     x: game.location.x,
     y: game.location.y
   };
+  let moved = false;
   try {
     const nextGame = await api("/api/game/walk", { game, dx, dy });
     if (epoch !== rescueEpoch || requestSeq !== activeWalkRequestSeq) return false;
     game = nextGame;
-    const moved = before.mapId !== game.location.mapId || before.x !== game.location.x || before.y !== game.location.y;
+    moved = before.mapId !== game.location.mapId || before.x !== game.location.x || before.y !== game.location.y;
     const animDir = clientAnimDirectionFromServerDir(currentServerDirection(requestedServerDir));
     if (moved && before.mapId === game.location.mapId) {
       startPlayerWalkAnimation(animDir, playerTilePoint(before), game.location);
@@ -1255,6 +1299,12 @@ async function walkPlayer(dx, dy) {
     if (requestSeq === activeWalkRequestSeq) {
       walkInFlight = false;
       walkRequestStartedAt = 0;
+      if (options.source === "keyboard" && shouldContinueKeyboardWalk()) {
+        const nextDelay = moved && before.mapId === game?.location?.mapId
+          ? Math.max(16, playerAnimState.moveUntil - performance.now() - KEYBOARD_WALK_LEAD_MS)
+          : KEYBOARD_BLOCKED_REPEAT_MS;
+        scheduleKeyboardWalk(nextDelay);
+      }
     }
   }
 }
