@@ -244250,6 +244250,2463 @@ export const WORLD = {
         }
       ]
     },
+    "10402": {
+      "id": "10402",
+      "floorId": 10402,
+      "name": "迷幻洞窟",
+      "mapFile": "/data/maps/10402.ls2map",
+      "clientMapFile": "/data/client-maps/10402.dat",
+      "clientMapSource": "公益石器时代/map/10402.dat",
+      "summary": "迷幻洞窟 | floor=10402 | 50x50 | gmsv-data/map/sainasu/dungeon/10402",
+      "size": [
+        50,
+        50
+      ],
+      "spawn": [
+        12,
+        5
+      ],
+      "encounterPets": [
+        44,
+        174
+      ],
+      "encounterAreas": [
+        {
+          "id": 248,
+          "floor": 10402,
+          "bounds": [
+            0,
+            0,
+            49,
+            49
+          ],
+          "encounterProbMin": 1,
+          "encounterProbMax": 5,
+          "enemyMax": 8,
+          "zorder": 1,
+          "groups": [
+            {
+              "groupId": 386,
+              "name": "dan_1_04_44_30/31",
+              "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
+              "enemies": [
+                {
+                  "enemyId": 531,
+                  "weight": 1,
+                  "tempNo": 44,
+                  "lvMin": 30,
+                  "lvMax": 31,
+                  "createMin": 1,
+                  "createMax": 3
+                }
+              ],
+              "source": "gmsv-data/group1.txt"
+            },
+            {
+              "groupId": 390,
+              "name": "dan_1_04_174_30/31",
+              "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
+              "enemies": [
+                {
+                  "enemyId": 535,
+                  "weight": 1,
+                  "tempNo": 174,
+                  "lvMin": 30,
+                  "lvMax": 31,
+                  "createMin": 1,
+                  "createMax": 4
+                }
+              ],
+              "source": "gmsv-data/group1.txt"
+            }
+          ],
+          "source": "gmsv-data/encount.txt"
+        }
+      ],
+      "npcs": [
+        {
+          "id": "10402-37-6-7688",
+          "name": "检查员(C-11)",
+          "x": 37,
+          "y": 6,
+          "type": "ExChangeMan",
+          "dialogue": "脚本入口：gmsv-data/npc/sainasu/event/oev_11c",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/sainasu/event/oev2.create",
+          "script": "file:sainasu/event/oev_11c",
+          "template": "changeevent",
+          "graphic": "16067",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_11c",
+              "messages": {
+                "normalMain": "你要不要也参加环岛活动啊？可以萨姆吉尔报名哦。",
+                "normal": "答对了！ 这样我会在检查石上 写上你已经通过第11检查点了。 来，请拿去。请继续努力！ 下一个地方是卡坦村，马上就到终点了 鼓足最后一把劲吧。",
+                "itemFull": "你身上东西太多了 好像装不下检查石哦。"
+              },
+              "getItems": [
+                {
+                  "id": 2586,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 120,
+                  "description": "第11检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2585,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 110,
+                  "description": "第10检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2585&ENDEV=17",
+              "keyword": "哥亚山"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_11c",
+              "messages": {
+                "normal": "你好像已经来过 这个检查点了。 下一个检查点 是卡坦村。马上就到终点了，请多加油啊。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2586&ENDEV=17,LV>0&ITEM=2587&ENDEV=17"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_11c",
+              "messages": {
+                "normal": "你现在到这个检查点 好像还太早了一点。 请按照顺序通过哦。 那请你继续加油吧。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2575&ENDEV=17,LV>0&ITEM=2576&ENDEV=17,LV>0&ITEM=2577&ENDEV=17,LV>0&ITEM=2578&ENDEV=17,LV>0&ITEM=2579&ENDEV=17,LV>0&ITEM=2580&ENDEV=17,LV>0&ITEM=2581&ENDEV=17,LV>0&ITEM=2582&ENDEV=17,LV>0&ITEM=2583&ENDEV=17,LV>0&ITEM=2584&ENDEV=17"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_11c",
+              "messages": {
+                "normal": "请说出旁边看板 上问题的答案 顺便提醒你一下，这个检查点 是C路线哦。 每个路线经过的地方都不一样。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2585&ENDEV=17"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_11c",
+              "messages": {
+                "normal": "你是“D路线”的参加者吧。 这里是“C路线”的检查点。 请加油回到你原来的路线！"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2575,LV>0&ITEM=2576,LV>0&ITEM=2577,LV>0&ITEM=2578,LV>0&ITEM=2579,LV>0&ITEM=2580,LV>0&ITEM=2581,LV>0&ITEM=2582,LV>0&ITEM=2583,LV>0&ITEM=2584,LV>0&ITEM=2585,LV>0&ITEM=2586,LV>0&ITEM=2587"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_11c",
+              "messages": {
+                "normal": "萨伊那斯环岛活动简称为SOT 这是环绕整个萨依那斯岛 的环岛活动哦。 你要不要也来参加啊？ 我是SOT的检查员。 报名的地方在萨尔吉姆。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
+          "scriptHints": {
+            "actions": [
+              "questLead"
+            ],
+            "hints": [
+              "EVENT:LV>0&ITEM=2585&ENDEV=17",
+              "DelItem:2585",
+              "GetItem:2586",
+              "EVENT:LV>0&ITEM=2586&ENDEV=17,LV>0&ITEM=2587&ENDEV=17",
+              "EVENT:LV>0&ITEM=2575&ENDEV=17,LV>0&ITEM=2576&ENDEV=17,LV>0&ITEM=2577&ENDEV=17,LV>0&ITEM=2578&ENDEV=17,LV>0&ITEM=2579&ENDEV=17,LV>0&ITEM=2580&ENDEV=17,LV>0&ITEM=2581&ENDEV=17,LV>0&ITEM=2582&ENDEV=17,LV>0&ITEM=2583&ENDEV=17,LV>0&ITEM=2584&ENDEV=17",
+              "EVENT:LV>0&ITEM=2575,LV>0&ITEM=2576,LV>0&ITEM=2577,LV>0&ITEM=2578,LV>0&ITEM=2579,LV>0&ITEM=2580,LV>0&ITEM=2581,LV>0&ITEM=2582,LV>0&ITEM=2583,LV>0&ITEM=2584,LV>0&ITEM=2585,LV>0&ITEM=2586,LV>0&ITEM=2587",
+              "EVENT:LV>0"
+            ],
+            "source": "gmsv-data/npc/sainasu/event/oev_11c"
+          },
+          "questLead": {
+            "title": "检查员(C-11) 的原脚本线索",
+            "summary": "EVENT:LV>0&ITEM=2585&ENDEV=17",
+            "source": "gmsv-data/npc/sainasu/event/oev_11c",
+            "status": "source-lead"
+          }
+        },
+        {
+          "id": "10402-37-7-5274",
+          "name": "看板",
+          "x": 37,
+          "y": 7,
+          "type": "SignBoard",
+          "dialogue": "第11检查点\n请问位于萨伊那斯南方的柯奥山\n以前是跟什么一起的。",
+          "dialogueLines": [
+            "第11检查点",
+            "请问位于萨伊那斯南方的柯奥山",
+            "以前是跟什么一起的。"
+          ],
+          "source": "gmsv-data/npc/genout/oev2.create",
+          "script": "file:genout/signb_10402_37_7",
+          "template": "npcgen_signboard",
+          "graphic": "10062",
+          "scriptHints": {
+            "actions": [],
+            "hints": [],
+            "source": "gmsv-data/npc/genout/signb_10402_37_7"
+          }
+        }
+      ],
+      "exits": [
+        {
+          "id": "10405-0",
+          "label": "去 迷幻洞窟",
+          "detail": "迷幻洞窟 | floor 10405 | 目标 (12,5) | 入口 (12,5)",
+          "to": "10405",
+          "x": 12,
+          "y": 5,
+          "bounds": [
+            12,
+            5,
+            12,
+            5
+          ],
+          "target": [
+            12,
+            5
+          ],
+          "tiles": [
+            {
+              "x": 12,
+              "y": 5,
+              "target": [
+                12,
+                5
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        },
+        {
+          "id": "10404-1",
+          "label": "去 迷幻洞窟",
+          "detail": "迷幻洞窟 | floor 10404 | 目标 (44,16) | 入口 (44,16)",
+          "to": "10404",
+          "x": 44,
+          "y": 16,
+          "bounds": [
+            44,
+            16,
+            44,
+            16
+          ],
+          "target": [
+            44,
+            16
+          ],
+          "tiles": [
+            {
+              "x": 44,
+              "y": 16,
+              "target": [
+                44,
+                16
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        },
+        {
+          "id": "10403-2",
+          "label": "去 迷幻洞窟",
+          "detail": "迷幻洞窟 | floor 10403 | 目标 (45,42) | 入口 (45,42)",
+          "to": "10403",
+          "x": 45,
+          "y": 42,
+          "bounds": [
+            45,
+            42,
+            45,
+            42
+          ],
+          "target": [
+            45,
+            42
+          ],
+          "tiles": [
+            {
+              "x": 45,
+              "y": 42,
+              "target": [
+                45,
+                42
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        },
+        {
+          "id": "10407-3",
+          "label": "去 迷幻洞窟",
+          "detail": "迷幻洞窟 | floor 10407 | 目标 (16,35) | 入口 (16,35)",
+          "to": "10407",
+          "x": 16,
+          "y": 35,
+          "bounds": [
+            16,
+            35,
+            16,
+            35
+          ],
+          "target": [
+            16,
+            35
+          ],
+          "tiles": [
+            {
+              "x": 16,
+              "y": 35,
+              "target": [
+                16,
+                35
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        }
+      ]
+    },
+    "10403": {
+      "id": "10403",
+      "floorId": 10403,
+      "name": "迷幻洞窟",
+      "mapFile": "/data/maps/10403.ls2map",
+      "clientMapFile": "/data/client-maps/10403.dat",
+      "clientMapSource": "公益石器时代/map/10403.dat",
+      "summary": "迷幻洞窟 | floor=10403 | 50x50 | gmsv-data/map/sainasu/dungeon/10403",
+      "size": [
+        50,
+        50
+      ],
+      "spawn": [
+        45,
+        42
+      ],
+      "encounterPets": [
+        44,
+        174
+      ],
+      "encounterAreas": [
+        {
+          "id": 249,
+          "floor": 10403,
+          "bounds": [
+            0,
+            0,
+            49,
+            49
+          ],
+          "encounterProbMin": 1,
+          "encounterProbMax": 5,
+          "enemyMax": 8,
+          "zorder": 1,
+          "groups": [
+            {
+              "groupId": 386,
+              "name": "dan_1_04_44_30/31",
+              "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
+              "enemies": [
+                {
+                  "enemyId": 531,
+                  "weight": 1,
+                  "tempNo": 44,
+                  "lvMin": 30,
+                  "lvMax": 31,
+                  "createMin": 1,
+                  "createMax": 3
+                }
+              ],
+              "source": "gmsv-data/group1.txt"
+            },
+            {
+              "groupId": 390,
+              "name": "dan_1_04_174_30/31",
+              "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
+              "enemies": [
+                {
+                  "enemyId": 535,
+                  "weight": 1,
+                  "tempNo": 174,
+                  "lvMin": 30,
+                  "lvMax": 31,
+                  "createMin": 1,
+                  "createMax": 4
+                }
+              ],
+              "source": "gmsv-data/group1.txt"
+            }
+          ],
+          "source": "gmsv-data/encount.txt"
+        }
+      ],
+      "npcs": [],
+      "exits": [
+        {
+          "id": "10402-0",
+          "label": "去 迷幻洞窟",
+          "detail": "迷幻洞窟 | floor 10402 | 目标 (45,42) | 入口 (45,42)",
+          "to": "10402",
+          "x": 45,
+          "y": 42,
+          "bounds": [
+            45,
+            42,
+            45,
+            42
+          ],
+          "target": [
+            45,
+            42
+          ],
+          "tiles": [
+            {
+              "x": 45,
+              "y": 42,
+              "target": [
+                45,
+                42
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        },
+        {
+          "id": "10404-1",
+          "label": "去 迷幻洞窟",
+          "detail": "迷幻洞窟 | floor 10404 | 目标 (12,5) | 入口 (12,5)",
+          "to": "10404",
+          "x": 12,
+          "y": 5,
+          "bounds": [
+            12,
+            5,
+            12,
+            5
+          ],
+          "target": [
+            12,
+            5
+          ],
+          "tiles": [
+            {
+              "x": 12,
+              "y": 5,
+              "target": [
+                12,
+                5
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        },
+        {
+          "id": "10405-2",
+          "label": "去 迷幻洞窟",
+          "detail": "迷幻洞窟 | floor 10405 | 目标 (44,16) | 入口 (44,16)",
+          "to": "10405",
+          "x": 44,
+          "y": 16,
+          "bounds": [
+            44,
+            16,
+            44,
+            16
+          ],
+          "target": [
+            44,
+            16
+          ],
+          "tiles": [
+            {
+              "x": 44,
+              "y": 16,
+              "target": [
+                44,
+                16
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        },
+        {
+          "id": "10406-3",
+          "label": "去 迷幻洞窟",
+          "detail": "迷幻洞窟 | floor 10406 | 目标 (16,35) | 入口 (16,35)",
+          "to": "10406",
+          "x": 16,
+          "y": 35,
+          "bounds": [
+            16,
+            35,
+            16,
+            35
+          ],
+          "target": [
+            16,
+            35
+          ],
+          "tiles": [
+            {
+              "x": 16,
+              "y": 35,
+              "target": [
+                16,
+                35
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        }
+      ]
+    },
+    "10404": {
+      "id": "10404",
+      "floorId": 10404,
+      "name": "迷幻洞窟",
+      "mapFile": "/data/maps/10404.ls2map",
+      "clientMapFile": "/data/client-maps/10404.dat",
+      "clientMapSource": "公益石器时代/map/10404.dat",
+      "summary": "迷幻洞窟 | floor=10404 | 50x50 | gmsv-data/map/sainasu/dungeon/10404",
+      "size": [
+        50,
+        50
+      ],
+      "spawn": [
+        44,
+        16
+      ],
+      "encounterPets": [
+        174
+      ],
+      "encounterAreas": [
+        {
+          "id": 250,
+          "floor": 10404,
+          "bounds": [
+            0,
+            0,
+            49,
+            49
+          ],
+          "encounterProbMin": 1,
+          "encounterProbMax": 5,
+          "enemyMax": 8,
+          "zorder": 1,
+          "groups": [
+            {
+              "groupId": 391,
+              "name": "dan_1_04_174_32/33",
+              "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
+              "enemies": [
+                {
+                  "enemyId": 536,
+                  "weight": 1,
+                  "tempNo": 174,
+                  "lvMin": 32,
+                  "lvMax": 33,
+                  "createMin": 1,
+                  "createMax": 6
+                }
+              ],
+              "source": "gmsv-data/group1.txt"
+            }
+          ],
+          "source": "gmsv-data/encount.txt"
+        }
+      ],
+      "npcs": [
+        {
+          "id": "10404-37-7-7693",
+          "name": "检查员(D-4)",
+          "x": 37,
+          "y": 7,
+          "type": "ExChangeMan",
+          "dialogue": "脚本入口：gmsv-data/npc/sainasu/event/oev_4d",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/sainasu/event/oev2.create",
+          "script": "file:sainasu/event/oev_4d",
+          "template": "changeevent",
+          "graphic": "16065",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_4d",
+              "messages": {
+                "normalMain": "你要不要也参加环岛活动啊？可以在萨姆吉尔报名哦。",
+                "normal": "你是“C路线”的参加者吧。 这里是“D路线”的检查点。 请加油回到你原来的路线！"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2575&ENDEV=17,LV>0&ITEM=2576&ENDEV=17,LV>0&ITEM=2577&ENDEV=17,LV>0&ITEM=2578&ENDEV=17,LV>0&ITEM=2579&ENDEV=17,LV>0&ITEM=2580&ENDEV=17,LV>0&ITEM=2581&ENDEV=17,LV>0&ITEM=2582&ENDEV=17,LV>0&ITEM=2583&ENDEV=17,LV>0&ITEM=2584&ENDEV=17,LV>0&ITEM=2585&ENDEV=17,LV>0&ITEM=2586&ENDEV=17,LV>0&ITEM=2587&ENDEV=17"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_4d",
+              "messages": {
+                "normal": "答对了！ 这样我会在检查石上 写上你已经通过第4检查点了。 来，请拿去。请继续加油哦。 下一个检查点 是卡坦村东侧入口的树 往东方走23步、往北方走80步的位置。",
+                "itemFull": "嗯？你身上东西太多了 好像装不下检查石哦。"
+              },
+              "getItems": [
+                {
+                  "id": 2579,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 50,
+                  "description": "第4检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2578,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 40,
+                  "description": "第3检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2578",
+              "keyword": "西扎卡"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_4d",
+              "messages": {
+                "normal": "你好像已经通过 这个检查点了 下一个是从 卡坦村东侧入口的树 往东走23步、往北走80步的位置。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2579,LV>0&ITEM=2580,LV>0&ITEM=2581,LV>0&ITEM=2582,LV>0&ITEM=2583,LV>0&ITEM=2584,LV>0&ITEM=2585,LV>0&ITEM=2586,LV>0&ITEM=2587"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_4d",
+              "messages": {
+                "normal": "你现在到这个检查点 好像还太早了一点。 请按照顺序通过哦。 那请你继续加油吧。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2575,LV>0&ITEM=2576,LV>0&ITEM=2577"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_4d",
+              "messages": {
+                "normal": "请说出旁边看板 上问题的答案 顺便提醒你一下，这个检查点 是D路线哦。 每个路线经过的地方都不一样。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2578"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_4d",
+              "messages": {},
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
+          "scriptHints": {
+            "actions": [
+              "questLead"
+            ],
+            "hints": [
+              "EVENT:LV>0&ITEM=2575&ENDEV=17,LV>0&ITEM=2576&ENDEV=17,LV>0&ITEM=2577&ENDEV=17,LV>0&ITEM=2578&ENDEV=17,LV>0&ITEM=2579&ENDEV=17,LV>0&ITEM=2580&ENDEV=17,LV>0&ITEM=2581&ENDEV=17,LV>0&ITEM=2582&ENDEV=17,LV>0&ITEM=2583&ENDEV=17,LV>0&ITEM=2584&ENDEV=17,LV>0&ITEM=2585&ENDEV=17,LV>0&ITEM=2586&ENDEV=17,LV>0&ITEM=2587&ENDEV=17",
+              "EVENT:LV>0&ITEM=2578",
+              "DelItem:2578",
+              "GetItem:2579",
+              "EVENT:LV>0&ITEM=2579,LV>0&ITEM=2580,LV>0&ITEM=2581,LV>0&ITEM=2582,LV>0&ITEM=2583,LV>0&ITEM=2584,LV>0&ITEM=2585,LV>0&ITEM=2586,LV>0&ITEM=2587",
+              "EVENT:LV>0&ITEM=2575,LV>0&ITEM=2576,LV>0&ITEM=2577",
+              "EVENT:LV>0"
+            ],
+            "source": "gmsv-data/npc/sainasu/event/oev_4d"
+          },
+          "questLead": {
+            "title": "检查员(D-4) 的原脚本线索",
+            "summary": "EVENT:LV>0&ITEM=2575&ENDEV=17,LV>0&ITEM=2576&ENDEV=17,LV>0&ITEM=2577&ENDEV=17,LV>0&ITEM=2578&ENDEV=17,LV>0&ITEM=2579&ENDEV=17,LV>0&ITEM=2580&ENDEV=17,LV>0&ITEM=2581&ENDEV=17,LV>0&ITEM=2582&ENDEV=17,LV>0&ITEM=2583&ENDEV=17,LV>0&ITEM=2584&ENDEV=17,LV>0&ITEM=2585&ENDEV=17,LV>0&ITEM=2586&ENDEV=17,LV>0&ITEM=2587&ENDEV=17",
+            "source": "gmsv-data/npc/sainasu/event/oev_4d",
+            "status": "source-lead"
+          }
+        },
+        {
+          "id": "10404-37-6-5279",
+          "name": "看板",
+          "x": 37,
+          "y": 6,
+          "type": "SignBoard",
+          "dialogue": "第4检查点\n请问柯尔克石头店的老板\n叫什么名字。",
+          "dialogueLines": [
+            "第4检查点",
+            "请问柯尔克石头店的老板",
+            "叫什么名字。"
+          ],
+          "source": "gmsv-data/npc/genout/oev2.create",
+          "script": "file:genout/signb_10404_37_6",
+          "template": "npcgen_signboard",
+          "graphic": "10062",
+          "scriptHints": {
+            "actions": [],
+            "hints": [],
+            "source": "gmsv-data/npc/genout/signb_10404_37_6"
+          }
+        }
+      ],
+      "exits": [
+        {
+          "id": "10402-0",
+          "label": "去 迷幻洞窟",
+          "detail": "迷幻洞窟 | floor 10402 | 目标 (44,16) | 入口 (44,16)",
+          "to": "10402",
+          "x": 44,
+          "y": 16,
+          "bounds": [
+            44,
+            16,
+            44,
+            16
+          ],
+          "target": [
+            44,
+            16
+          ],
+          "tiles": [
+            {
+              "x": 44,
+              "y": 16,
+              "target": [
+                44,
+                16
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        },
+        {
+          "id": "10403-1",
+          "label": "去 迷幻洞窟",
+          "detail": "迷幻洞窟 | floor 10403 | 目标 (12,5) | 入口 (12,5)",
+          "to": "10403",
+          "x": 12,
+          "y": 5,
+          "bounds": [
+            12,
+            5,
+            12,
+            5
+          ],
+          "target": [
+            12,
+            5
+          ],
+          "tiles": [
+            {
+              "x": 12,
+              "y": 5,
+              "target": [
+                12,
+                5
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        },
+        {
+          "id": "10405-2",
+          "label": "去 迷幻洞窟",
+          "detail": "迷幻洞窟 | floor 10405 | 目标 (45,42) | 入口 (45,42)",
+          "to": "10405",
+          "x": 45,
+          "y": 42,
+          "bounds": [
+            45,
+            42,
+            45,
+            42
+          ],
+          "target": [
+            45,
+            42
+          ],
+          "tiles": [
+            {
+              "x": 45,
+              "y": 42,
+              "target": [
+                45,
+                42
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        },
+        {
+          "id": "10405-3",
+          "label": "去 迷幻洞窟",
+          "detail": "迷幻洞窟 | floor 10405 | 目标 (16,35) | 入口 (16,35)",
+          "to": "10405",
+          "x": 16,
+          "y": 35,
+          "bounds": [
+            16,
+            35,
+            16,
+            35
+          ],
+          "target": [
+            16,
+            35
+          ],
+          "tiles": [
+            {
+              "x": 16,
+              "y": 35,
+              "target": [
+                16,
+                35
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        }
+      ]
+    },
+    "10405": {
+      "id": "10405",
+      "floorId": 10405,
+      "name": "迷幻洞窟",
+      "mapFile": "/data/maps/10405.ls2map",
+      "clientMapFile": "/data/client-maps/10405.dat",
+      "clientMapSource": "公益石器时代/map/10405.dat",
+      "summary": "迷幻洞窟 | floor=10405 | 50x50 | gmsv-data/map/sainasu/dungeon/10405",
+      "size": [
+        50,
+        50
+      ],
+      "spawn": [
+        12,
+        5
+      ],
+      "encounterPets": [
+        174
+      ],
+      "encounterAreas": [
+        {
+          "id": 251,
+          "floor": 10405,
+          "bounds": [
+            0,
+            0,
+            49,
+            49
+          ],
+          "encounterProbMin": 1,
+          "encounterProbMax": 5,
+          "enemyMax": 8,
+          "zorder": 1,
+          "groups": [
+            {
+              "groupId": 391,
+              "name": "dan_1_04_174_32/33",
+              "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
+              "enemies": [
+                {
+                  "enemyId": 536,
+                  "weight": 1,
+                  "tempNo": 174,
+                  "lvMin": 32,
+                  "lvMax": 33,
+                  "createMin": 1,
+                  "createMax": 6
+                }
+              ],
+              "source": "gmsv-data/group1.txt"
+            }
+          ],
+          "source": "gmsv-data/encount.txt"
+        }
+      ],
+      "npcs": [],
+      "exits": [
+        {
+          "id": "10402-0",
+          "label": "去 迷幻洞窟",
+          "detail": "迷幻洞窟 | floor 10402 | 目标 (12,5) | 入口 (12,5)",
+          "to": "10402",
+          "x": 12,
+          "y": 5,
+          "bounds": [
+            12,
+            5,
+            12,
+            5
+          ],
+          "target": [
+            12,
+            5
+          ],
+          "tiles": [
+            {
+              "x": 12,
+              "y": 5,
+              "target": [
+                12,
+                5
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        },
+        {
+          "id": "10403-1",
+          "label": "去 迷幻洞窟",
+          "detail": "迷幻洞窟 | floor 10403 | 目标 (44,16) | 入口 (44,16)",
+          "to": "10403",
+          "x": 44,
+          "y": 16,
+          "bounds": [
+            44,
+            16,
+            44,
+            16
+          ],
+          "target": [
+            44,
+            16
+          ],
+          "tiles": [
+            {
+              "x": 44,
+              "y": 16,
+              "target": [
+                44,
+                16
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        },
+        {
+          "id": "10404-2",
+          "label": "去 迷幻洞窟",
+          "detail": "迷幻洞窟 | floor 10404 | 目标 (45,42) | 入口 (45,42)",
+          "to": "10404",
+          "x": 45,
+          "y": 42,
+          "bounds": [
+            45,
+            42,
+            45,
+            42
+          ],
+          "target": [
+            45,
+            42
+          ],
+          "tiles": [
+            {
+              "x": 45,
+              "y": 42,
+              "target": [
+                45,
+                42
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        },
+        {
+          "id": "10404-3",
+          "label": "去 迷幻洞窟",
+          "detail": "迷幻洞窟 | floor 10404 | 目标 (16,35) | 入口 (16,35)",
+          "to": "10404",
+          "x": 16,
+          "y": 35,
+          "bounds": [
+            16,
+            35,
+            16,
+            35
+          ],
+          "target": [
+            16,
+            35
+          ],
+          "tiles": [
+            {
+              "x": 16,
+              "y": 35,
+              "target": [
+                16,
+                35
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        }
+      ]
+    },
+    "10406": {
+      "id": "10406",
+      "floorId": 10406,
+      "name": "迷幻洞窟",
+      "mapFile": "/data/maps/10406.ls2map",
+      "clientMapFile": "/data/client-maps/10406.dat",
+      "clientMapSource": "公益石器时代/map/10406.dat",
+      "summary": "迷幻洞窟 | floor=10406 | 50x50 | gmsv-data/map/sainasu/dungeon/10406",
+      "size": [
+        50,
+        50
+      ],
+      "spawn": [
+        16,
+        35
+      ],
+      "encounterPets": [
+        44,
+        174
+      ],
+      "encounterAreas": [
+        {
+          "id": 252,
+          "floor": 10406,
+          "bounds": [
+            0,
+            0,
+            49,
+            49
+          ],
+          "encounterProbMin": 1,
+          "encounterProbMax": 5,
+          "enemyMax": 8,
+          "zorder": 1,
+          "groups": [
+            {
+              "groupId": 388,
+              "name": "dan_1_04_44_34/35",
+              "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
+              "enemies": [
+                {
+                  "enemyId": 533,
+                  "weight": 1,
+                  "tempNo": 44,
+                  "lvMin": 34,
+                  "lvMax": 35,
+                  "createMin": 1,
+                  "createMax": 5
+                }
+              ],
+              "source": "gmsv-data/group1.txt"
+            },
+            {
+              "groupId": 392,
+              "name": "dan_1_04_174_34/35",
+              "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
+              "enemies": [
+                {
+                  "enemyId": 537,
+                  "weight": 1,
+                  "tempNo": 174,
+                  "lvMin": 34,
+                  "lvMax": 35,
+                  "createMin": 1,
+                  "createMax": 8
+                }
+              ],
+              "source": "gmsv-data/group1.txt"
+            },
+            {
+              "groupId": 385,
+              "name": "dan_1_04_44_1",
+              "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
+              "enemies": [
+                {
+                  "enemyId": 530,
+                  "weight": 1,
+                  "tempNo": 44,
+                  "lvMin": 1,
+                  "lvMax": 1,
+                  "createMin": 1,
+                  "createMax": 2
+                }
+              ],
+              "source": "gmsv-data/group1.txt"
+            }
+          ],
+          "source": "gmsv-data/encount.txt"
+        }
+      ],
+      "npcs": [],
+      "exits": [
+        {
+          "id": "10403-0",
+          "label": "去 迷幻洞窟",
+          "detail": "迷幻洞窟 | floor 10403 | 目标 (16,35) | 入口 (16,35)",
+          "to": "10403",
+          "x": 16,
+          "y": 35,
+          "bounds": [
+            16,
+            35,
+            16,
+            35
+          ],
+          "target": [
+            16,
+            35
+          ],
+          "tiles": [
+            {
+              "x": 16,
+              "y": 35,
+              "target": [
+                16,
+                35
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        },
+        {
+          "id": "10407-1",
+          "label": "去 迷幻洞窟",
+          "detail": "迷幻洞窟 | floor 10407 | 目标 (12,5) | 入口 (12,5)",
+          "to": "10407",
+          "x": 12,
+          "y": 5,
+          "bounds": [
+            12,
+            5,
+            12,
+            5
+          ],
+          "target": [
+            12,
+            5
+          ],
+          "tiles": [
+            {
+              "x": 12,
+              "y": 5,
+              "target": [
+                12,
+                5
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        },
+        {
+          "id": "10407-2",
+          "label": "去 迷幻洞窟",
+          "detail": "迷幻洞窟 | floor 10407 | 目标 (45,42) | 入口 (45,42)",
+          "to": "10407",
+          "x": 45,
+          "y": 42,
+          "bounds": [
+            45,
+            42,
+            45,
+            42
+          ],
+          "target": [
+            45,
+            42
+          ],
+          "tiles": [
+            {
+              "x": 45,
+              "y": 42,
+              "target": [
+                45,
+                42
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        }
+      ]
+    },
+    "10407": {
+      "id": "10407",
+      "floorId": 10407,
+      "name": "迷幻洞窟",
+      "mapFile": "/data/maps/10407.ls2map",
+      "clientMapFile": "/data/client-maps/10407.dat",
+      "clientMapSource": "公益石器时代/map/10407.dat",
+      "summary": "迷幻洞窟 | floor=10407 | 50x50 | gmsv-data/map/sainasu/dungeon/10407",
+      "size": [
+        50,
+        50
+      ],
+      "spawn": [
+        16,
+        35
+      ],
+      "encounterPets": [
+        44,
+        174
+      ],
+      "encounterAreas": [
+        {
+          "id": 253,
+          "floor": 10407,
+          "bounds": [
+            0,
+            0,
+            49,
+            49
+          ],
+          "encounterProbMin": 1,
+          "encounterProbMax": 5,
+          "enemyMax": 8,
+          "zorder": 1,
+          "groups": [
+            {
+              "groupId": 388,
+              "name": "dan_1_04_44_34/35",
+              "weight": 10,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
+              "enemies": [
+                {
+                  "enemyId": 533,
+                  "weight": 1,
+                  "tempNo": 44,
+                  "lvMin": 34,
+                  "lvMax": 35,
+                  "createMin": 1,
+                  "createMax": 5
+                }
+              ],
+              "source": "gmsv-data/group1.txt"
+            },
+            {
+              "groupId": 392,
+              "name": "dan_1_04_174_34/35",
+              "weight": 20,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
+              "enemies": [
+                {
+                  "enemyId": 537,
+                  "weight": 1,
+                  "tempNo": 174,
+                  "lvMin": 34,
+                  "lvMax": 35,
+                  "createMin": 1,
+                  "createMax": 8
+                }
+              ],
+              "source": "gmsv-data/group1.txt"
+            },
+            {
+              "groupId": 389,
+              "name": "dan_1_04_174_1",
+              "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
+              "enemies": [
+                {
+                  "enemyId": 534,
+                  "weight": 1,
+                  "tempNo": 174,
+                  "lvMin": 1,
+                  "lvMax": 1,
+                  "createMin": 1,
+                  "createMax": 2
+                }
+              ],
+              "source": "gmsv-data/group1.txt"
+            }
+          ],
+          "source": "gmsv-data/encount.txt"
+        }
+      ],
+      "npcs": [],
+      "exits": [
+        {
+          "id": "10402-0",
+          "label": "去 迷幻洞窟",
+          "detail": "迷幻洞窟 | floor 10402 | 目标 (16,35) | 入口 (16,35)",
+          "to": "10402",
+          "x": 16,
+          "y": 35,
+          "bounds": [
+            16,
+            35,
+            16,
+            35
+          ],
+          "target": [
+            16,
+            35
+          ],
+          "tiles": [
+            {
+              "x": 16,
+              "y": 35,
+              "target": [
+                16,
+                35
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        },
+        {
+          "id": "10406-1",
+          "label": "去 迷幻洞窟",
+          "detail": "迷幻洞窟 | floor 10406 | 目标 (12,5) | 入口 (12,5)",
+          "to": "10406",
+          "x": 12,
+          "y": 5,
+          "bounds": [
+            12,
+            5,
+            12,
+            5
+          ],
+          "target": [
+            12,
+            5
+          ],
+          "tiles": [
+            {
+              "x": 12,
+              "y": 5,
+              "target": [
+                12,
+                5
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        },
+        {
+          "id": "10406-2",
+          "label": "去 迷幻洞窟",
+          "detail": "迷幻洞窟 | floor 10406 | 目标 (45,42) | 入口 (45,42)",
+          "to": "10406",
+          "x": 45,
+          "y": 42,
+          "bounds": [
+            45,
+            42,
+            45,
+            42
+          ],
+          "target": [
+            45,
+            42
+          ],
+          "tiles": [
+            {
+              "x": 45,
+              "y": 42,
+              "target": [
+                45,
+                42
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        },
+        {
+          "id": "10408-3",
+          "label": "去 迷幻洞窟最底层",
+          "detail": "迷幻洞窟最底层 | floor 10408 | 目标 (22,4) | 入口 (44,16)",
+          "to": "10408",
+          "x": 44,
+          "y": 16,
+          "bounds": [
+            44,
+            16,
+            44,
+            16
+          ],
+          "target": [
+            22,
+            4
+          ],
+          "tiles": [
+            {
+              "x": 44,
+              "y": 16,
+              "target": [
+                22,
+                4
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        }
+      ]
+    },
+    "10408": {
+      "id": "10408",
+      "floorId": 10408,
+      "name": "迷幻洞窟最底层",
+      "mapFile": "/data/maps/10408.ls2map",
+      "clientMapFile": "/data/client-maps/10408.dat",
+      "clientMapSource": "公益石器时代/map/10408.dat",
+      "summary": "迷幻洞窟最底层 | floor=10408 | 50x50 | gmsv-data/map/sainasu/dungeon/10408",
+      "size": [
+        50,
+        50
+      ],
+      "spawn": [
+        22,
+        4
+      ],
+      "encounterPets": [],
+      "encounterAreas": [],
+      "npcs": [
+        {
+          "id": "10408-28-24-5660",
+          "name": "“欺骗”的商人",
+          "x": 28,
+          "y": 24,
+          "type": "ItemShop",
+          "dialogue": "欢迎光临！",
+          "dialogueLines": [
+            "欢迎光临！"
+          ],
+          "source": "gmsv-data/npc/genout/shop_event.create",
+          "script": "file:genout/ss_10408_28_24",
+          "template": "npcgen_shop",
+          "graphic": "16049",
+          "trade": {
+            "kind": "shop",
+            "source": "gmsv-data/npc/genout/ss_10408_28_24",
+            "buyRate": 1,
+            "sellRate": 0.16,
+            "buyWords": [
+              "你好",
+              "谢谢",
+              "买",
+              "买",
+              "买",
+              "谢谢",
+              "买",
+              "买",
+              "想要",
+              "kau",
+              "buy",
+              "请"
+            ],
+            "sellWords": [
+              "卖",
+              "卖",
+              "卖",
+              "卖",
+              "卖",
+              "sell",
+              "uru"
+            ],
+            "mainMessage": "欢迎光临！",
+            "limitItemTypes": [
+              "OFFENCE"
+            ],
+            "specialItems": [
+              11950,
+              11951,
+              11952,
+              11953,
+              11954,
+              11955,
+              11956,
+              11957
+            ],
+            "specialRate": 0.5,
+            "items": [
+              {
+                "id": 43,
+                "name": "迪所斯Lv3斧头",
+                "secretName": "迪所斯Lv3斧头",
+                "description": "攻 +30 防 -10 敏 -10 混乱的精灵 Lv3",
+                "option": "",
+                "functionName": "",
+                "image": 20017,
+                "cost": 7300,
+                "type": 1,
+                "useField": 0,
+                "target": 0,
+                "level": 25,
+                "price": 7300
+              },
+              {
+                "id": 53,
+                "name": "贝所金Lv3斧头",
+                "secretName": "贝所金Lv3斧头",
+                "description": "攻 +35 防 -12 敏 -12 混迷的精灵 Lv3",
+                "option": "",
+                "functionName": "",
+                "image": 20014,
+                "cost": 13450,
+                "type": 1,
+                "useField": 0,
+                "target": 0,
+                "level": 30,
+                "price": 13450
+              },
+              {
+                "id": 63,
+                "name": "迪所斯Lv4斧头",
+                "secretName": "迪所斯Lv4斧头",
+                "description": "攻 +41 防 -13 敏 -13 混乱的精灵 Lv4",
+                "option": "",
+                "functionName": "",
+                "image": 20019,
+                "cost": 18580,
+                "type": 1,
+                "useField": 0,
+                "target": 0,
+                "level": 35,
+                "price": 18580
+              },
+              {
+                "id": 143,
+                "name": "迪所斯Lv3棍棒",
+                "secretName": "迪所斯Lv3棍棒",
+                "description": "攻 +19 混乱的精灵 Lv3",
+                "option": "",
+                "functionName": "",
+                "image": 20111,
+                "cost": 5800,
+                "type": 2,
+                "useField": 0,
+                "target": 0,
+                "level": 25,
+                "price": 5800
+              },
+              {
+                "id": 153,
+                "name": "贝所金Lv3棍棒",
+                "secretName": "贝所金Lv3棍棒",
+                "description": "攻 +23 混迷的精灵 Lv3",
+                "option": "",
+                "functionName": "",
+                "image": 20109,
+                "cost": 10900,
+                "type": 2,
+                "useField": 0,
+                "target": 0,
+                "level": 30,
+                "price": 10900
+              },
+              {
+                "id": 163,
+                "name": "迪所斯Lv4棍棒",
+                "secretName": "迪所斯Lv4棍棒",
+                "description": "攻 +27 混乱的精灵 Lv4",
+                "option": "",
+                "functionName": "",
+                "image": 20105,
+                "cost": 14680,
+                "type": 2,
+                "useField": 0,
+                "target": 0,
+                "level": 35,
+                "price": 14680
+              },
+              {
+                "id": 243,
+                "name": "迪所斯Lv3枪",
+                "secretName": "迪所斯Lv3枪",
+                "description": "攻 +23 敏 -5 魅 +3 混乱的精灵 Lv3",
+                "option": "",
+                "functionName": "",
+                "image": 20510,
+                "cost": 6800,
+                "type": 3,
+                "useField": 0,
+                "target": 0,
+                "level": 25,
+                "price": 6800
+              },
+              {
+                "id": 253,
+                "name": "贝所金Lv3枪",
+                "secretName": "贝所金Lv3枪",
+                "description": "攻 +28 敏 -6 魅 +3 混迷的精灵 Lv3",
+                "option": "",
+                "functionName": "",
+                "image": 20415,
+                "cost": 12600,
+                "type": 3,
+                "useField": 0,
+                "target": 0,
+                "level": 30,
+                "price": 12600
+              },
+              {
+                "id": 263,
+                "name": "迪所斯Lv4枪",
+                "secretName": "迪所斯Lv4枪",
+                "description": "攻 +33 敏 -7 魅 +4 混乱的精灵 Lv4",
+                "option": "",
+                "functionName": "",
+                "image": 20431,
+                "cost": 17280,
+                "type": 3,
+                "useField": 0,
+                "target": 0,
+                "level": 35,
+                "price": 17280
+              },
+              {
+                "id": 643,
+                "name": "迪所斯Lv3投掷斧头",
+                "secretName": "迪所斯Lv3投掷斧头",
+                "description": "攻 +19 混乱的精灵 Lv3",
+                "option": "",
+                "functionName": "",
+                "image": 20506,
+                "cost": 5800,
+                "type": 18,
+                "useField": 0,
+                "target": 0,
+                "level": 25,
+                "price": 5800
+              },
+              {
+                "id": 653,
+                "name": "贝所金Lv3投掷斧头",
+                "secretName": "贝所金Lv3投掷斧头",
+                "description": "攻 +23 混迷的精灵 Lv3",
+                "option": "",
+                "functionName": "",
+                "image": 20531,
+                "cost": 10900,
+                "type": 18,
+                "useField": 0,
+                "target": 0,
+                "level": 30,
+                "price": 10900
+              },
+              {
+                "id": 743,
+                "name": "迪所斯Lv3石",
+                "secretName": "迪所斯Lv3石",
+                "description": "攻 +14 防 -3 混乱的精灵 Lv3",
+                "option": "",
+                "functionName": "",
+                "image": 20502,
+                "cost": 6300,
+                "type": 19,
+                "useField": 0,
+                "target": 0,
+                "level": 25,
+                "price": 6300
+              },
+              {
+                "id": 753,
+                "name": "贝所金Lv3石",
+                "secretName": "贝所金Lv3石",
+                "description": "攻 +17 防 -3 混迷的精灵 Lv3",
+                "option": "",
+                "functionName": "",
+                "image": 20549,
+                "cost": 11750,
+                "type": 19,
+                "useField": 0,
+                "target": 0,
+                "level": 30,
+                "price": 11750
+              },
+              {
+                "id": 433,
+                "name": "贝所金Lv2弓箭",
+                "secretName": "贝所金Lv2弓箭",
+                "description": "攻 +8 防 -8 (2-4) 混迷的精灵 Lv2",
+                "option": "",
+                "functionName": "",
+                "image": 20309,
+                "cost": 3790,
+                "type": 4,
+                "useField": 0,
+                "target": 0,
+                "level": 25,
+                "price": 3790
+              },
+              {
+                "id": 443,
+                "name": "迪所斯Lv3弓箭",
+                "secretName": "迪所斯Lv3弓箭",
+                "description": "攻 +10 防 -10 (1-5) 混乱的精灵 Lv3",
+                "option": "",
+                "functionName": "",
+                "image": 20332,
+                "cost": 7300,
+                "type": 4,
+                "useField": 0,
+                "target": 0,
+                "level": 30,
+                "price": 7300
+              },
+              {
+                "id": 533,
+                "name": "贝所金Lv2回旋标",
+                "secretName": "贝所金Lv2回旋标",
+                "description": "攻 +11 魅 +1 混迷的精灵 Lv2",
+                "option": "",
+                "functionName": "",
+                "image": 20521,
+                "cost": 3560,
+                "type": 17,
+                "useField": 0,
+                "target": 0,
+                "level": 25,
+                "price": 3560
+              },
+              {
+                "id": 543,
+                "name": "迪所斯Lv3回旋标",
+                "secretName": "迪所斯Lv3回旋标",
+                "description": "攻 +14 魅 +2 混乱的精灵 Lv3",
+                "option": "",
+                "functionName": "",
+                "image": 20544,
+                "cost": 6800,
+                "type": 17,
+                "useField": 0,
+                "target": 0,
+                "level": 30,
+                "price": 6800
+              },
+              {
+                "id": 11950,
+                "name": "双子草",
+                "secretName": "双子草",
+                "description": "混乱的成分 1",
+                "option": "",
+                "functionName": "",
+                "image": 24191,
+                "cost": 26,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 26
+              },
+              {
+                "id": 11951,
+                "name": "忘记草",
+                "secretName": "忘记草",
+                "description": "混乱的成分 2",
+                "option": "",
+                "functionName": "",
+                "image": 24191,
+                "cost": 105,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 105
+              },
+              {
+                "id": 11952,
+                "name": "迷惑草",
+                "secretName": "迷惑草",
+                "description": "混乱的成分 3",
+                "option": "",
+                "functionName": "",
+                "image": 24191,
+                "cost": 236,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 236
+              },
+              {
+                "id": 11953,
+                "name": "回神草",
+                "secretName": "回神草",
+                "description": "混乱的成分 4",
+                "option": "",
+                "functionName": "",
+                "image": 24191,
+                "cost": 420,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 420
+              },
+              {
+                "id": 11954,
+                "name": "吹雾草",
+                "secretName": "吹雾草",
+                "description": "混乱的成分 5",
+                "option": "",
+                "functionName": "",
+                "image": 24191,
+                "cost": 788,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 788
+              },
+              {
+                "id": 11955,
+                "name": "不知草",
+                "secretName": "不知草",
+                "description": "混乱的成分 6",
+                "option": "",
+                "functionName": "",
+                "image": 24191,
+                "cost": 1260,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 1260
+              },
+              {
+                "id": 11956,
+                "name": "不归草",
+                "secretName": "不归草",
+                "description": "混乱的成分 7",
+                "option": "",
+                "functionName": "",
+                "image": 24191,
+                "cost": 1838,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 1838
+              },
+              {
+                "id": 11957,
+                "name": "怪物草",
+                "secretName": "怪物草",
+                "description": "混乱的成分 8",
+                "option": "",
+                "functionName": "",
+                "image": 24191,
+                "cost": 2520,
+                "type": 16,
+                "useField": 0,
+                "target": 0,
+                "level": 0,
+                "price": 2520
+              }
+            ]
+          },
+          "scriptHints": {
+            "actions": [
+              "shop"
+            ],
+            "hints": [
+              "MainMsg:欢迎光临！"
+            ],
+            "source": "gmsv-data/npc/genout/ss_10408_28_24"
+          }
+        },
+        {
+          "id": "10408-34-24-7644",
+          "name": "研究者",
+          "x": 34,
+          "y": 24,
+          "type": "Windowman",
+          "dialogue": "你是完全没有迷路直接走到这里的吗？",
+          "dialogueLines": [
+            "你是完全没有迷路直接走到这里的吗？",
+            "我是在这个迷幻洞窟中研修的人。",
+            "我的名字是阿尔罕。",
+            "你想不想要我告诉你有关这个洞窟的事呢？",
+            "我们是专门研究生长在那里的迷幻花。",
+            "一种叫做克里摩亚的植物。",
+            "根据我们的研究，这种花每年会散播２次",
+            "花粉如果有人将这种花粉吸进去的话，那"
+          ],
+          "source": "gmsv-data/npc/sainasu/event/event.create",
+          "script": "conff:sainasu/event/e_02.conf",
+          "template": "windowman",
+          "graphic": "16044",
+          "scriptHints": {
+            "actions": [],
+            "hints": [],
+            "source": "gmsv-data/npc/sainasu/event/e_02.conf"
+          }
+        },
+        {
+          "id": "10408-18-31-5662",
+          "name": "地底下的肉铺",
+          "x": 18,
+          "y": 31,
+          "type": "ItemShop",
+          "dialogue": "谢谢！",
+          "dialogueLines": [
+            "谢谢！"
+          ],
+          "source": "gmsv-data/npc/genout/shop_event.create",
+          "script": "file:genout/lbis_10408_18_31",
+          "template": "npcgen_limitshop",
+          "graphic": "16018",
+          "trade": {
+            "kind": "shop",
+            "source": "gmsv-data/npc/genout/lbis_10408_18_31",
+            "buyRate": 1,
+            "sellRate": 0.8,
+            "buyWords": [
+              "你好",
+              "谢谢",
+              "买",
+              "买",
+              "买",
+              "谢谢",
+              "买",
+              "买",
+              "想要",
+              "kau",
+              "buy",
+              "请"
+            ],
+            "sellWords": [
+              "卖",
+              "卖",
+              "卖",
+              "卖",
+              "卖",
+              "sell",
+              "uru"
+            ],
+            "mainMessage": "谢谢！",
+            "limitItemRanges": [
+              [
+                1234,
+                1249
+              ]
+            ],
+            "specialRate": 0.5,
+            "items": [
+              {
+                "id": 1234,
+                "name": "小块肉",
+                "secretName": "小块肉",
+                "description": "耐久力20前後回复",
+                "option": "体20",
+                "functionName": "ITEM_useRecovery",
+                "image": 24008,
+                "cost": 20,
+                "type": 20,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 20
+              },
+              {
+                "id": 1235,
+                "name": "普通的肉",
+                "secretName": "普通的肉",
+                "description": "耐久力40前後回复",
+                "option": "体40",
+                "functionName": "ITEM_useRecovery",
+                "image": 24035,
+                "cost": 40,
+                "type": 20,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 40
+              },
+              {
+                "id": 1236,
+                "name": "带骨的肉",
+                "secretName": "带骨的肉",
+                "description": "耐久力65前後回复",
+                "option": "体65",
+                "functionName": "ITEM_useRecovery",
+                "image": 24017,
+                "cost": 65,
+                "type": 20,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 65
+              },
+              {
+                "id": 1237,
+                "name": "大片的肉",
+                "secretName": "大片的肉",
+                "description": "耐久力90前後回复",
+                "option": "体90",
+                "functionName": "ITEM_useRecovery",
+                "image": 24026,
+                "cost": 90,
+                "type": 20,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 90
+              },
+              {
+                "id": 1238,
+                "name": "大块肉",
+                "secretName": "大块肉",
+                "description": "耐久力125前後回复",
+                "option": "体125",
+                "functionName": "ITEM_useRecovery",
+                "image": 24044,
+                "cost": 125,
+                "type": 20,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 125
+              },
+              {
+                "id": 1239,
+                "name": "最棒的肉",
+                "secretName": "最棒的肉",
+                "description": "耐久力165前後回复",
+                "option": "体165",
+                "functionName": "ITEM_useRecovery",
+                "image": 24044,
+                "cost": 165,
+                "type": 20,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 165
+              },
+              {
+                "id": 1240,
+                "name": "小块气力肉",
+                "secretName": "小块气力肉",
+                "description": "气力5前後回复",
+                "option": "气5",
+                "functionName": "ITEM_useRecovery",
+                "image": 24001,
+                "cost": 20,
+                "type": 20,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 20
+              },
+              {
+                "id": 1241,
+                "name": "普通的气力肉",
+                "secretName": "普通的气力肉",
+                "description": "气力10前後回复",
+                "option": "气10",
+                "functionName": "ITEM_useRecovery",
+                "image": 24028,
+                "cost": 40,
+                "type": 20,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 40
+              },
+              {
+                "id": 1242,
+                "name": "带骨的气力肉",
+                "secretName": "带骨的气力肉",
+                "description": "气力15前後回复",
+                "option": "气15",
+                "functionName": "ITEM_useRecovery",
+                "image": 24010,
+                "cost": 60,
+                "type": 20,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 60
+              },
+              {
+                "id": 1243,
+                "name": "大片的气力肉",
+                "secretName": "大片的气力肉",
+                "description": "气力25前後回复",
+                "option": "气25",
+                "functionName": "ITEM_useRecovery",
+                "image": 24019,
+                "cost": 100,
+                "type": 20,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 100
+              },
+              {
+                "id": 1244,
+                "name": "大块气力肉",
+                "secretName": "大块气力肉",
+                "description": "气力40前後回复",
+                "option": "气40",
+                "functionName": "ITEM_useRecovery",
+                "image": 24037,
+                "cost": 160,
+                "type": 20,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 160
+              },
+              {
+                "id": 1245,
+                "name": "最棒的气力肉",
+                "secretName": "最棒的气力肉",
+                "description": "气力65前後回复",
+                "option": "气65",
+                "functionName": "ITEM_useRecovery",
+                "image": 24037,
+                "cost": 260,
+                "type": 20,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 260
+              },
+              {
+                "id": 1246,
+                "name": "治疗混乱的肉",
+                "secretName": "治疗混乱的肉",
+                "description": "混乱状态回复",
+                "option": "乱",
+                "functionName": "ITEM_useStatusRecovery",
+                "image": 24042,
+                "cost": 80,
+                "type": 20,
+                "useField": 1,
+                "target": 1,
+                "level": 0,
+                "price": 80
+              },
+              {
+                "id": 1247,
+                "name": "治疗中毒的肉",
+                "secretName": "治疗中毒的肉",
+                "description": "毒状态回复",
+                "option": "毒",
+                "functionName": "ITEM_useStatusRecovery",
+                "image": 24043,
+                "cost": 120,
+                "type": 20,
+                "useField": 1,
+                "target": 1,
+                "level": 0,
+                "price": 120
+              },
+              {
+                "id": 1248,
+                "name": "治疗酒醉的肉",
+                "secretName": "治疗酒醉的肉",
+                "description": "酒醉状态回复",
+                "option": "醉",
+                "functionName": "ITEM_useStatusRecovery",
+                "image": 24042,
+                "cost": 80,
+                "type": 20,
+                "useField": 0,
+                "target": 1,
+                "level": 0,
+                "price": 80
+              },
+              {
+                "id": 1249,
+                "name": "治疗石化肉",
+                "secretName": "治疗石化肉",
+                "description": "石化状态回复",
+                "option": "石",
+                "functionName": "ITEM_useStatusRecovery",
+                "image": 24038,
+                "cost": 100,
+                "type": 20,
+                "useField": 1,
+                "target": 1,
+                "level": 0,
+                "price": 100
+              }
+            ]
+          },
+          "scriptHints": {
+            "actions": [
+              "shop"
+            ],
+            "hints": [
+              "MainMsg:谢谢！"
+            ],
+            "source": "gmsv-data/npc/genout/lbis_10408_18_31"
+          }
+        },
+        {
+          "id": "10408-18-34-5661",
+          "name": "欺骗的特技店",
+          "x": 18,
+          "y": 34,
+          "type": "PetSkillShop",
+          "dialogue": "我是专门教欺骗系的特技。",
+          "dialogueLines": [
+            "我是专门教欺骗系的特技。",
+            "你想要让你的宠物学什么呢？"
+          ],
+          "source": "gmsv-data/npc/genout/shop_event.create",
+          "script": "file:genout/psks_10408_18_34",
+          "template": "npcgen_petskillshop",
+          "graphic": "16046",
+          "petSkillShop": {
+            "kind": "pet-skill",
+            "source": "gmsv-data/npc/genout/psks_10408_18_34",
+            "skillRate": 1.2,
+            "skillIds": [
+              90
+            ],
+            "mainMessage": "我是专门教欺骗系的特技。\\n你想要让你的宠物学什么呢？",
+            "errorMessage": "",
+            "startMessage": "",
+            "nothingMessage": ""
+          },
+          "scriptHints": {
+            "actions": [
+              "petSkillShop"
+            ],
+            "hints": [],
+            "source": "gmsv-data/npc/genout/psks_10408_18_34"
+          }
+        },
+        {
+          "id": "10408-17-25-5659",
+          "name": "村人",
+          "x": 17,
+          "y": 25,
+          "type": "TownPeople",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_10408_17_25",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/shop_event.create",
+          "script": "file:genout/msg_10408_17_25",
+          "template": "npcgen_man",
+          "graphic": "16047",
+          "scriptHints": {
+            "actions": [],
+            "hints": [],
+            "source": "gmsv-data/npc/genout/msg_10408_17_25"
+          }
+        },
+        {
+          "id": "10408-36-29-5658",
+          "name": "村人",
+          "x": 36,
+          "y": 29,
+          "type": "TownPeople",
+          "dialogue": "脚本入口：gmsv-data/npc/genout/msg_10408_36_29",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/shop_event.create",
+          "script": "file:genout/msg_10408_36_29",
+          "template": "npcgen_man",
+          "graphic": "16017",
+          "scriptHints": {
+            "actions": [],
+            "hints": [],
+            "source": "gmsv-data/npc/genout/msg_10408_36_29"
+          }
+        },
+        {
+          "id": "10408-36-34-5663",
+          "name": "欺骗的公布栏",
+          "x": 36,
+          "y": 34,
+          "type": "Dengon",
+          "dialogue": "脚本入口：未配置脚本参数",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/genout/shop_event.create",
+          "script": "npcgen_dengon",
+          "template": "npcgen_dengon",
+          "graphic": "10062"
+        }
+      ],
+      "exits": [
+        {
+          "id": "10407-0",
+          "label": "去 迷幻洞窟",
+          "detail": "迷幻洞窟 | floor 10407 | 目标 (44,16) | 入口 (22,4)",
+          "to": "10407",
+          "x": 22,
+          "y": 4,
+          "bounds": [
+            22,
+            4,
+            22,
+            4
+          ],
+          "target": [
+            44,
+            16
+          ],
+          "tiles": [
+            {
+              "x": 22,
+              "y": 4,
+              "target": [
+                44,
+                16
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        },
+        {
+          "id": "1400-1",
+          "label": "去 卡坦村温",
+          "detail": "卡坦村温 | floor 1400 | 目标 (79,70) | 入口 (42,40)",
+          "to": "1400",
+          "x": 42,
+          "y": 40,
+          "bounds": [
+            42,
+            40,
+            42,
+            40
+          ],
+          "target": [
+            79,
+            70
+          ],
+          "tiles": [
+            {
+              "x": 42,
+              "y": 40,
+              "target": [
+                79,
+                70
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        }
+      ]
+    },
     "10701": {
       "id": "10701",
       "floorId": 10701,

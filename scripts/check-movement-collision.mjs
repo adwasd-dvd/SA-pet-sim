@@ -211,6 +211,37 @@ for (const link of [
   thievesBaseGame = await assertSourceMapwarpStep(thievesBaseGame, link, "reverse thieves base source mapwarp");
 }
 
+let illusionCaveGame = await api("/api/game/new", { name: "illusion-cave-mapwarp-graph-test" });
+for (const link of [
+  ["10402", 12, 5, "10405", 12, 5],
+  ["10405", 12, 5, "10402", 12, 5],
+  ["10402", 44, 16, "10404", 44, 16],
+  ["10404", 44, 16, "10402", 44, 16],
+  ["10402", 45, 42, "10403", 45, 42],
+  ["10403", 45, 42, "10402", 45, 42],
+  ["10402", 16, 35, "10407", 16, 35],
+  ["10407", 16, 35, "10402", 16, 35],
+  ["10403", 12, 5, "10404", 12, 5],
+  ["10404", 12, 5, "10403", 12, 5],
+  ["10403", 44, 16, "10405", 44, 16],
+  ["10405", 44, 16, "10403", 44, 16],
+  ["10403", 16, 35, "10406", 16, 35],
+  ["10406", 16, 35, "10403", 16, 35],
+  ["10404", 45, 42, "10405", 45, 42],
+  ["10405", 45, 42, "10404", 45, 42],
+  ["10404", 16, 35, "10405", 16, 35],
+  ["10405", 16, 35, "10404", 16, 35],
+  ["10406", 12, 5, "10407", 12, 5],
+  ["10407", 12, 5, "10406", 12, 5],
+  ["10406", 45, 42, "10407", 45, 42],
+  ["10407", 45, 42, "10406", 45, 42],
+  ["10407", 44, 16, "10408", 22, 4],
+  ["10408", 22, 4, "10407", 44, 16],
+  ["10408", 42, 40, "1400", 79, 70]
+]) {
+  illusionCaveGame = await assertSourceMapwarpStep(illusionCaveGame, link, "illusion cave source mapwarp");
+}
+
 let npcGame = await api("/api/game/new", { name: "npc-route-test" });
 const teacher = WORLD.maps["1000"].npcs.find((npc) => npc.name.includes("老师"));
 if (!teacher) throw new Error("missing teacher NPC fixture");
@@ -269,7 +300,7 @@ assertEqual(paidExit.location.y, 491, "paid-jump mapwarp target y follows source
 assertEqual(paidExit.paidJump.cost, paidJumpCostForTest(1), "paid-jump exit cost uses tiered distance pricing");
 assertEqual(paidExit.player.stone, 10000 - paidJumpCostForTest(1), "paid-jump exit deducts jump cost");
 
-console.log("Movement collision OK: frontend 8-way keyboard input/cache-bust guards, routing, blocked terrain, source-style diagonal corner blocking, source-style blocked-target facing, NPC cells, Worker exit routes, click-preferred NPC/warp targets, zero-step exact mapwarps, warp transitions, exact mapwarp tiles, Ko cave 10301-10308 and thieves base 11103-11105 source mapwarp smokes, map teleport points stay out of the NPC list, NPC approach routes are enforced, long-route heap routing is active, and paid-jump actions are server-priced and server-applied.");
+console.log("Movement collision OK: frontend 8-way keyboard input/cache-bust guards, routing, blocked terrain, source-style diagonal corner blocking, source-style blocked-target facing, NPC cells, Worker exit routes, click-preferred NPC/warp targets, zero-step exact mapwarps, warp transitions, exact mapwarp tiles, Ko cave 10301-10308, thieves base 11103-11105, and illusion cave 10402-10408 source mapwarp smokes, map teleport points stay out of the NPC list, NPC approach routes are enforced, long-route heap routing is active, and paid-jump actions are server-priced and server-applied.");
 
 function assert(value, label) {
   if (!value) throw new Error(label);

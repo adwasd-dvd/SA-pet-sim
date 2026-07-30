@@ -21,7 +21,7 @@ const CONTENT_PROFILE_INCLUDE_SOURCE_ONLY = process.env.SA_CONTENT_PROFILE_INCLU
 const DRY_RUN = process.env.SA_BUILD_WORLD_DRY_RUN === "1";
 
 const START_FLOOR = 1000;
-const MAX_MAPS = 316;
+const MAX_MAPS = 323;
 const ARENA_FLOORS = [
   130, 141, 142, 143, 144, 145, 146, 147,
   154, 155, 156, 157,
@@ -59,6 +59,7 @@ const FORCED_FLOORS = [
   10101,
   ...range(10201, 10204),
   ...range(10301, 10308),
+  ...range(10402, 10408),
   ...range(10701, 10705),
   ...range(10901, 10903),
   10914, 10915,
