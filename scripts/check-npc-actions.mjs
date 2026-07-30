@@ -8163,6 +8163,21 @@ assertEqual(inventoryQty(sotC9EarlyGame, 2584), 0, "SOT C-9 too-early branch doe
 assert(sotC9EarlyGame.dialog.messages.some((message) => /还太早了一点/.test(message.text || "") && /按照顺序通过/.test(message.text || "")), "SOT C-9 too-early branch uses source order text");
 assert(sotC9EarlyGame.dialog.debug.vmTrace.some((event) => event.action === "window" && event.detail?.eventType === "MESSAGE" && event.detail?.condition === "LV>0&ITEM=2575&ENDEV=17,LV>0&ITEM=2576&ENDEV=17,LV>0&ITEM=2577&ENDEV=17,LV>0&ITEM=2578&ENDEV=17,LV>0&ITEM=2579&ENDEV=17,LV>0&ITEM=2580&ENDEV=17,LV>0&ITEM=2581&ENDEV=17,LV>0&ITEM=2582&ENDEV=17" && event.status === "ok"), "SOT C-9 too-early MESSAGE branch is selected by VM");
 
+const sotC10Npc = Object.values(WORLD.maps).flatMap((map) => map.npcs || []).find((npc) => npc.script === "file:sainasu/event/oev_10c" || npc.name === "检查员(C-10)");
+const sotC10SourcePath = path.join(appRoot, "external/sources/ref___data/npc/sainasu/event/oev_10c");
+const sotC10Source = readFileSync(sotC10SourcePath, "utf8");
+assert(sotC10Source.includes("EVENT:LV>0&ITEM=2584&ENDEV=17") && sotC10Source.includes("KeyWord:") && sotC10Source.includes("DelItem:2584") && sotC10Source.includes("GetItem:2585"), "SOT C-10 source script keeps checkpoint exchange evidence");
+if (sotC10Npc) {
+  assertEqual(sotC10Npc.name, "检查员(C-10)", "SOT C-10 keeps source NPC name");
+  assert(sotC10Npc.scriptEvents?.some((event) => event.type === "MESSAGE" && /ITEM=2584/.test(event.condition || "") && event.delItems?.some((item) => Number(item.id) === 2584) && event.getItems?.some((item) => Number(item.id) === 2585)), "SOT C-10 parses source KeyWord checkpoint exchange");
+  assert(sotC10Npc.scriptEvents?.some((event) => event.type === "MESSAGE" && /ITEM=2585/.test(event.condition || "")), "SOT C-10 parses source already-passed MESSAGE branch");
+  assert(sotC10Npc.scriptEvents?.some((event) => event.type === "MESSAGE" && /ITEM=2575/.test(event.condition || "") && /ITEM=2583/.test(event.condition || "")), "SOT C-10 parses source too-early MESSAGE branch");
+} else {
+  assert(existsSync(path.join(appRoot, "external/sources/ref___data/map/sainasu/dungeon/11104")), "SOT C-10 source floor 11104 map must remain locally available");
+  assert(sotC10Source.includes("EVENT:LV>0&ITEM=2585&ENDEV=17"), "SOT C-10 source script keeps already-passed branch evidence");
+  assert(!existsSync(path.join(publicRoot, "data/maps/11104.ls2map")) && !existsSync(path.join(publicRoot, "data/client-maps/11104.dat")), "SOT C-10 remains source-only until floor 11104 runtime map assets are generated");
+}
+
 const sotD7Npc = WORLD.maps["100"]?.npcs.find((npc) => npc.id === "100-428-543-7696");
 if (!sotD7Npc) throw new Error("missing Sainasu SOT D-7 checkpoint fixture");
 assertEqual(sotD7Npc.name, "检查员(D-7)", "SOT D-7 keeps source NPC name");

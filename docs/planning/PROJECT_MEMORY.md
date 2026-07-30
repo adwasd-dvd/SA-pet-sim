@@ -13,6 +13,7 @@ This file is the durable memory for continuing development on another machine or
 
 ## Current Technical State
 
+- 2026-07-30 SOT C-10 source-gap guard: local source has C-route NPC `检查员(C-10)` in `sainasu/event/oev2.create` on floor 11104 with script `sainasu/event/oev_10c` and checkpoint exchange evidence `2584 -> 2585`, but current runtime assets do not include `public/data/maps/11104.ls2map` or `public/data/client-maps/11104.dat`, so WORLD cannot expose the NPC without creating an unreachable/unrenderable floor. `scripts/check-npc-actions.mjs` now fails if this source evidence disappears or if runtime map assets appear without follow-up C-10 validation.
 - 2026-07-30 SOT C-9 checkpoint smoke: `scripts/check-npc-actions.mjs` now locks Hotor village floor 1300 NPC `1300-65-26-7686` `检查员(C-9)` against the local source `sainasu/event/oev_9c`, including keyword `携带方便的三明治`, source item exchange `2583 -> 2584`, prompt/no-keyword, already-passed, and too-early branches through the deterministic NPC VM. No map data, route shortcut, source script, OpenAI path, or render-loop/UI behavior changed.
 - App root: `app/`.
 - Cloudflare Worker entry: `src/worker.js`.
