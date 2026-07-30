@@ -7294,6 +7294,8 @@ battlePetSwitchGame.encounter.WorkTacticsOption = "at:1;3;1|gu:0|wa:0;0;0;0;0;0;
 battlePetSwitchGame.encounter.Str = 0;
 battlePetSwitchGame.encounter.WorkFixStr = 0;
 battlePetSwitchGame.encounter.WorkAttackPower = 0;
+battlePetSwitchGame.battle.enemyParty = [battlePetSwitchGame.encounter];
+battlePetSwitchGame.battle.activeEnemyIndex = 0;
 battlePetSwitchGame = await api("/api/game/battle", { game: battlePetSwitchGame, action: "S|1" });
 assertEqual(battlePetSwitchGame.petState.activeIndex, 1, "source S pet command switches active battle pet");
 assertEqual(battlePetSwitchGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_PETOUT", "battle pet switch maps to source PETOUT command");
@@ -7423,6 +7425,8 @@ Object.assign(battlePetSwitchGame.battle?.enemyParty?.[0] || {}, {
   WorkTactics: 1,
   WorkTacticsOption: "at:1;3;1|gu:0|wa:0;0;0;0;0;0;0"
 });
+battlePetSwitchGame.battle.enemyParty = [battlePetSwitchGame.encounter];
+battlePetSwitchGame.battle.activeEnemyIndex = 0;
 battlePetSwitchGame = await api("/api/game/battle", { game: battlePetSwitchGame, action: "S|-1" });
 assertEqual(battlePetSwitchGame.petState.activeIndex, -1, "source S|-1 pet command withdraws active pet");
 assertEqual(battlePetSwitchGame.battleOutcome.playerAction?.sourceCommand, "BATTLE_COM_PETIN", "source S|-1 maps to PETIN");
@@ -8163,20 +8167,50 @@ assertEqual(inventoryQty(sotC9EarlyGame, 2584), 0, "SOT C-9 too-early branch doe
 assert(sotC9EarlyGame.dialog.messages.some((message) => /还太早了一点/.test(message.text || "") && /按照顺序通过/.test(message.text || "")), "SOT C-9 too-early branch uses source order text");
 assert(sotC9EarlyGame.dialog.debug.vmTrace.some((event) => event.action === "window" && event.detail?.eventType === "MESSAGE" && event.detail?.condition === "LV>0&ITEM=2575&ENDEV=17,LV>0&ITEM=2576&ENDEV=17,LV>0&ITEM=2577&ENDEV=17,LV>0&ITEM=2578&ENDEV=17,LV>0&ITEM=2579&ENDEV=17,LV>0&ITEM=2580&ENDEV=17,LV>0&ITEM=2581&ENDEV=17,LV>0&ITEM=2582&ENDEV=17" && event.status === "ok"), "SOT C-9 too-early MESSAGE branch is selected by VM");
 
-const sotC10Npc = Object.values(WORLD.maps).flatMap((map) => map.npcs || []).find((npc) => npc.script === "file:sainasu/event/oev_10c" || npc.name === "检查员(C-10)");
-const sotC10SourcePath = path.join(appRoot, "external/sources/ref___data/npc/sainasu/event/oev_10c");
-const sotC10Source = readFileSync(sotC10SourcePath, "utf8");
-assert(sotC10Source.includes("EVENT:LV>0&ITEM=2584&ENDEV=17") && sotC10Source.includes("KeyWord:") && sotC10Source.includes("DelItem:2584") && sotC10Source.includes("GetItem:2585"), "SOT C-10 source script keeps checkpoint exchange evidence");
-if (sotC10Npc) {
-  assertEqual(sotC10Npc.name, "检查员(C-10)", "SOT C-10 keeps source NPC name");
-  assert(sotC10Npc.scriptEvents?.some((event) => event.type === "MESSAGE" && /ITEM=2584/.test(event.condition || "") && event.delItems?.some((item) => Number(item.id) === 2584) && event.getItems?.some((item) => Number(item.id) === 2585)), "SOT C-10 parses source KeyWord checkpoint exchange");
-  assert(sotC10Npc.scriptEvents?.some((event) => event.type === "MESSAGE" && /ITEM=2585/.test(event.condition || "")), "SOT C-10 parses source already-passed MESSAGE branch");
-  assert(sotC10Npc.scriptEvents?.some((event) => event.type === "MESSAGE" && /ITEM=2575/.test(event.condition || "") && /ITEM=2583/.test(event.condition || "")), "SOT C-10 parses source too-early MESSAGE branch");
-} else {
-  assert(existsSync(path.join(appRoot, "external/sources/ref___data/map/sainasu/dungeon/11104")), "SOT C-10 source floor 11104 map must remain locally available");
-  assert(sotC10Source.includes("EVENT:LV>0&ITEM=2585&ENDEV=17"), "SOT C-10 source script keeps already-passed branch evidence");
-  assert(!existsSync(path.join(publicRoot, "data/maps/11104.ls2map")) && !existsSync(path.join(publicRoot, "data/client-maps/11104.dat")), "SOT C-10 remains source-only until floor 11104 runtime map assets are generated");
-}
+const sotC10Npc = WORLD.maps["11104"]?.npcs.find((npc) => npc.id === "11104-11-41-7687");
+if (!sotC10Npc) throw new Error("missing thieves base SOT C-10 checkpoint fixture");
+assertEqual(sotC10Npc.name, "检查员(C-10)", "SOT C-10 keeps source NPC name");
+assert(sotC10Npc.scriptEvents?.some((event) => event.type === "MESSAGE" && event.condition === "LV>0&ITEM=2584&ENDEV=17" && event.keyword === "鲍尔" && event.delItems?.some((item) => Number(item.id) === 2584) && event.getItems?.some((item) => Number(item.id) === 2585)), "SOT C-10 parses source KeyWord checkpoint exchange");
+assert(sotC10Npc.scriptEvents?.some((event) => event.type === "MESSAGE" && /^LV>0&ITEM=2585&ENDEV=17/.test(event.condition || "")), "SOT C-10 parses source already-passed MESSAGE branch");
+assert(sotC10Npc.scriptEvents?.some((event) => event.type === "MESSAGE" && event.condition === "LV>0&ITEM=2575&ENDEV=17,LV>0&ITEM=2576&ENDEV=17,LV>0&ITEM=2577&ENDEV=17,LV>0&ITEM=2578&ENDEV=17,LV>0&ITEM=2579&ENDEV=17,LV>0&ITEM=2580&ENDEV=17,LV>0&ITEM=2581&ENDEV=17,LV>0&ITEM=2582&ENDEV=17,LV>0&ITEM=2583&ENDEV=17"), "SOT C-10 parses source too-early MESSAGE branch");
+let sotC10PromptGame = await api("/api/game/new", { name: "thieves-base-sot-c10-prompt-runtime-test" });
+sotC10PromptGame.location = { mapId: "11104", x: sotC10Npc.x + 1, y: sotC10Npc.y };
+setTestEventFlag(sotC10PromptGame, 17, "end");
+sotC10PromptGame.inventory.push({ id: 2584, name: "检查石", qty: 1 });
+sotC10PromptGame = await api("/api/game/dialog", { game: sotC10PromptGame, npcId: sotC10Npc.id });
+assertEqual(inventoryQty(sotC10PromptGame, 2584), 1, "SOT C-10 prompt branch does not consume ninth checkpoint stone without keyword");
+assertEqual(inventoryQty(sotC10PromptGame, 2585), 0, "SOT C-10 prompt branch does not grant tenth checkpoint stone without keyword");
+assert(sotC10PromptGame.dialog.messages.some((message) => /请说出旁边看板/.test(message.text || "") && /C路线/.test(message.text || "")), "SOT C-10 prompt branch asks for the source signboard answer");
+assert(sotC10PromptGame.dialog.debug.vmTrace.some((event) => event.action === "window" && event.detail?.eventType === "MESSAGE" && event.detail?.condition === "LV>0&ITEM=2584&ENDEV=17" && event.detail?.keywordRequired === false && event.status === "ok"), "SOT C-10 prompt branch selects the non-keyword MESSAGE branch");
+let sotC10Game = await api("/api/game/new", { name: "thieves-base-sot-c10-keyword-runtime-test" });
+sotC10Game.location = { mapId: "11104", x: sotC10Npc.x + 1, y: sotC10Npc.y };
+setTestEventFlag(sotC10Game, 17, "end");
+sotC10Game.inventory.push({ id: 2584, name: "检查石", qty: 1 });
+sotC10Game = await api("/api/game/dialog", { game: sotC10Game, npcId: sotC10Npc.id, message: "鲍尔" });
+assertEqual(inventoryQty(sotC10Game, 2584), 0, "SOT C-10 keyword branch consumes ninth checkpoint stone");
+assertEqual(inventoryQty(sotC10Game, 2585), 1, "SOT C-10 keyword branch grants tenth checkpoint stone");
+assert(sotC10Game.dialog.messages.some((message) => /答对了/.test(message.text || "") && /第10检查点/.test(message.text || "") && /伪装的洞窟/.test(message.text || "")), "SOT C-10 keyword branch reports source pass text");
+assert(sotC10Game.dialog.debug.vmTrace.some((event) => event.action === "window" && event.detail?.eventType === "MESSAGE" && event.detail?.condition === "LV>0&ITEM=2584&ENDEV=17" && event.detail?.keywordRequired === true && event.detail?.keywordOk === true && event.status === "ok"), "SOT C-10 keyword MESSAGE branch is selected by VM");
+assert(sotC10Game.dialog.debug.vmTrace.some((event) => event.action === "take" && Number(event.detail?.itemId) === 2584 && event.detail?.reason === "source-changeevent-message-delitem"), "SOT C-10 keyword branch takes item 2584 through NPC VM");
+assert(sotC10Game.dialog.debug.vmTrace.some((event) => event.action === "give" && Number(event.detail?.itemId) === 2585 && event.detail?.reason === "source-changeevent-message-getitem"), "SOT C-10 keyword branch gives item 2585 through NPC VM");
+assert(sotC10Game.dialog.debug.vmTrace.some((event) => event.action === "quest" && event.detail?.eventType === "MESSAGE" && event.detail?.keywordRequired === true && event.detail?.keywordOk === true && event.detail?.getItems?.some((item) => Number(item.id) === 2585) && event.detail?.delItems?.some((item) => Number(item.id) === 2584)), "SOT C-10 keyword branch records source exchange metadata");
+let sotC10PassedGame = await api("/api/game/new", { name: "thieves-base-sot-c10-passed-runtime-test" });
+sotC10PassedGame.location = { mapId: "11104", x: sotC10Npc.x + 1, y: sotC10Npc.y };
+setTestEventFlag(sotC10PassedGame, 17, "end");
+sotC10PassedGame.inventory.push({ id: 2585, name: "检查石", qty: 1 });
+sotC10PassedGame = await api("/api/game/dialog", { game: sotC10PassedGame, npcId: sotC10Npc.id });
+assertEqual(inventoryQty(sotC10PassedGame, 2585), 1, "SOT C-10 already-passed branch does not duplicate checkpoint stone");
+assert(sotC10PassedGame.dialog.messages.some((message) => /你好像已经来过/.test(message.text || "") && /虚伪的洞窟/.test(message.text || "")), "SOT C-10 already-passed branch uses source follow-up text");
+assert(sotC10PassedGame.dialog.debug.vmTrace.some((event) => event.action === "window" && event.detail?.eventType === "MESSAGE" && /^LV>0&ITEM=2585&ENDEV=17/.test(event.detail?.condition || "") && event.status === "ok"), "SOT C-10 already-passed MESSAGE branch is selected by VM");
+let sotC10EarlyGame = await api("/api/game/new", { name: "thieves-base-sot-c10-too-early-runtime-test" });
+sotC10EarlyGame.location = { mapId: "11104", x: sotC10Npc.x + 1, y: sotC10Npc.y };
+setTestEventFlag(sotC10EarlyGame, 17, "end");
+sotC10EarlyGame.inventory.push({ id: 2583, name: "检查石", qty: 1 });
+sotC10EarlyGame = await api("/api/game/dialog", { game: sotC10EarlyGame, npcId: sotC10Npc.id });
+assertEqual(inventoryQty(sotC10EarlyGame, 2583), 1, "SOT C-10 too-early branch preserves eighth checkpoint stone");
+assertEqual(inventoryQty(sotC10EarlyGame, 2585), 0, "SOT C-10 too-early branch does not grant tenth checkpoint stone");
+assert(sotC10EarlyGame.dialog.messages.some((message) => /还太早了一点/.test(message.text || "") && /按照顺序通过/.test(message.text || "")), "SOT C-10 too-early branch uses source order text");
+assert(sotC10EarlyGame.dialog.debug.vmTrace.some((event) => event.action === "window" && event.detail?.eventType === "MESSAGE" && event.detail?.condition === "LV>0&ITEM=2575&ENDEV=17,LV>0&ITEM=2576&ENDEV=17,LV>0&ITEM=2577&ENDEV=17,LV>0&ITEM=2578&ENDEV=17,LV>0&ITEM=2579&ENDEV=17,LV>0&ITEM=2580&ENDEV=17,LV>0&ITEM=2581&ENDEV=17,LV>0&ITEM=2582&ENDEV=17,LV>0&ITEM=2583&ENDEV=17" && event.status === "ok"), "SOT C-10 too-early MESSAGE branch is selected by VM");
 
 const sotD7Npc = WORLD.maps["100"]?.npcs.find((npc) => npc.id === "100-428-543-7696");
 if (!sotD7Npc) throw new Error("missing Sainasu SOT D-7 checkpoint fixture");

@@ -1,6 +1,6 @@
 # NPC Script Coverage Report
 
-Generated: 2026-06-16T01:08:54.689Z
+Generated: 2026-07-30T08:30:32.535Z
 
 This report is generated from local NPC source files and generated world data. It is the planning gate for loading more source NPC tasks without sending raw scripts to the client.
 
@@ -9,9 +9,9 @@ This report is generated from local NPC source files and generated world data. I
 | Metric | Value |
 | --- | ---: |
 | Raw NPC files scanned | 3599 |
-| Generated world NPCs | 1758 |
-| Generated script NPCs | 395 |
-| Generated script events | 1731 |
+| Generated world NPCs | 1762 |
+| Generated script NPCs | 397 |
+| Generated script events | 1743 |
 | Parsed action kinds | 25 |
 | Unsupported/unknown raw keys | 22 |
 | Candidate action keys | 5 |
@@ -35,19 +35,19 @@ This report is generated from local NPC source files and generated world data. I
 | AddExps | 24 | 0 | 0 | 0 | 0 |
 | Charm | 2 | 2 | 2 | 2 | 2 |
 | CleanFlg | 26 | 8 | 8 | 8 | 8 |
-| condition | 1730 | 604 | 703 | 703 | 703 |
-| DelItem | 427 | 229 | 243 | 243 | 243 |
+| condition | 1742 | 604 | 703 | 703 | 703 |
+| DelItem | 429 | 229 | 243 | 243 | 243 |
 | DelItemEVDEL | 6 | 0 | 0 | 0 | 0 |
 | DelPet | 64 | 22 | 22 | 22 | 22 |
 | NewDelPet | 1 | 0 | 0 | 0 | 0 |
 | DelStone | 15 | 7 | 8 | 8 | 8 |
 | EndSetFlg | 56 | 34 | 37 | 37 | 37 |
-| GetItem | 346 | 171 | 194 | 194 | 194 |
+| GetItem | 348 | 171 | 194 | 194 | 194 |
 | AddPet | 49 | 0 | 0 | 0 | 0 |
 | GetPet | 65 | 11 | 11 | 11 | 11 |
 | GetRandItem | 56 | 30 | 30 | 30 | 30 |
 | GetStone | 119 | 63 | 63 | 63 | 63 |
-| KeyWord | 61 | 20 | 26 | 26 | 26 |
+| KeyWord | 63 | 20 | 26 | 26 | 26 |
 | MessagePages | 217 | 72 | 88 | 88 | 88 |
 | MISSIONCLEAN | 0 | 0 | 0 | 0 | 0 |
 | MISSIONOVER | 0 | 0 | 0 | 0 | 0 |

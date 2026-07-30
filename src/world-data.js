@@ -249078,6 +249078,1435 @@ export const WORLD = {
         }
       ]
     },
+    "11102": {
+      "id": "11102",
+      "floorId": 11102,
+      "name": "盗贼的基地地下２楼",
+      "mapFile": "/data/maps/11102.ls2map",
+      "clientMapFile": "/data/client-maps/11102.dat",
+      "clientMapSource": "公益石器时代/map/11102.dat",
+      "summary": "盗贼的基地地下２楼 | floor=11102 | 50x50 | gmsv-data/map/sainasu/dungeon/11102",
+      "size": [
+        50,
+        50
+      ],
+      "spawn": [
+        46,
+        7
+      ],
+      "encounterPets": [
+        511,
+        512,
+        513,
+        514
+      ],
+      "encounterAreas": [
+        {
+          "id": 226,
+          "floor": 11102,
+          "bounds": [
+            0,
+            0,
+            49,
+            49
+          ],
+          "encounterProbMin": 1,
+          "encounterProbMax": 3,
+          "enemyMax": 5,
+          "zorder": 1,
+          "groups": [
+            {
+              "groupId": 351,
+              "name": "dan_1_11_thi_45/47&p1",
+              "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
+              "enemies": [
+                {
+                  "enemyId": 496,
+                  "weight": 1,
+                  "tempNo": 511,
+                  "lvMin": 45,
+                  "lvMax": 47,
+                  "createMin": 1,
+                  "createMax": 2
+                },
+                {
+                  "enemyId": 487,
+                  "weight": 1,
+                  "tempNo": 512,
+                  "lvMin": 42,
+                  "lvMax": 44,
+                  "createMin": 1,
+                  "createMax": 2
+                }
+              ],
+              "source": "gmsv-data/group1.txt"
+            },
+            {
+              "groupId": 352,
+              "name": "dan_1_11_thi_45/47&p2",
+              "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
+              "enemies": [
+                {
+                  "enemyId": 496,
+                  "weight": 1,
+                  "tempNo": 511,
+                  "lvMin": 45,
+                  "lvMax": 47,
+                  "createMin": 1,
+                  "createMax": 2
+                },
+                {
+                  "enemyId": 490,
+                  "weight": 1,
+                  "tempNo": 513,
+                  "lvMin": 41,
+                  "lvMax": 43,
+                  "createMin": 1,
+                  "createMax": 2
+                }
+              ],
+              "source": "gmsv-data/group1.txt"
+            },
+            {
+              "groupId": 353,
+              "name": "dan_1_11_thi_45/47&p3",
+              "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
+              "enemies": [
+                {
+                  "enemyId": 496,
+                  "weight": 1,
+                  "tempNo": 511,
+                  "lvMin": 45,
+                  "lvMax": 47,
+                  "createMin": 1,
+                  "createMax": 2
+                },
+                {
+                  "enemyId": 493,
+                  "weight": 1,
+                  "tempNo": 514,
+                  "lvMin": 40,
+                  "lvMax": 42,
+                  "createMin": 1,
+                  "createMax": 2
+                }
+              ],
+              "source": "gmsv-data/group1.txt"
+            },
+            {
+              "groupId": 431,
+              "name": "dan_1_11_thi_45/48",
+              "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
+              "enemies": [
+                {
+                  "enemyId": 497,
+                  "weight": 1,
+                  "tempNo": 511,
+                  "lvMin": 46,
+                  "lvMax": 48,
+                  "createMin": 1,
+                  "createMax": 2
+                },
+                {
+                  "enemyId": 498,
+                  "weight": 1,
+                  "tempNo": 511,
+                  "lvMin": 47,
+                  "lvMax": 48,
+                  "createMin": 1,
+                  "createMax": 2
+                },
+                {
+                  "enemyId": 496,
+                  "weight": 1,
+                  "tempNo": 511,
+                  "lvMin": 45,
+                  "lvMax": 47,
+                  "createMin": 1,
+                  "createMax": 2
+                }
+              ],
+              "source": "gmsv-data/group1.txt"
+            }
+          ],
+          "source": "gmsv-data/encount.txt"
+        }
+      ],
+      "npcs": [],
+      "exits": [
+        {
+          "id": "11103-0",
+          "label": "去 盗贼的基地地下３楼",
+          "detail": "盗贼的基地地下３楼 | floor 11103 | 目标 (11,37) | 入口 (9,44)",
+          "to": "11103",
+          "x": 9,
+          "y": 44,
+          "bounds": [
+            9,
+            44,
+            9,
+            44
+          ],
+          "target": [
+            11,
+            37
+          ],
+          "tiles": [
+            {
+              "x": 9,
+              "y": 44,
+              "target": [
+                11,
+                37
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        }
+      ]
+    },
+    "11103": {
+      "id": "11103",
+      "floorId": 11103,
+      "name": "盗贼的基地地下３楼",
+      "mapFile": "/data/maps/11103.ls2map",
+      "clientMapFile": "/data/client-maps/11103.dat",
+      "clientMapSource": "公益石器时代/map/11103.dat",
+      "summary": "盗贼的基地地下３楼 | floor=11103 | 50x50 | gmsv-data/map/sainasu/dungeon/11103",
+      "size": [
+        50,
+        50
+      ],
+      "spawn": [
+        11,
+        37
+      ],
+      "encounterPets": [
+        511,
+        512,
+        513,
+        514
+      ],
+      "encounterAreas": [
+        {
+          "id": 227,
+          "floor": 11103,
+          "bounds": [
+            0,
+            0,
+            49,
+            49
+          ],
+          "encounterProbMin": 1,
+          "encounterProbMax": 3,
+          "enemyMax": 5,
+          "zorder": 1,
+          "groups": [
+            {
+              "groupId": 351,
+              "name": "dan_1_11_thi_45/47&p1",
+              "weight": 5,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
+              "enemies": [
+                {
+                  "enemyId": 496,
+                  "weight": 1,
+                  "tempNo": 511,
+                  "lvMin": 45,
+                  "lvMax": 47,
+                  "createMin": 1,
+                  "createMax": 2
+                },
+                {
+                  "enemyId": 487,
+                  "weight": 1,
+                  "tempNo": 512,
+                  "lvMin": 42,
+                  "lvMax": 44,
+                  "createMin": 1,
+                  "createMax": 2
+                }
+              ],
+              "source": "gmsv-data/group1.txt"
+            },
+            {
+              "groupId": 352,
+              "name": "dan_1_11_thi_45/47&p2",
+              "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
+              "enemies": [
+                {
+                  "enemyId": 496,
+                  "weight": 1,
+                  "tempNo": 511,
+                  "lvMin": 45,
+                  "lvMax": 47,
+                  "createMin": 1,
+                  "createMax": 2
+                },
+                {
+                  "enemyId": 490,
+                  "weight": 1,
+                  "tempNo": 513,
+                  "lvMin": 41,
+                  "lvMax": 43,
+                  "createMin": 1,
+                  "createMax": 2
+                }
+              ],
+              "source": "gmsv-data/group1.txt"
+            },
+            {
+              "groupId": 353,
+              "name": "dan_1_11_thi_45/47&p3",
+              "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
+              "enemies": [
+                {
+                  "enemyId": 496,
+                  "weight": 1,
+                  "tempNo": 511,
+                  "lvMin": 45,
+                  "lvMax": 47,
+                  "createMin": 1,
+                  "createMax": 2
+                },
+                {
+                  "enemyId": 493,
+                  "weight": 1,
+                  "tempNo": 514,
+                  "lvMin": 40,
+                  "lvMax": 42,
+                  "createMin": 1,
+                  "createMax": 2
+                }
+              ],
+              "source": "gmsv-data/group1.txt"
+            },
+            {
+              "groupId": 431,
+              "name": "dan_1_11_thi_45/48",
+              "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
+              "enemies": [
+                {
+                  "enemyId": 497,
+                  "weight": 1,
+                  "tempNo": 511,
+                  "lvMin": 46,
+                  "lvMax": 48,
+                  "createMin": 1,
+                  "createMax": 2
+                },
+                {
+                  "enemyId": 498,
+                  "weight": 1,
+                  "tempNo": 511,
+                  "lvMin": 47,
+                  "lvMax": 48,
+                  "createMin": 1,
+                  "createMax": 2
+                },
+                {
+                  "enemyId": 496,
+                  "weight": 1,
+                  "tempNo": 511,
+                  "lvMin": 45,
+                  "lvMax": 47,
+                  "createMin": 1,
+                  "createMax": 2
+                }
+              ],
+              "source": "gmsv-data/group1.txt"
+            }
+          ],
+          "source": "gmsv-data/encount.txt"
+        }
+      ],
+      "npcs": [
+        {
+          "id": "11103-45-16-7692",
+          "name": "检查员(D-3)",
+          "x": 45,
+          "y": 16,
+          "type": "ExChangeMan",
+          "dialogue": "脚本入口：gmsv-data/npc/sainasu/event/oev_3d",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/sainasu/event/oev2.create",
+          "script": "file:sainasu/event/oev_3d",
+          "template": "changeevent",
+          "graphic": "16065",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_3d",
+              "messages": {
+                "normalMain": "你要不要也参加环岛活动啊？可以在萨姆吉尔报名哦。",
+                "normal": "你是“C路线”的参加者吧。 这里是“D路线”的检查点。 请加油回到你原来的路线！"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2575&ENDEV=17,LV>0&ITEM=2576&ENDEV=17,LV>0&ITEM=2577&ENDEV=17,LV>0&ITEM=2578&ENDEV=17,LV>0&ITEM=2579&ENDEV=17,LV>0&ITEM=2580&ENDEV=17,LV>0&ITEM=2581&ENDEV=17,LV>0&ITEM=2582&ENDEV=17,LV>0&ITEM=2583&ENDEV=17,LV>0&ITEM=2584&ENDEV=17,LV>0&ITEM=2585&ENDEV=17,LV>0&ITEM=2586&ENDEV=17,LV>0&ITEM=2587&ENDEV=17"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_3d",
+              "messages": {
+                "normal": "答对了！ 这样我会在检查石上 写上你已经通过第3检查点了。 来，请拿去。请继续加油哦。 下一个检查点 是虚伪的洞窟。",
+                "itemFull": "嗯？你身上东西太多了 好像装不下检查石哦。"
+              },
+              "getItems": [
+                {
+                  "id": 2578,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 40,
+                  "description": "第3检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2577,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 30,
+                  "description": "第2检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2577",
+              "keyword": "岩石炖肉"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_3d",
+              "messages": {
+                "normal": "你现在到这个检查点 好像还太早了一点。 请按照顺序通过哦。 那请你继续加油吧。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2575,LV>0&ITEM=2576"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_3d",
+              "messages": {
+                "normal": "你好像已经通过 这个检查点了 下一个是 虚伪的洞窟。 请继续加油哦。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2578,LV>0&ITEM=2579,LV>0&ITEM=2580,LV>0&ITEM=2581,LV>0&ITEM=2582,LV>0&ITEM=2583,LV>0&ITEM=2584,LV>0&ITEM=2585,LV>0&ITEM=2586,LV>0&ITEM=2587"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_3d",
+              "messages": {
+                "normal": "请说出旁边看板 上问题的答案 顺便提醒你一下，这个检查点 是D路线哦。 每个路线经过的地方都不一样。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2577"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_3d",
+              "messages": {
+                "normal": "萨伊那斯环岛活动简称为SOT 这是环绕整个萨依那斯岛 的环岛活动哦。 你要不要也来参加啊？ 我是SOT的检查员。 报名的地方在萨尔吉姆。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
+          "scriptHints": {
+            "actions": [
+              "questLead"
+            ],
+            "hints": [
+              "EVENT:LV>0&ITEM=2575&ENDEV=17,LV>0&ITEM=2576&ENDEV=17,LV>0&ITEM=2577&ENDEV=17,LV>0&ITEM=2578&ENDEV=17,LV>0&ITEM=2579&ENDEV=17,LV>0&ITEM=2580&ENDEV=17,LV>0&ITEM=2581&ENDEV=17,LV>0&ITEM=2582&ENDEV=17,LV>0&ITEM=2583&ENDEV=17,LV>0&ITEM=2584&ENDEV=17,LV>0&ITEM=2585&ENDEV=17,LV>0&ITEM=2586&ENDEV=17,LV>0&ITEM=2587&ENDEV=17",
+              "EVENT:LV>0&ITEM=2577",
+              "DelItem:2577",
+              "GetItem:2578",
+              "EVENT:LV>0&ITEM=2575,LV>0&ITEM=2576",
+              "EVENT:LV>0&ITEM=2578,LV>0&ITEM=2579,LV>0&ITEM=2580,LV>0&ITEM=2581,LV>0&ITEM=2582,LV>0&ITEM=2583,LV>0&ITEM=2584,LV>0&ITEM=2585,LV>0&ITEM=2586,LV>0&ITEM=2587",
+              "EVENT:LV>0"
+            ],
+            "source": "gmsv-data/npc/sainasu/event/oev_3d"
+          },
+          "questLead": {
+            "title": "检查员(D-3) 的原脚本线索",
+            "summary": "EVENT:LV>0&ITEM=2575&ENDEV=17,LV>0&ITEM=2576&ENDEV=17,LV>0&ITEM=2577&ENDEV=17,LV>0&ITEM=2578&ENDEV=17,LV>0&ITEM=2579&ENDEV=17,LV>0&ITEM=2580&ENDEV=17,LV>0&ITEM=2581&ENDEV=17,LV>0&ITEM=2582&ENDEV=17,LV>0&ITEM=2583&ENDEV=17,LV>0&ITEM=2584&ENDEV=17,LV>0&ITEM=2585&ENDEV=17,LV>0&ITEM=2586&ENDEV=17,LV>0&ITEM=2587&ENDEV=17",
+            "source": "gmsv-data/npc/sainasu/event/oev_3d",
+            "status": "source-lead"
+          }
+        },
+        {
+          "id": "11103-45-17-5278",
+          "name": "看板",
+          "x": 45,
+          "y": 17,
+          "type": "SignBoard",
+          "dialogue": "第3检查点\n请问柯尔克村的少女最喜欢的食物\n是什么。",
+          "dialogueLines": [
+            "第3检查点",
+            "请问柯尔克村的少女最喜欢的食物",
+            "是什么。"
+          ],
+          "source": "gmsv-data/npc/genout/oev2.create",
+          "script": "file:genout/signb_11103_45_17",
+          "template": "npcgen_signboard",
+          "graphic": "10062",
+          "scriptHints": {
+            "actions": [],
+            "hints": [],
+            "source": "gmsv-data/npc/genout/signb_11103_45_17"
+          }
+        }
+      ],
+      "exits": [
+        {
+          "id": "11102-0",
+          "label": "去 盗贼的基地地下２楼",
+          "detail": "盗贼的基地地下２楼 | floor 11102 | 目标 (9,44) | 入口 (11,37)",
+          "to": "11102",
+          "x": 11,
+          "y": 37,
+          "bounds": [
+            11,
+            37,
+            11,
+            37
+          ],
+          "target": [
+            9,
+            44
+          ],
+          "tiles": [
+            {
+              "x": 11,
+              "y": 37,
+              "target": [
+                9,
+                44
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        },
+        {
+          "id": "11104-1",
+          "label": "去 盗贼的基地地下４楼",
+          "detail": "盗贼的基地地下４楼 | floor 11104 | 目标 (7,3) | 入口 (7,3)",
+          "to": "11104",
+          "x": 7,
+          "y": 3,
+          "bounds": [
+            7,
+            3,
+            7,
+            3
+          ],
+          "target": [
+            7,
+            3
+          ],
+          "tiles": [
+            {
+              "x": 7,
+              "y": 3,
+              "target": [
+                7,
+                3
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        }
+      ]
+    },
+    "11104": {
+      "id": "11104",
+      "floorId": 11104,
+      "name": "盗贼的基地地下４楼",
+      "mapFile": "/data/maps/11104.ls2map",
+      "clientMapFile": "/data/client-maps/11104.dat",
+      "clientMapSource": "公益石器时代/map/11104.dat",
+      "summary": "盗贼的基地地下４楼 | floor=11104 | 50x50 | gmsv-data/map/sainasu/dungeon/11104",
+      "size": [
+        50,
+        50
+      ],
+      "spawn": [
+        7,
+        3
+      ],
+      "encounterPets": [
+        511,
+        512,
+        513,
+        514
+      ],
+      "encounterAreas": [
+        {
+          "id": 228,
+          "floor": 11104,
+          "bounds": [
+            0,
+            0,
+            49,
+            49
+          ],
+          "encounterProbMin": 1,
+          "encounterProbMax": 3,
+          "enemyMax": 5,
+          "zorder": 1,
+          "groups": [
+            {
+              "groupId": 354,
+              "name": "dan_1_11_thi_46/48&p1",
+              "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
+              "enemies": [
+                {
+                  "enemyId": 497,
+                  "weight": 1,
+                  "tempNo": 511,
+                  "lvMin": 46,
+                  "lvMax": 48,
+                  "createMin": 1,
+                  "createMax": 2
+                },
+                {
+                  "enemyId": 488,
+                  "weight": 1,
+                  "tempNo": 512,
+                  "lvMin": 44,
+                  "lvMax": 46,
+                  "createMin": 1,
+                  "createMax": 2
+                }
+              ],
+              "source": "gmsv-data/group1.txt"
+            },
+            {
+              "groupId": 355,
+              "name": "dan_1_11_thi_46/48&p2",
+              "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
+              "enemies": [
+                {
+                  "enemyId": 497,
+                  "weight": 1,
+                  "tempNo": 511,
+                  "lvMin": 46,
+                  "lvMax": 48,
+                  "createMin": 1,
+                  "createMax": 2
+                },
+                {
+                  "enemyId": 491,
+                  "weight": 1,
+                  "tempNo": 513,
+                  "lvMin": 43,
+                  "lvMax": 45,
+                  "createMin": 1,
+                  "createMax": 2
+                }
+              ],
+              "source": "gmsv-data/group1.txt"
+            },
+            {
+              "groupId": 356,
+              "name": "dan_1_11_thi_46/48&p3",
+              "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
+              "enemies": [
+                {
+                  "enemyId": 497,
+                  "weight": 1,
+                  "tempNo": 511,
+                  "lvMin": 46,
+                  "lvMax": 48,
+                  "createMin": 1,
+                  "createMax": 2
+                },
+                {
+                  "enemyId": 494,
+                  "weight": 1,
+                  "tempNo": 514,
+                  "lvMin": 42,
+                  "lvMax": 44,
+                  "createMin": 1,
+                  "createMax": 2
+                }
+              ],
+              "source": "gmsv-data/group1.txt"
+            },
+            {
+              "groupId": 431,
+              "name": "dan_1_11_thi_45/48",
+              "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
+              "enemies": [
+                {
+                  "enemyId": 497,
+                  "weight": 1,
+                  "tempNo": 511,
+                  "lvMin": 46,
+                  "lvMax": 48,
+                  "createMin": 1,
+                  "createMax": 2
+                },
+                {
+                  "enemyId": 498,
+                  "weight": 1,
+                  "tempNo": 511,
+                  "lvMin": 47,
+                  "lvMax": 48,
+                  "createMin": 1,
+                  "createMax": 2
+                },
+                {
+                  "enemyId": 496,
+                  "weight": 1,
+                  "tempNo": 511,
+                  "lvMin": 45,
+                  "lvMax": 47,
+                  "createMin": 1,
+                  "createMax": 2
+                }
+              ],
+              "source": "gmsv-data/group1.txt"
+            }
+          ],
+          "source": "gmsv-data/encount.txt"
+        }
+      ],
+      "npcs": [
+        {
+          "id": "11104-11-41-7687",
+          "name": "检查员(C-10)",
+          "x": 11,
+          "y": 41,
+          "type": "ExChangeMan",
+          "dialogue": "脚本入口：gmsv-data/npc/sainasu/event/oev_10c",
+          "dialogueLines": [],
+          "source": "gmsv-data/npc/sainasu/event/oev2.create",
+          "script": "file:sainasu/event/oev_10c",
+          "template": "changeevent",
+          "graphic": "16067",
+          "scriptEvents": [
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_10c",
+              "messages": {
+                "normalMain": "你要不要也参加环岛活动啊？可以萨姆吉尔报名哦。",
+                "normal": "答对了！ 这样我会在检查石上 写上你已经通过第10检查点了。 来，请拿去。请继续努力！ 下一个地方好像是伪装的洞窟哦。",
+                "itemFull": "你身上东西太多了 好像装不下检查石哦。"
+              },
+              "getItems": [
+                {
+                  "id": 2585,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 110,
+                  "description": "第10检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "delItems": [
+                {
+                  "id": 2584,
+                  "qty": 1,
+                  "name": "检查石",
+                  "image": 24055,
+                  "cost": 100,
+                  "description": "第9检查点通过",
+                  "source": "gmsv-data/itemset6.txt"
+                }
+              ],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2584&ENDEV=17",
+              "keyword": "鲍尔"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_10c",
+              "messages": {
+                "normal": "你好像已经来过 这个检查点了。 下一个检查点 是虚伪的洞窟。请多加油啊。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2585&ENDEV=17,LV>0&ITEM=2586&ENDEV=17,LV>0&ITEM=2587&ENDEV=17"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_10c",
+              "messages": {
+                "normal": "你现在到这个检查点 好像还太早了一点。 请按照顺序通过哦。 那请你继续加油吧。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2575&ENDEV=17,LV>0&ITEM=2576&ENDEV=17,LV>0&ITEM=2577&ENDEV=17,LV>0&ITEM=2578&ENDEV=17,LV>0&ITEM=2579&ENDEV=17,LV>0&ITEM=2580&ENDEV=17,LV>0&ITEM=2581&ENDEV=17,LV>0&ITEM=2582&ENDEV=17,LV>0&ITEM=2583&ENDEV=17"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_10c",
+              "messages": {
+                "normal": "请说出旁边看板 上问题的答案 顺便提醒你一下，这个检查点 是C路线哦。 每个路线经过的地方都不一样。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2584&ENDEV=17"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_10c",
+              "messages": {
+                "normal": "你是“D路线”的参加者吧。 这里是“C路线”的检查点。 请加油回到你原来的路线！"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0&ITEM=2575,LV>0&ITEM=2576,LV>0&ITEM=2577,LV>0&ITEM=2578,LV>0&ITEM=2579,LV>0&ITEM=2580,LV>0&ITEM=2581,LV>0&ITEM=2582,LV>0&ITEM=2583,LV>0&ITEM=2584,LV>0&ITEM=2585,LV>0&ITEM=2586,LV>0&ITEM=2587"
+            },
+            {
+              "source": "gmsv-data/npc/sainasu/event/oev_10c",
+              "messages": {
+                "normal": "萨伊那斯环岛活动简称为SOT 这是环绕整个萨依那斯岛 的环岛活动哦。 你要不要也来参加啊？ 我是SOT的检查员。 报名的地方在萨尔吉姆。"
+              },
+              "getItems": [],
+              "delItems": [],
+              "getRandItems": [],
+              "getStones": [],
+              "delStones": [],
+              "cleanFlags": [],
+              "nowSetFlags": [],
+              "endSetFlags": [],
+              "eventNo": -1,
+              "type": "MESSAGE",
+              "condition": "LV>0"
+            }
+          ],
+          "scriptHints": {
+            "actions": [
+              "questLead"
+            ],
+            "hints": [
+              "EVENT:LV>0&ITEM=2584&ENDEV=17",
+              "DelItem:2584",
+              "GetItem:2585",
+              "EVENT:LV>0&ITEM=2585&ENDEV=17,LV>0&ITEM=2586&ENDEV=17,LV>0&ITEM=2587&ENDEV=17",
+              "EVENT:LV>0&ITEM=2575&ENDEV=17,LV>0&ITEM=2576&ENDEV=17,LV>0&ITEM=2577&ENDEV=17,LV>0&ITEM=2578&ENDEV=17,LV>0&ITEM=2579&ENDEV=17,LV>0&ITEM=2580&ENDEV=17,LV>0&ITEM=2581&ENDEV=17,LV>0&ITEM=2582&ENDEV=17,LV>0&ITEM=2583&ENDEV=17",
+              "EVENT:LV>0&ITEM=2575,LV>0&ITEM=2576,LV>0&ITEM=2577,LV>0&ITEM=2578,LV>0&ITEM=2579,LV>0&ITEM=2580,LV>0&ITEM=2581,LV>0&ITEM=2582,LV>0&ITEM=2583,LV>0&ITEM=2584,LV>0&ITEM=2585,LV>0&ITEM=2586,LV>0&ITEM=2587",
+              "EVENT:LV>0"
+            ],
+            "source": "gmsv-data/npc/sainasu/event/oev_10c"
+          },
+          "questLead": {
+            "title": "检查员(C-10) 的原脚本线索",
+            "summary": "EVENT:LV>0&ITEM=2584&ENDEV=17",
+            "source": "gmsv-data/npc/sainasu/event/oev_10c",
+            "status": "source-lead"
+          }
+        },
+        {
+          "id": "11104-11-40-5273",
+          "name": "看板",
+          "x": 11,
+          "y": 40,
+          "type": "SignBoard",
+          "dialogue": "第10检查点\n请问萨姆吉尔村长家的厨师叫什么名字。",
+          "dialogueLines": [
+            "第10检查点",
+            "请问萨姆吉尔村长家的厨师叫什么名字。"
+          ],
+          "source": "gmsv-data/npc/genout/oev2.create",
+          "script": "file:genout/signb_11104_11_40",
+          "template": "npcgen_signboard",
+          "graphic": "10062",
+          "scriptHints": {
+            "actions": [],
+            "hints": [],
+            "source": "gmsv-data/npc/genout/signb_11104_11_40"
+          }
+        }
+      ],
+      "exits": [
+        {
+          "id": "11103-0",
+          "label": "去 盗贼的基地地下３楼",
+          "detail": "盗贼的基地地下３楼 | floor 11103 | 目标 (7,3) | 入口 (7,3)",
+          "to": "11103",
+          "x": 7,
+          "y": 3,
+          "bounds": [
+            7,
+            3,
+            7,
+            3
+          ],
+          "target": [
+            7,
+            3
+          ],
+          "tiles": [
+            {
+              "x": 7,
+              "y": 3,
+              "target": [
+                7,
+                3
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        },
+        {
+          "id": "11105-1",
+          "label": "去 盗贼的基地地下５楼",
+          "detail": "盗贼的基地地下５楼 | floor 11105 | 目标 (46,44) | 入口 (45,43)",
+          "to": "11105",
+          "x": 45,
+          "y": 43,
+          "bounds": [
+            45,
+            43,
+            45,
+            43
+          ],
+          "target": [
+            46,
+            44
+          ],
+          "tiles": [
+            {
+              "x": 45,
+              "y": 43,
+              "target": [
+                46,
+                44
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        }
+      ]
+    },
+    "11105": {
+      "id": "11105",
+      "floorId": 11105,
+      "name": "盗贼的基地地下５楼",
+      "mapFile": "/data/maps/11105.ls2map",
+      "clientMapFile": "/data/client-maps/11105.dat",
+      "clientMapSource": "公益石器时代/map/11105.dat",
+      "summary": "盗贼的基地地下５楼 | floor=11105 | 50x50 | gmsv-data/map/sainasu/dungeon/11105",
+      "size": [
+        50,
+        50
+      ],
+      "spawn": [
+        46,
+        44
+      ],
+      "encounterPets": [
+        511,
+        512,
+        513,
+        514
+      ],
+      "encounterAreas": [
+        {
+          "id": 229,
+          "floor": 11105,
+          "bounds": [
+            0,
+            0,
+            49,
+            49
+          ],
+          "encounterProbMin": 1,
+          "encounterProbMax": 3,
+          "enemyMax": 5,
+          "zorder": 1,
+          "groups": [
+            {
+              "groupId": 354,
+              "name": "dan_1_11_thi_46/48&p1",
+              "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
+              "enemies": [
+                {
+                  "enemyId": 497,
+                  "weight": 1,
+                  "tempNo": 511,
+                  "lvMin": 46,
+                  "lvMax": 48,
+                  "createMin": 1,
+                  "createMax": 2
+                },
+                {
+                  "enemyId": 488,
+                  "weight": 1,
+                  "tempNo": 512,
+                  "lvMin": 44,
+                  "lvMax": 46,
+                  "createMin": 1,
+                  "createMax": 2
+                }
+              ],
+              "source": "gmsv-data/group1.txt"
+            },
+            {
+              "groupId": 355,
+              "name": "dan_1_11_thi_46/48&p2",
+              "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
+              "enemies": [
+                {
+                  "enemyId": 497,
+                  "weight": 1,
+                  "tempNo": 511,
+                  "lvMin": 46,
+                  "lvMax": 48,
+                  "createMin": 1,
+                  "createMax": 2
+                },
+                {
+                  "enemyId": 491,
+                  "weight": 1,
+                  "tempNo": 513,
+                  "lvMin": 43,
+                  "lvMax": 45,
+                  "createMin": 1,
+                  "createMax": 2
+                }
+              ],
+              "source": "gmsv-data/group1.txt"
+            },
+            {
+              "groupId": 356,
+              "name": "dan_1_11_thi_46/48&p3",
+              "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
+              "enemies": [
+                {
+                  "enemyId": 497,
+                  "weight": 1,
+                  "tempNo": 511,
+                  "lvMin": 46,
+                  "lvMax": 48,
+                  "createMin": 1,
+                  "createMax": 2
+                },
+                {
+                  "enemyId": 494,
+                  "weight": 1,
+                  "tempNo": 514,
+                  "lvMin": 42,
+                  "lvMax": 44,
+                  "createMin": 1,
+                  "createMax": 2
+                }
+              ],
+              "source": "gmsv-data/group1.txt"
+            },
+            {
+              "groupId": 431,
+              "name": "dan_1_11_thi_45/48",
+              "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
+              "enemies": [
+                {
+                  "enemyId": 497,
+                  "weight": 1,
+                  "tempNo": 511,
+                  "lvMin": 46,
+                  "lvMax": 48,
+                  "createMin": 1,
+                  "createMax": 2
+                },
+                {
+                  "enemyId": 498,
+                  "weight": 1,
+                  "tempNo": 511,
+                  "lvMin": 47,
+                  "lvMax": 48,
+                  "createMin": 1,
+                  "createMax": 2
+                },
+                {
+                  "enemyId": 496,
+                  "weight": 1,
+                  "tempNo": 511,
+                  "lvMin": 45,
+                  "lvMax": 47,
+                  "createMin": 1,
+                  "createMax": 2
+                }
+              ],
+              "source": "gmsv-data/group1.txt"
+            }
+          ],
+          "source": "gmsv-data/encount.txt"
+        }
+      ],
+      "npcs": [],
+      "exits": [
+        {
+          "id": "11104-0",
+          "label": "去 盗贼的基地地下４楼",
+          "detail": "盗贼的基地地下４楼 | floor 11104 | 目标 (45,43) | 入口 (46,44)",
+          "to": "11104",
+          "x": 46,
+          "y": 44,
+          "bounds": [
+            46,
+            44,
+            46,
+            44
+          ],
+          "target": [
+            45,
+            43
+          ],
+          "tiles": [
+            {
+              "x": 46,
+              "y": 44,
+              "target": [
+                45,
+                43
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        },
+        {
+          "id": "11106-1",
+          "label": "去 盗贼的基地地下６楼",
+          "detail": "盗贼的基地地下６楼 | floor 11106 | 目标 (24,3) | 入口 (24,3)",
+          "to": "11106",
+          "x": 24,
+          "y": 3,
+          "bounds": [
+            24,
+            3,
+            24,
+            3
+          ],
+          "target": [
+            24,
+            3
+          ],
+          "tiles": [
+            {
+              "x": 24,
+              "y": 3,
+              "target": [
+                24,
+                3
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        }
+      ]
+    },
+    "11106": {
+      "id": "11106",
+      "floorId": 11106,
+      "name": "盗贼的基地地下６楼",
+      "mapFile": "/data/maps/11106.ls2map",
+      "clientMapFile": "/data/client-maps/11106.dat",
+      "clientMapSource": "公益石器时代/map/11106.dat",
+      "summary": "盗贼的基地地下６楼 | floor=11106 | 50x50 | gmsv-data/map/sainasu/dungeon/11106",
+      "size": [
+        50,
+        50
+      ],
+      "spawn": [
+        24,
+        3
+      ],
+      "encounterPets": [
+        511,
+        512,
+        513,
+        514
+      ],
+      "encounterAreas": [
+        {
+          "id": 230,
+          "floor": 11106,
+          "bounds": [
+            0,
+            0,
+            49,
+            49
+          ],
+          "encounterProbMin": 1,
+          "encounterProbMax": 3,
+          "enemyMax": 5,
+          "zorder": 1,
+          "groups": [
+            {
+              "groupId": 357,
+              "name": "dan_1_11_thi_47/49&p1",
+              "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
+              "enemies": [
+                {
+                  "enemyId": 498,
+                  "weight": 1,
+                  "tempNo": 511,
+                  "lvMin": 47,
+                  "lvMax": 48,
+                  "createMin": 1,
+                  "createMax": 2
+                },
+                {
+                  "enemyId": 489,
+                  "weight": 1,
+                  "tempNo": 512,
+                  "lvMin": 46,
+                  "lvMax": 48,
+                  "createMin": 1,
+                  "createMax": 2
+                }
+              ],
+              "source": "gmsv-data/group1.txt"
+            },
+            {
+              "groupId": 358,
+              "name": "dan_1_11_thi_47/49&p2",
+              "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
+              "enemies": [
+                {
+                  "enemyId": 498,
+                  "weight": 1,
+                  "tempNo": 511,
+                  "lvMin": 47,
+                  "lvMax": 48,
+                  "createMin": 1,
+                  "createMax": 2
+                },
+                {
+                  "enemyId": 492,
+                  "weight": 1,
+                  "tempNo": 513,
+                  "lvMin": 45,
+                  "lvMax": 47,
+                  "createMin": 1,
+                  "createMax": 2
+                }
+              ],
+              "source": "gmsv-data/group1.txt"
+            },
+            {
+              "groupId": 359,
+              "name": "dan_1_11_thi_47/49&p3",
+              "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
+              "enemies": [
+                {
+                  "enemyId": 498,
+                  "weight": 1,
+                  "tempNo": 511,
+                  "lvMin": 47,
+                  "lvMax": 48,
+                  "createMin": 1,
+                  "createMax": 2
+                },
+                {
+                  "enemyId": 495,
+                  "weight": 1,
+                  "tempNo": 514,
+                  "lvMin": 44,
+                  "lvMax": 46,
+                  "createMin": 1,
+                  "createMax": 2
+                }
+              ],
+              "source": "gmsv-data/group1.txt"
+            },
+            {
+              "groupId": 431,
+              "name": "dan_1_11_thi_45/48",
+              "weight": 1,
+              "appearByItemId": null,
+              "notAppearByItemId": null,
+              "enemies": [
+                {
+                  "enemyId": 497,
+                  "weight": 1,
+                  "tempNo": 511,
+                  "lvMin": 46,
+                  "lvMax": 48,
+                  "createMin": 1,
+                  "createMax": 2
+                },
+                {
+                  "enemyId": 498,
+                  "weight": 1,
+                  "tempNo": 511,
+                  "lvMin": 47,
+                  "lvMax": 48,
+                  "createMin": 1,
+                  "createMax": 2
+                },
+                {
+                  "enemyId": 496,
+                  "weight": 1,
+                  "tempNo": 511,
+                  "lvMin": 45,
+                  "lvMax": 47,
+                  "createMin": 1,
+                  "createMax": 2
+                }
+              ],
+              "source": "gmsv-data/group1.txt"
+            }
+          ],
+          "source": "gmsv-data/encount.txt"
+        }
+      ],
+      "npcs": [],
+      "exits": [
+        {
+          "id": "11105-0",
+          "label": "去 盗贼的基地地下５楼",
+          "detail": "盗贼的基地地下５楼 | floor 11105 | 目标 (24,3) | 入口 (24,3)",
+          "to": "11105",
+          "x": 24,
+          "y": 3,
+          "bounds": [
+            24,
+            3,
+            24,
+            3
+          ],
+          "target": [
+            24,
+            3
+          ],
+          "tiles": [
+            {
+              "x": 24,
+              "y": 3,
+              "target": [
+                24,
+                3
+              ]
+            }
+          ],
+          "source": "gmsv-data/map/mapwarp.txt"
+        }
+      ]
+    },
     "20000": {
       "id": "20000",
       "floorId": 20000,

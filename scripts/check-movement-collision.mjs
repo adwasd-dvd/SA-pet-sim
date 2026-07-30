@@ -197,6 +197,20 @@ for (const link of [
   koCaveGame = await assertSourceMapwarpStep(koCaveGame, link, "reverse Ko cave source mapwarp");
 }
 
+let thievesBaseGame = await api("/api/game/new", { name: "thieves-base-mapwarp-chain-test" });
+for (const link of [
+  ["11103", 7, 3, "11104", 7, 3],
+  ["11104", 45, 43, "11105", 46, 44]
+]) {
+  thievesBaseGame = await assertSourceMapwarpStep(thievesBaseGame, link, "forward thieves base source mapwarp");
+}
+for (const link of [
+  ["11105", 46, 44, "11104", 45, 43],
+  ["11104", 7, 3, "11103", 7, 3]
+]) {
+  thievesBaseGame = await assertSourceMapwarpStep(thievesBaseGame, link, "reverse thieves base source mapwarp");
+}
+
 let npcGame = await api("/api/game/new", { name: "npc-route-test" });
 const teacher = WORLD.maps["1000"].npcs.find((npc) => npc.name.includes("老师"));
 if (!teacher) throw new Error("missing teacher NPC fixture");
@@ -255,7 +269,7 @@ assertEqual(paidExit.location.y, 491, "paid-jump mapwarp target y follows source
 assertEqual(paidExit.paidJump.cost, paidJumpCostForTest(1), "paid-jump exit cost uses tiered distance pricing");
 assertEqual(paidExit.player.stone, 10000 - paidJumpCostForTest(1), "paid-jump exit deducts jump cost");
 
-console.log("Movement collision OK: frontend 8-way keyboard input/cache-bust guards, routing, blocked terrain, source-style diagonal corner blocking, source-style blocked-target facing, NPC cells, Worker exit routes, click-preferred NPC/warp targets, zero-step exact mapwarps, warp transitions, exact mapwarp tiles, Ko cave 10301-10308 source mapwarp smoke, map teleport points stay out of the NPC list, NPC approach routes are enforced, long-route heap routing is active, and paid-jump actions are server-priced and server-applied.");
+console.log("Movement collision OK: frontend 8-way keyboard input/cache-bust guards, routing, blocked terrain, source-style diagonal corner blocking, source-style blocked-target facing, NPC cells, Worker exit routes, click-preferred NPC/warp targets, zero-step exact mapwarps, warp transitions, exact mapwarp tiles, Ko cave 10301-10308 and thieves base 11103-11105 source mapwarp smokes, map teleport points stay out of the NPC list, NPC approach routes are enforced, long-route heap routing is active, and paid-jump actions are server-priced and server-applied.");
 
 function assert(value, label) {
   if (!value) throw new Error(label);
