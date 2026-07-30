@@ -13,6 +13,7 @@ This file is the durable memory for continuing development on another machine or
 
 ## Current Technical State
 
+- 2026-07-30 SOT C-9 checkpoint smoke: `scripts/check-npc-actions.mjs` now locks Hotor village floor 1300 NPC `1300-65-26-7686` `检查员(C-9)` against the local source `sainasu/event/oev_9c`, including keyword `携带方便的三明治`, source item exchange `2583 -> 2584`, prompt/no-keyword, already-passed, and too-early branches through the deterministic NPC VM. No map data, route shortcut, source script, OpenAI path, or render-loop/UI behavior changed.
 - App root: `app/`.
 - Cloudflare Worker entry: `src/worker.js`.
 - Frontend entry: `public/index.html`, `public/assets/app.js`, `public/assets/app.css`.
