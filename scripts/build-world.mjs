@@ -1776,6 +1776,32 @@ function readNpcScriptEvents(argPath, createFile, functionset) {
   return events;
 }
 
+function splitNpcScriptMessageLines(text = "") {
+  return String(text || "").split(/\r?\n/).flatMap((raw) => {
+    const line = raw.trim();
+    const index = line.indexOf(":");
+    if (index < 0 || !npcScriptMessageSpec(line.slice(0, index).trim())) return [raw];
+
+    const value = line.slice(index + 1);
+    const markers = [];
+    const markerPattern = /\b([a-z_][a-z0-9_]*msg\d*):/gi;
+    for (const match of value.matchAll(markerPattern)) {
+      if (npcScriptMessageSpec(match[1])) {
+        markers.push({ index: match.index, key: match[1], length: match[0].length });
+      }
+    }
+    if (!markers.length) return [raw];
+
+    const fields = [`${line.slice(0, index)}:${value.slice(0, markers[0].index).trim()}`];
+    for (let markerIndex = 0; markerIndex < markers.length; markerIndex += 1) {
+      const marker = markers[markerIndex];
+      const next = markers[markerIndex + 1];
+      fields.push(`${marker.key}:${value.slice(marker.index + marker.length, next?.index).trim()}`);
+    }
+    return fields;
+  });
+}
+
 function parseNpcScriptEventBlock(rawBlock, file) {
   const event = {
     source: relativeRef(file),
@@ -1796,7 +1822,7 @@ function parseNpcScriptEventBlock(rawBlock, file) {
   };
   const getPets = [];
   const rawDelPetSpecs = [];
-  for (const raw of String(rawBlock || "").split(/\r?\n/)) {
+  for (const raw of splitNpcScriptMessageLines(rawBlock)) {
     const line = raw.trim();
     if (!line || line.startsWith("#")) continue;
     const index = line.indexOf(":");
@@ -1962,7 +1988,7 @@ function parseNpcFreeScriptEvents(text, file) {
     rawDelPetSpecs = [];
   };
 
-  for (const raw of String(text || "").split(/\r?\n/)) {
+  for (const raw of splitNpcScriptMessageLines(text)) {
     const line = raw.trim();
     if (!line || line.startsWith("#")) continue;
     if (/^OVER$/i.test(line)) {
